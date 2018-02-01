@@ -1,0 +1,47 @@
+{
+  "name": "serverbuilder",
+  "version": "0.1.0",
+  "description": "A simple NodeJS/Express server builder",
+  "main": "serverbuilder.js",
+  "scripts": {
+    "start": "node index.js",
+    "debug": "DEBUG=true node index.js",
+    "test": "eslint -c ./config/.eslintrc.js *.js src/*.js",
+    "doc": "jsdoc -c ./config/.jsdocrc",
+    "fmt": "eslint -c ./config/.eslintrc.js *.js src/*.js --fix",
+    "cc": "cr -c ./config/.complexrc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Berkmann18/hashmyjs.git"
+  },
+  "keywords": [
+    "hash",
+    "integrity",
+    "node",
+    "js",
+    "javascript",
+    "SHA-256",
+    "base64",
+    "encode",
+    "cli",
+    "digest"
+  ],
+  "author": "Berkmann18",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Berkmann18/hashmyjs/issues"
+  },
+  "homepage": "https://github.com/Berkmann18/hashmyjs#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.12.2",
+    "external-ip": "^1.3.1"
+  },
+  "devDependencies": {
+    "complexity-report": "^2.0.0-alpha",
+    "eslint": "^4.14.0",
+    "eslint-plugin-security": "^1.4.0",
+    "nsp": "^3.1.0"
+  }
+}
