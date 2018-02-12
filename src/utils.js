@@ -1,3 +1,4 @@
+/* eslint-env node, es6 */
 /**
  * @description Utility module for this package.
  * @module com/utils

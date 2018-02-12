@@ -34,8 +34,7 @@
   },
   "homepage": "https://github.com/Berkmann18/hashmyjs#readme",
   "dependencies": {
-    "colors": "^1.1.2",
-    "commander": "^2.12.2"
+    "colors": "^1.1.2"
   },
   "devDependencies": {
     "complexity-report": "^2.0.0-alpha",
