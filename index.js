@@ -52,7 +52,7 @@ class Server {
       const location = typeof ipAddress === 'string'
         ? `pipe ${ipAddress}`
         : `http://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
-      info(`${this._name} listening at ${colour('in', location)} `);
+      info(`${this._name} listening at ${colour('in', location)} (${process.env.NODE_ENV || associatedApp.get('env')} environment)`);
     });
     this._server.on('error', Server.onError);
     eip((err, ip) => {
