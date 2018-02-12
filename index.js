@@ -1,3 +1,4 @@
+/* eslint-env node, es6 */
 /**
  * @description Server builder.
  * @module serverBuilder
