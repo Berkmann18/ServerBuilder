@@ -22,14 +22,14 @@ const clrScheme = {
  * @param {...*} data Data to print
  * @private
  */
-let error = (...data) => console.error(clr.err(...data));
+const error = (...data) => console.error(clr.err(...data));
 
 /**
  * @description Print an information.
  * @param {...*} data Data to print
  * @private
  */
-let info = (...data) => {
+const info = (...data) => {
   try {
     console.info(clr.inf(...data));
   } catch (err) {
@@ -42,7 +42,7 @@ let info = (...data) => {
  * @param {...*} data Data to print
  * @private
  */
-let warn = (...data) => {
+const warn = (...data) => {
   try {
     console.warn(clr.warn(...data));
   } catch (err) {
@@ -55,7 +55,7 @@ let warn = (...data) => {
  * @param {...*} data Data to print
  * @private
  */
-let dbg = (...data) => {
+const dbg = (...data) => {
   try {
     console.debug(clr.debug(...data));
   } catch (err) {
@@ -68,19 +68,19 @@ let dbg = (...data) => {
  * @param {...*} data Data to print
  * @private
  */
-let out = (...data) => console.log(clr.out(...data));
+const out = (...data) => console.log(clr.out(...data));
 /**
  * @description Print an input.
  * @param {...*} data Data to print
  * @private
  */
-let inp = (...data) => console.log(clr.in(...data));
+const inp = (...data) => console.log(clr.in(...data));
 
 /**
  * @description Set a colour scheme for the CLI.
  * @protected
  */
-let setColours = () => clr.setTheme(clrScheme);
+const setColours = () => clr.setTheme(clrScheme);
 
 /**
  * @description Colourise something.
@@ -88,7 +88,7 @@ let setColours = () => clr.setTheme(clrScheme);
  * @param {...*} data Data
  * @return {*} Coloured output
  */
-let colour = (name, ...data) => {
+const colour = (name, ...data) => {
   switch (name) {
   case 'in':
     return clr.in(...data);
@@ -115,7 +115,7 @@ let colour = (name, ...data) => {
  * @param {string} [page='index'] Page name
  * @protected
  */
-let load = (res, page='index') => res.sendFile(path.join(`${__dirname}/${page}.html`));
+const load = (res, page='index') => res.sendFile(path.join(`${__dirname}/${page}.html`));
 
 /**
  * @description Get the Incoming IP address.
@@ -123,7 +123,7 @@ let load = (res, page='index') => res.sendFile(path.join(`${__dirname}/${page}.h
  * @return {?string} IP Address
  * @protected
  */
-let incomingIp = (req) => {
+const incomingIp = (req) => {
   if ('x-forwarded-for' in req.headers) return req.headers['x-forwarded-for'].split(',').pop();
   try {
     return req.connection.remoteAddress;
@@ -145,7 +145,7 @@ let incomingIp = (req) => {
  * @param {Object} res Resulting Express view module
  * @param {string} [file='index'] Filename of the HTML page to render.
  */
-let view = (res, file='index') => {
+const view = (res, file='index') => {
   res.sendFile(`${__dirname}/${file}.html`);
 };
 
