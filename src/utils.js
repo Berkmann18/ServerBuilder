@@ -92,25 +92,18 @@ let colour = (name, ...data) => {
   switch (name) {
   case 'in':
     return clr.in(...data);
-    break;
   case 'out':
     return clr.out(...data);
-    break;
   case 'inf':
     return clr.inf(...data);
-    break;
   case 'err':
     return clr.err(...data);
-    break;
   case 'warn':
     return clr.warn(...data);
-    break;
   case 'debug':
     return clr.debug(...data);
-    break;
   case 'spec':
     return clr.spec(...data);
-    break;
   default:
     return error(`The name ${name} isn't specified in the theme used`);
   }
