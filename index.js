@@ -178,7 +178,6 @@ class Server {
       throw new Error(`${bind} is already in use`);
     case 'ENOENT':
       throw new Error(`Nonexistent entry requested at ${bind}`);
-      break;
     default:
       throw error;
     }
