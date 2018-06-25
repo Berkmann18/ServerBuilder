@@ -184,6 +184,19 @@ class Server {
   };
 
   /**
+   * @description Close the server.
+   */
+  close() {
+    return new Promise((resolve, reject) => {
+      this._server.close((err) => {
+        if (err) reject(err);
+        info(`Closing the server ${this.name}`);
+        resolve(this);
+      });
+    });
+  }
+
+  /**
    * @description Textual representation of a Server object.
    * @return {string} Server object in text
    */
