@@ -22,7 +22,7 @@ _Note_: Don't forget to use `-g`, `--save`, `--save-dev` if appropriate.
 
 ## Usage
 ```js
-const app = require('express'), Server = require('serverbuilder');
+const app = require('express')(), Server = require('serverbuilder');
 new Server(app, process.env.PORT || 3000, 'My Server');
 ```
 
