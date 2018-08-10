@@ -6,7 +6,8 @@
  * @exports Server
  */
 
-const eip = require('external-ip')(), {setColours, info, error, colour} = require('./src/utils');
+const eip = require('external-ip')(),
+  { setColours, info, error, colour } = require('./src/utils');
 
 setColours();
 
@@ -22,6 +23,13 @@ const normalizePort = (val) => {
   return false;
 };
 
+const DEFAULT_OPTS = {
+  name: 'Server',
+  useHttps: false,
+  securityOptions: {},
+  callback: () => {}
+}
+
 /**
  * @description Re-usable server.
  * @property {express} Server._app Associated Express application
@@ -36,26 +44,34 @@ class Server {
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {string} [name='Server'] Server's name
-   * @param {boolean} [useHttps=false] Use HTTPS instead of HTTP or not
-   * @param {object} [securityOptions={}] Options needed for the HTTPS server
+   * @param {{string, boolean, object, function}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}}] Options including the server's name, HTTPS and
+   * options needed for the HTTPs server
+   * @example
+   * const express = require('express');
+   * let opts = {
+   *   name: 'Custom Server',
+   *   callback: () => console.log('READY');
+   * }
+   * let server = new Server(express(), 3002, opts);
    */
-  constructor(associatedApp, port=(process.env.PORT || 3e3), name='Server', useHttps=false, securityOptions={}) {
+  constructor(associatedApp, port = (process.env.PORT || 3e3), opts = DEFAULT_OPTS) {
     this._port = normalizePort(port);
-    this._usesHttps = useHttps;
+    this._usesHttps = opts.useHttps || DEFAULT_OPTS.useHttps;
     this._app = associatedApp;
-    this._options = securityOptions;
+    this._options = opts.securityOptions || DEFAULT_OPTS.securityOptions;
     this._server = this._usesHttps ? require('https').createServer(this._options, this._app) : require('http').createServer(this._app);
-    this._name = name;
+    this._name = opts.name;
     //this._app.set('port', this._port);
     this._server.listen(this._port, /*'0.0.0.0',*/ () => {
       const ipAddress = this._server.address();
-      const location = typeof ipAddress === 'string'
-        ? `pipe ${ipAddress}`
-        : `http://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
+      const location = typeof ipAddress === 'string' ?
+        `pipe ${ipAddress}` :
+        `http://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
       info(`${this._name} listening at ${colour('in', location)} (${process.env.NODE_ENV || associatedApp.get('env')} environment)`);
+      if ('callback' in opts) opts.callback(this);
     });
     this._server.on('error', Server.onError);
+
     eip((err, ip) => {
       if (err) error('Public IP error:', err);
       info(`Public IP: ${colour('spec', ip)}`);
@@ -172,14 +188,14 @@ class Server {
 
     //Handle specific listen errors with friendly messages
     switch (error.code) {
-    case 'EACCES':
-      throw new Error(`${bind} requires elevated privileges`);
-    case 'EADDRINUSE':
-      throw new Error(`${bind} is already in use`);
-    case 'ENOENT':
-      throw new Error(`Nonexistent entry requested at ${bind}`);
-    default:
-      throw error;
+      case 'EACCES':
+        throw new Error(`${bind} requires elevated privileges`);
+      case 'EADDRINUSE':
+        throw new Error(`${bind} is already in use`);
+      case 'ENOENT':
+        throw new Error(`Nonexistent entry requested at ${bind}`);
+      default:
+        throw error;
     }
   };
 
