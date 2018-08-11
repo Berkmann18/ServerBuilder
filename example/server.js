@@ -8,8 +8,9 @@ let options = {
   name: 'Example Server',
   callback: (server) => {
     app.set(server.port)
-    console.log(`"${server.name}" is READY`);
-  }
+    console.log(`"${server.name}" is READY and app has the correct port set`);
+  },
+  showPublicIP: true
 }
 
 new Server(app, port, options);

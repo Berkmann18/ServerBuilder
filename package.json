@@ -1,15 +1,16 @@
 {
   "name": "serverbuilder",
-  "version": "0.1.4",
+  "version": "1.0.0",
   "description": "A simple NodeJS/Express server builder",
   "main": "serverbuilder.js",
   "scripts": {
     "start": "node index.js",
     "debug": "DEBUG=true node index.js",
-    "test": "eslint -c ./config/.eslintrc.js *.js src/*.js",
+    "test": "mocha --exit && codecov",
     "doc": "jsdoc -c ./config/.jsdocrc",
-    "fmt": "eslint -c ./config/.eslintrc.js *.js src/*.js --fix",
-    "cc": "cr -c ./config/.complexrc"
+    "lint": "eslint -c ./config/.eslintrc.js *.js src/*.js --fix",
+    "cc": "cr -c ./config/.complexrc",
+    "cc:all": "npm run cc *.js src/*.js"
   },
   "repository": {
     "type": "git",
@@ -38,8 +39,11 @@
     "external-ip": "^2.0.3"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "complexity-report": "^2.0.0-alpha",
-    "eslint": "^5.2.0",
-    "eslint-plugin-security": "^1.4.0"
+    "eslint": "^5.3.0",
+    "eslint-plugin-security": "^1.4.0",
+    "mocha": "^5.2.0",
+    "request": "^2.88.0"
   }
 }

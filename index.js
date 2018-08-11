@@ -2,12 +2,15 @@
 /**
  * @description Server builder.
  * @module serverBuilder
- * @requires http, https, colors, ./utils
+ * @requires http
+ * @requires https
+ * @requires colors
+ * @requires external-ip
+ * @requires ./utils
  * @exports Server
  */
 
-const eip = require('external-ip')(),
-  { setColours, info, error, colour } = require('./src/utils');
+const { setColours, info, error, colour } = require('./src/utils');
 
 setColours();
 
@@ -27,7 +30,17 @@ const DEFAULT_OPTS = {
   name: 'Server',
   useHttps: false,
   securityOptions: {},
-  callback: () => {}
+  callback: () => {},
+  showPublicIP: false
+}
+
+/**
+ * @description Get the environment name.
+ * @param {function|object} app Application
+ */
+const getEnv = (app) => {
+  if (process.env.NODE_ENV) return process.env.NODE_ENV;
+  return (typeof app.get === 'function') ? app.get('env') : 'development';
 }
 
 /**
@@ -44,8 +57,9 @@ class Server {
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {{string, boolean, object, function}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}}] Options including the server's name, HTTPS and
-   * options needed for the HTTPs server
+   * @param {{string, boolean, object, function, boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
+   * Options including the server's name, HTTPS, options needed for the HTTPs server, callback called within the listen event and whether it should show its public
+   * IP
    * @example
    * const express = require('express');
    * let opts = {
@@ -61,21 +75,27 @@ class Server {
     this._options = opts.securityOptions || DEFAULT_OPTS.securityOptions;
     this._server = this._usesHttps ? require('https').createServer(this._options, this._app) : require('http').createServer(this._app);
     this._name = opts.name;
-    //this._app.set('port', this._port);
-    this._server.listen(this._port, /*'0.0.0.0',*/ () => {
+    this._server.on('error', Server.onError);
+
+    this._handler = () => {
       const ipAddress = this._server.address();
       const location = typeof ipAddress === 'string' ?
         `pipe ${ipAddress}` :
         `http://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
-      info(`${this._name} listening at ${colour('in', location)} (${process.env.NODE_ENV || associatedApp.get('env')} environment)`);
+      info(`${this._name} listening at ${colour('in', location)} (${getEnv(this._app)} environment)`);
       if ('callback' in opts) opts.callback(this);
-    });
-    this._server.on('error', Server.onError);
+    };
+    this.restart();
 
-    eip((err, ip) => {
-      if (err) error('Public IP error:', err);
-      info(`Public IP: ${colour('spec', ip)}`);
-    });
+    if (opts.showPublicIP) {
+      require('external-ip')()((err, ip) => {
+        if (err) error('Public IP error:', err);
+        info(`Public IP: ${colour('spec', ip)}`);
+      });
+    }
+
+    process.on('SIGTERM', () => this.close());
+    process.on('SIGINT', () => this.close());
   }
 
   /**
@@ -178,6 +198,13 @@ class Server {
   }
 
   /**
+   * @descripton (Re)start the server.
+   */
+  restart() {
+    this._server.listen(this._port, this._handler);
+  }
+
+  /**
    * Event listener for HTTP server "error" event.
    * @param {*} error Error to handle
    * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
@@ -200,16 +227,23 @@ class Server {
   };
 
   /**
-   * @description Close the server.
+   * @description Close the server gracefully.
    */
   close() {
-    return new Promise((resolve, reject) => {
+    let closing = new Promise((resolve, reject) => {
       this._server.close((err) => {
         if (err) reject(err);
-        info(`Closing the server ${this.name}`);
+        info(`Closing the server ${colour('out', this.name)}...`);
         resolve(this);
       });
     });
+    return closing.then(server => {
+      info(`${colour('out', this.name)} is now closed.`);
+      process.exit();
+    }).catch(err => {
+      error(`Server closure of ${colour('out', this.name)} led to:`, err);
+      process.exit();
+    })
   }
 
   /**
