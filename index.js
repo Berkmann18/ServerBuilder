@@ -79,7 +79,7 @@ class Server {
 
     this._handler = () => {
       const ipAddress = this._server.address();
-      const protocol = this._useHttps ? 'https' : 'http';
+      const protocol = this._usesHttps ? 'https' : 'http';
       const location = typeof ipAddress === 'string' ?
         `pipe ${ipAddress}` :
         `${protocol}://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
@@ -229,6 +229,7 @@ class Server {
 
   /**
    * @description Close the server gracefully.
+   * @returns {Promise} Closure promise
    */
   close() {
     let closing = new Promise((resolve, reject) => {
@@ -252,7 +253,7 @@ class Server {
    * @return {string} Server object in text
    */
   toString() {
-    return `Server(name='${this.name}', port=${this.port}, app=${this.app}, useHttps=${this.useHttps}, options=${this.options}, instance=${this.server})`
+    return `Server(name='${this.name}', port=${this.port}, app=${this.app}, usesHttps=${this.usesHttps}, options=${this.options}, instance=${this.server})`
   }
 }
 

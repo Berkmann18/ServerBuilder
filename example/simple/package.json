@@ -10,7 +10,8 @@
   },
   "keywords": [
     "example",
-    "serverbuilder"
+    "serverbuilder",
+    "http"
   ],
   "author": "Maximilian Berkmann <maxieberkmann@gmail.com>",
   "license": "MIT",
