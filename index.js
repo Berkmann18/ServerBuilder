@@ -79,9 +79,10 @@ class Server {
 
     this._handler = () => {
       const ipAddress = this._server.address();
+      const protocol = this._useHttps ? 'https' : 'http';
       const location = typeof ipAddress === 'string' ?
         `pipe ${ipAddress}` :
-        `http://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
+        `${protocol}://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
       info(`${this._name} listening at ${colour('in', location)} (${getEnv(this._app)} environment)`);
       if ('callback' in opts) opts.callback(this);
     };
