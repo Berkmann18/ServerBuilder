@@ -20,18 +20,38 @@ _Note_: Don't forget to use `-g`, `--save`, `--save-dev` if appropriate.
 
 ## Usage
 ```js
-const app = require('express')(), Server = require('serverbuilder');
+const app = require('express')(),
+      Server = require('serverbuilder');
 let options = {
   name: 'My Server',
-  useHttps: false,
-  //securityOptions: {} (not needed since HTTPS isn't enabled)
   callback(server) {
     app.set('port', server.port);
   },
   publicIP: true
 };
 
-new Server(app, process.env.PORT || 3000, options);
+new Server(app, process.env.PORT || 3e3, options);
+```
+Or with **HTTPS**:
+```js
+const fs = require('fs'),
+      app = require('express')(),
+      Server = require('serverbuilder');
+
+let options = {
+  name: 'My Server',
+  useHttps: true,
+  securityOptions: {
+    key: fs.readFileSync('server-key.pem'),
+    cert: fs.readFileSync('server-cert.pem')
+  }
+  callback(server) {
+    app.set('port', server.port);
+  },
+  publicIP: true
+};
+
+new Server(app, process.env.PORT || 3e3, options);
 ```
 
 ## Contribution
