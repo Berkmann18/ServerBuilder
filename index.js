@@ -57,7 +57,7 @@ class Server {
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {{string, boolean, object, function, boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
+   * @param {{string, boolean, object, function(Server), boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
    * Options including the server's name, HTTPS, options needed for the HTTPs server, callback called within the listen event and whether it should show its public
    * IP
    * @example

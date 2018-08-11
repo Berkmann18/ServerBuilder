@@ -21,7 +21,17 @@ _Note_: Don't forget to use `-g`, `--save`, `--save-dev` if appropriate.
 ## Usage
 ```js
 const app = require('express')(), Server = require('serverbuilder');
-new Server(app, process.env.PORT || 3000, 'My Server');
+let options = {
+  name: 'My Server',
+  useHttps: false,
+  //securityOptions: {} (not needed since HTTPS isn't enabled)
+  callback(server) {
+    app.set('port', server.port);
+  },
+  publicIP: true
+};
+
+new Server(app, process.env.PORT || 3000, options);
 ```
 
 ## Contribution
