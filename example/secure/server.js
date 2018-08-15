@@ -1,7 +1,7 @@
 /* eslint-env node, es6 */
 const fs = require('fs'),
   app = require('../app'),
-  Server = require('../../index'),
+  Server = require('serverbuilder'),
   port = 3e3;
 const securityOptions = {
   key: fs.readFileSync('server-key.pem'),
