@@ -10,7 +10,9 @@
     "doc": "jsdoc -c ./config/.jsdocrc",
     "lint": "eslint -c ./config/.eslintrc.js *.js src/*.js --fix",
     "cc": "cr -c ./config/.complexrc",
-    "cc:all": "npm run cc *.js src/*.js"
+    "cc:all": "npm run cc *.js src/*.js",
+    "changelog": "conventional-changelog -p eslint -i CHANGELOG.md -s -r 0",
+    "version": "npm run changelog && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
