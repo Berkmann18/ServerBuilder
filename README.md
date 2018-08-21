@@ -11,7 +11,7 @@
 It's a simple NodeJS/Express server builder allowing you to get a working server up in just a few lines.
 
 ## Install
-To install it you need to execute the following:
+To install it you need to run the following:
 ```cli
 npm i serverbuilder
 ```
