@@ -20,7 +20,7 @@ const { info, error } = require('nclr');
  * @protected
  */
 const normalizePort = (val) => {
-  let port = parseInt(val);
+  let port = parseInt(val, 10);
   if (isNaN(port)) return port; //Named pipe
   if (port >= 0) return port; //Port number
   return false;
@@ -61,7 +61,7 @@ class Server {
    * @param {{name: string, useHttps: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
    * Options including the server's name, HTTPS, options needed for the HTTPs server (public keys and certificates), callback called within the <code>listen</code> event and whether it should show its public
    * IP
-   * 
+   *
    * @example
    * const express = require('express');
    * let opts = {
@@ -247,14 +247,14 @@ class Server {
 
     //Handle specific listen errors with friendly messages
     switch (error.code) {
-      case 'EACCES':
-        throw new Error(`${bind} requires elevated privileges`);
-      case 'EADDRINUSE':
-        throw new Error(`${bind} is already in use`);
-      case 'ENOENT':
-        throw new Error(`Nonexistent entry requested at ${bind}`);
-      default:
-        throw error;
+    case 'EACCES':
+      throw new Error(`${bind} requires elevated privileges`);
+    case 'EADDRINUSE':
+      throw new Error(`${bind} is already in use`);
+    case 'ENOENT':
+      throw new Error(`Nonexistent entry requested at ${bind}`);
+    default:
+      throw error;
     }
   };
 

@@ -18,7 +18,7 @@ const app = (req, res) => {
 };
 
 const Server = require('serverbuilder'),
-  port = 3e3;
+  port = 3000;
 
 let options = {
   name: 'Minimal Example Server',

@@ -1,7 +1,7 @@
 /* eslint-env node, es6 */
 const app = require('../app'),
   Server = require('serverbuilder'),
-  port = 3e3;
+  port = 3000;
 app.set('port', port);
 
 let options = {

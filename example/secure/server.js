@@ -2,7 +2,7 @@
 const fs = require('fs'),
   app = require('../app'),
   Server = require('serverbuilder'),
-  port = 3e3;
+  port = 3000;
 const securityOptions = {
   key: fs.readFileSync('server-key.pem'),
   cert: fs.readFileSync('server-cert.pem')
