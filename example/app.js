@@ -1,8 +1,8 @@
 /* eslint-env node, es6 */
-const express = require('express'),
-  logger = require('morgan');
-const cookieParser = require('cookie-parser'),
-  bodyParser = require('body-parser');
+const express = require('./simple/node_modules/express'),
+  logger = require('./simple/node_modules/morgan');
+const cookieParser = require('./simple/node_modules/cookie-parser'),
+  bodyParser = require('./simple/node_modules/body-parser');
 const app = express();
 
 app.use(logger('dev'));

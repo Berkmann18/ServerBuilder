@@ -1,92 +1,40 @@
 /* eslint-env node, es6 */
 /**
  * @description Utility module for this package.
- * @module com/utils
+ * @module
  * @exports {error, info, warn, dbg, inp, out, setColours, load, incomingIp, clrScheme, colour, view}
  */
 
 const path = require('path'), clr = require('colors');
 
+/**
+ * @description Colour scheme for the CLI
+ * @type {{in: string, out: string, inf: string, err: string, warn: string, debug: string, spec: string}}
+ * @protected
+ */
 const clrScheme = {
   in: 'white',
-  out: 'cyan',
+  out: 'cyan', //nclr use the bold one
   inf: 'green',
   err: 'red',
   warn: 'yellow',
   debug: 'grey',
-  spec: 'magenta'
+  spec: 'magenta' //nclr doesn't have that
 };
-
-/**
- * @description Print an error.
- * @param {...*} data Data to print
- * @private
- */
-const error = (...data) => console.error(clr.err(...data));
-
-/**
- * @description Print an information.
- * @param {...*} data Data to print
- * @private
- */
-const info = (...data) => {
-  try {
-    console.info(clr.inf(...data));
-  } catch (err) {
-    console.log(clr.inf(...data));
-  }
-};
-
-/**
- * @description Print a  warning.
- * @param {...*} data Data to print
- * @private
- */
-const warn = (...data) => {
-  try {
-    console.warn(clr.warn(...data));
-  } catch (err) {
-    console.log(clr.warn(...data));
-  }
-};
-
-/**
- * @description Print a debug message.
- * @param {...*} data Data to print
- * @private
- */
-const dbg = (...data) => {
-  try {
-    console.debug(clr.debug(...data));
-  } catch (err) {
-    console.log(clr.debug(...data));
-  }
-};
-
-/**
- * @description Print an output.
- * @param {...*} data Data to print
- * @private
- */
-const out = (...data) => console.log(clr.out(...data));
-/**
- * @description Print an input.
- * @param {...*} data Data to print
- * @private
- */
-const inp = (...data) => console.log(clr.in(...data));
 
 /**
  * @description Set a colour scheme for the CLI.
  * @protected
  */
 const setColours = () => clr.setTheme(clrScheme);
+setColours();
 
 /**
  * @description Colourise something.
  * @param {string} name Name of the colour in the theme
  * @param {...*} data Data
  * @return {*} Coloured output
+ * @protected
  */
 const colour = (name, ...data) => {
   switch (name) {
@@ -144,11 +92,12 @@ const incomingIp = (req) => {
  * @description Renders an HTML page.
  * @param {Object} res Resulting Express view module
  * @param {string} [file='index'] Filename of the HTML page to render.
+ * @protected
  */
 const view = (res, file='index') => {
   res.sendFile(`${__dirname}/${file}.html`);
 };
 
 module.exports = {
-  error, info, warn, dbg, inp, out, setColours, load, incomingIp, clrScheme, colour, view
+  setColours, load, incomingIp, clrScheme, colour, view
 };

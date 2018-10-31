@@ -1,6 +1,6 @@
 const Server = require('../index');
-const expect = require('chai').expect;
-const request = require('request');
+const expect = require('chai').expect,
+  request = require('request');
 
 describe('server response', () => {
   let server = new Server((req, res) => {
@@ -34,7 +34,7 @@ describe('server response', () => {
   });
 
   it('should return 200', (done) => {
-    var options = {
+    let options = {
       url: URL,
       headers: {
         'Content-Type': 'text/plain'
@@ -48,14 +48,14 @@ describe('server response', () => {
   });
 
   it('should emit request body', (done) => {
-    var options = {
+    let options = {
       url: URL,
       headers: {
         'Content-Type': 'text/plain'
       },
       body: 'successfully emitted request'
     };
-    var eventFired = false;
+    let eventFired = false;
 
     request.get(options, (err, res, body) => {});
 

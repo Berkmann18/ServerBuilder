@@ -1,7 +1,7 @@
 /* eslint-env node, es6 */
 /**
  * @description Server builder.
- * @module serverBuilder
+ * @module
  * @requires http
  * @requires https
  * @requires colors
@@ -10,14 +10,14 @@
  * @exports Server
  */
 
-const { setColours, info, error, colour } = require('./src/utils');
-
-setColours();
+const { colour } = require('./src/utils');
+const { info, error } = require('nclr');
 
 /**
  * Normalize a port into a number, string, or false.
  * @param {(string|number)} val Port
  * @return {(string|number|boolean)} Port
+ * @protected
  */
 const normalizePort = (val) => {
   let port = parseInt(val);
@@ -26,6 +26,10 @@ const normalizePort = (val) => {
   return false;
 };
 
+/**
+ * @description Default options for {@link Server.constructor}.
+ * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean}}
+ */
 const DEFAULT_OPTS = {
   name: 'Server',
   useHttps: false,
@@ -35,8 +39,10 @@ const DEFAULT_OPTS = {
 }
 
 /**
+ * @name getEnv
  * @description Get the environment name.
- * @param {function|object} app Application
+ * @param {function|Object} app Application
+ * @protected
  */
 const getEnv = (app) => {
   if (process.env.NODE_ENV) return process.env.NODE_ENV;
@@ -45,21 +51,17 @@ const getEnv = (app) => {
 
 /**
  * @description Re-usable server.
- * @property {express} Server._app Associated Express application
- * @property {(number|string)} Server._port Port/pipe of the server
- * @property {boolean} Server._usesHttps Security flag concerning HTTP(S)
- * @property {object} Server._options Security options for the server (public keys and certificates)
- * @property {(http.Server|https.Server)} Server._server HTTP(S) Server instance
- * @property {string} Server._name Name of the server
+ * @public
  */
 class Server {
   /**
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {{string, boolean, object, function(Server), boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
-   * Options including the server's name, HTTPS, options needed for the HTTPs server, callback called within the listen event and whether it should show its public
+   * @param {{name: string, useHttps: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
+   * Options including the server's name, HTTPS, options needed for the HTTPs server (public keys and certificates), callback called within the <code>listen</code> event and whether it should show its public
    * IP
+   * 
    * @example
    * const express = require('express');
    * let opts = {
@@ -67,6 +69,7 @@ class Server {
    *   callback: () => console.log('READY');
    * }
    * let server = new Server(express(), 3002, opts);
+   * @memberof Server
    */
   constructor(associatedApp, port = (process.env.PORT || 3e3), opts = DEFAULT_OPTS) {
     this._port = normalizePort(port);
@@ -74,7 +77,7 @@ class Server {
     this._app = associatedApp;
     this._options = opts.securityOptions || DEFAULT_OPTS.securityOptions;
     this._server = this._usesHttps ? require('https').createServer(this._options, this._app) : require('http').createServer(this._app);
-    this._name = opts.name;
+    this._name = opts.name || DEFAULT_OPTS.name;
     this._server.on('error', Server.onError);
 
     this._handler = () => {
@@ -102,6 +105,8 @@ class Server {
   /**
    * @description Get the associated application (Express instance).
    * @return {express} Associated Express instance
+   * @memberof Server
+   * @public
    */
   get app() {
     return this._app;
@@ -110,6 +115,8 @@ class Server {
   /**
    * @description Set the Express application associated to the router.
    * @param {express} value Express app
+   * @memberof Server
+   * @public
    */
   set app(value) {
     this._app = value;
@@ -118,6 +125,8 @@ class Server {
   /**
    * @description Get the port/pipe of used by the server.
    * @return {(number|string)} Port/pipes
+   * @memberof Server
+   * @public
    */
   get port() {
     return this._port;
@@ -127,6 +136,8 @@ class Server {
    * @description Change the port/pipe of the server <strong>without affecting the server instance</strong>.<br>
    * <em style="color: red">Use this method at your own risk!</em>
    * @param {(number|string)} value New port/pipe
+   * @memberof Server
+   * @public
    */
   set port(value) {
     this._port = value;
@@ -135,6 +146,8 @@ class Server {
   /**
    * @description Get the server's name.
    * @return {string} Name
+   * @memberof Server
+   * @public
    */
   get name() {
     return this._name;
@@ -143,6 +156,8 @@ class Server {
   /**
    * @description Change the server's name.
    * @param {string} value New name
+   * @memberof Server
+   * @public
    */
   set name(value) {
     this._name = value;
@@ -151,15 +166,19 @@ class Server {
   /**
    * @description See if whether or not the server is using HTTPS.
    * @return {boolean} S flag
+   * @memberof Server
+   * @public
    */
   get useHttps() {
     return this._useHttps;
   }
 
   /**
-   * @description Changes the HTT<strong>S</strong> flag <strong>without affecting the server instance</strong>.<br>
+   * @description Changes the HTTP<strong>S</strong> flag <strong>without affecting the server instance</strong>.<br>
    * <em style="color: red">Use this method at your own risk!</em>
    * @param {boolean} value New flag
+   * @memberof Server
+   * @public
    */
   set useHttps(value) {
     this._useHttps = value;
@@ -167,16 +186,20 @@ class Server {
 
   /**
    * @description Get the server options (that is the ones used for the HTTPS mode).
-   * @return {object} Options
+   * @return {Object} Options
+   * @memberof Server
+   * @public
    */
   get options() {
     return this._options;
   }
 
   /**
-   * @description Change the server options.<br>
-   * <em>Caution: this may not change the options used when the server's instance was made.</em>
-   * @param {object} value New options
+   * @description Change the server options <strong>without affecting the server instance</strong>.<br>
+   * <em style="color: red">Use this method at your own risk!</em>
+   * @param {Object} value New options
+   * @memberof Server
+   * @public
    */
   set options(value) {
     this._serverOptions = value;
@@ -185,6 +208,8 @@ class Server {
   /**
    * @description Get the server's instance.
    * @return {(http.Server|https.Server)} Server instance
+   * @memberof Server
+   * @public
    */
   get server() {
     return this._server;
@@ -193,22 +218,28 @@ class Server {
   /**
    * @description Change the server's instance.
    * @param {(http.Server|https.Server)} value new server instance
+   * @memberof Server
+   * @public
    */
   set server(value) {
     this._server = value;
   }
 
   /**
-   * @descripton (Re)start the server.
+   * @description (Re)start the server.
+   * @memberof Server
+   * @public
    */
   restart() {
     this._server.listen(this._port, this._handler);
   }
 
   /**
-   * Event listener for HTTP server "error" event.
+   * @description Event listener for HTTP server "error" event.
    * @param {*} error Error to handle
    * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
+   * @memberof Server
+   * @public
    */
   static onError(error) {
     if (error.syscall !== 'listen') throw error;
@@ -228,8 +259,10 @@ class Server {
   };
 
   /**
-   * @description Close the server gracefully.
+   * @description Gracefully close the server.
    * @returns {Promise} Closure promise
+   * @memberof Server
+   * @public
    */
   close() {
     let closing = new Promise((resolve, reject) => {
@@ -251,6 +284,8 @@ class Server {
   /**
    * @description Textual representation of a Server object.
    * @return {string} Server object in text
+   * @memberof Server
+   * @public
    */
   toString() {
     return `Server(name='${this.name}', port=${this.port}, app=${this.app}, usesHttps=${this.usesHttps}, options=${this.options}, instance=${this.server})`
