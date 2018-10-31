@@ -22,12 +22,7 @@ const clrScheme = {
   spec: 'magenta' //nclr doesn't have that
 };
 
-/**
- * @description Set a colour scheme for the CLI.
- * @protected
- */
-const setColours = () => clr.setTheme(clrScheme);
-setColours();
+clr.setTheme(clrScheme);
 
 /**
  * @description Colourise something.
@@ -37,67 +32,10 @@ setColours();
  * @protected
  */
 const colour = (name, ...data) => {
-  switch (name) {
-  case 'in':
-    return clr.in(...data);
-  case 'out':
-    return clr.out(...data);
-  case 'inf':
-    return clr.inf(...data);
-  case 'err':
-    return clr.err(...data);
-  case 'warn':
-    return clr.warn(...data);
-  case 'debug':
-    return clr.debug(...data);
-  case 'spec':
-    return clr.spec(...data);
-  default:
-    return error(`The name ${name} isn't specified in the theme used`);
-  }
-};
-
-/**
- * @description Load an HTML page.
- * @param {Object} res ExpressJS result
- * @param {string} [page='index'] Page name
- * @protected
- */
-const load = (res, page='index') => res.sendFile(path.join(`${__dirname}/${page}.html`));
-
-/**
- * @description Get the Incoming IP address.
- * @param {Object} req HTTP request
- * @return {?string} IP Address
- * @protected
- */
-const incomingIp = (req) => {
-  if ('x-forwarded-for' in req.headers) return req.headers['x-forwarded-for'].split(',').pop();
-  try {
-    return req.connection.remoteAddress;
-  } catch (err) {}
-  try {
-    return req.ip;
-  } catch (err) {}
-  try {
-    return req.socket.remoteAddress;
-  } catch (err) {}
-  try {
-    return req.connection.socket.remoteAddress;
-  } catch (err) {}
-  return null; //Should never reach that
-};
-
-/**
- * @description Renders an HTML page.
- * @param {Object} res Resulting Express view module
- * @param {string} [file='index'] Filename of the HTML page to render.
- * @protected
- */
-const view = (res, file='index') => {
-  res.sendFile(`${__dirname}/${file}.html`);
+  if (['in', 'out', 'inf', 'err', 'warn', 'debug', 'spec'].includes(name)) return clr[name](...data);
+  else throw new Error(`The name ${name} isn't specified in the theme used`);
 };
 
 module.exports = {
-  setColours, load, incomingIp, clrScheme, colour, view
+  clrScheme, colour
 };
