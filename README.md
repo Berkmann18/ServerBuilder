@@ -2,12 +2,31 @@
 [![NPM](https://nodei.co/npm/serverbuilder.png)](https://nodei.co/npm/serverbuilder/)
 [![Inline docs](http://inch-ci.org/github/Berkmann18/ServerBuilder.svg?branch=master)](http://inch-ci.org/github/Berkmann18/ServerBuilder)
 <!-- [![NSP Status](https://nodesecurity.io/orgs/berkmann18/projects/ea369eec-8c46-4ad6-903c-739aa66d006a/badge)](https://nodesecurity.io/orgs/berkmann18/projects/ea369eec-8c46-4ad6-903c-739aa66d006a) -->
-[![codecov.io Code Coverage](https://img.shields.io/codecov/c/github/Berkmann18/ServerBuilder.svg?maxAge=2592000)](https://codecov.io/github/Berkmann18/ServerBuilder?branch=master)
+
+[![devDependencies Status](https://david-dm.org/Berkmann18/ServerBuilder/dev-status.svg)](https://david-dm.org/Berkmann18/ServerBuilder?type=dev)
 [![dependencies Status](https://david-dm.org/Berkmann18/ServerBuilder/status.svg)](https://david-dm.org/Berkmann18/ServerBuilder)
+
+[![GH Downloads](https://img.shields.io/github/downloads/Berkmann18/ServerBuilder/total.svg)](https://github.com/Berkmann18/ServerBuilder/network/members)
+[![GitHub commit activity the past year](https://img.shields.io/github/commit-activity/y/Berkmann18/serverbuilder.svg)](https://github.com/Berkmann18/ServerBuilder/graphs/commit-activity)
+[![GitHub contributors](https://img.shields.io/github/contributors/Berkmann18/ServerBuilder.svg)](https://github.com/Berkmann18/ServerBuilder/graphs/contributors)
+[![Github search hit counter](https://img.shields.io/github/search/Berkmann18/ServerBuilder/goto.svg)](https://github.com/Berkmann18/ServerBuilder/graphs/traffic)
+
+[![Build Status](https://travis-ci.org/Berkmann18/ServerBuilder.svg?branch=master)](https://travis-ci.org/Berkmann18/ServerBuilder)
+[![codecov.io Code Coverage](https://img.shields.io/codecov/c/github/Berkmann18/ServerBuilder.svg?maxAge=2592000)](https://codecov.io/github/Berkmann18/ServerBuilder?branch=master)
+[![mocha](https://rawcdn.githack.com/aleen42/badges/11e00955d8be26223f0b89dddf49bc4a81e059ba/src/mocha.svg)](https://aleen42.github.io/badges/src/mocha.svg)
+
+[![GitHub](https://img.shields.io/github/license/Berkmann18/ServerBuilder.svg)](https://github.com/Berkmann18/ServerBuilder/blob/master/LICENSE)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Berkmann18/ServerBuilder/issues)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&identifier=115825259)](https://dependabot.com)
-[![BCH compliance](https://bettercodehub.com/edge/badge/Berkmann18/ServerBuilder?branch=master)](https://bettercodehub.com/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&identifier=115825259)](https://dependabot.com)
+
+[![GitHub top language](https://img.shields.io/github/languages/top/Berkmann18/ServerBuilder.svg)](https://github.com/Berkmann18/ServerBuilder)
+[![GitHub language count](https://img.shields.io/github/languages/count/Berkmann18/ServerBuilder.svg)](https://github.com/Berkmann18/ServerBuilder)
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Berkmann18/ServerBuilder.svg)](https://github.com/Berkmann18/ServerBuilder)
+
+
+[![BCH compliance](https://bettercodehub.com/edge/badge/Berkmann18/ServerBuilder?branch=master)](https://bettercodehub.com/results/Berkmann18/ServerBuilder)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/40e42558e9ad4f54a014f063aa48817c)](https://www.codacy.com/app/maxieberkmann/ServerBuilder?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Berkmann18/ServerBuilder&amp;utm_campaign=Badge_Grade)
 
 It's a simple NodeJS/Express server builder allowing you to get a working server up in just a few lines.
 
