@@ -22,9 +22,6 @@ describe('server response', () => {
   });
   const URL = 'http://localhost:3000';
 
-  // before(() => server.restart());
-  // after(() => server.close());
-
   it('should return 400', (done) => {
     request.get(URL, (err, res, body) => {
       expect(res.statusCode).to.equal(400);

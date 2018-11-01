@@ -32,7 +32,6 @@ describe('Initial output', () => {
   it('should print nothing straight away', () => {
     const output = stdout.inspectSync(() => server = new Server((req, res) => {}));
     expect(output).to.deep.equal([]);
-    // server.close();
   });
 
   it('should print something later', () => {
@@ -44,7 +43,6 @@ describe('Initial output', () => {
         expect(server instanceof Server).to.be.true;
         expect(inspect.output.length).to.equal(2);
         expect(inspect.output[1]).to.deep.equal(`\u001b[32mServer listening at \u001b[37mhttp://localhost:${port}\u001b[32m (development environment)\u001b[39m\n`);
-        // server.close();
       }
     };
     server = new Server((req, res) => {}, 3e3, options);

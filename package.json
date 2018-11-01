@@ -7,6 +7,7 @@
     "start": "node index.js",
     "debug": "DEBUG=true node index.js",
     "test": "mocha --exit",
+    "coverage": "instanbul cover _mocha",
     "doc:lint": "documentation lint index.js src/**.js",
     "doc:html": "documentation build *.js -f html -o doc/ -a public",
     "doc": "npm run doc:lint && npm run doc:html",
@@ -15,7 +16,8 @@
     "cc:all": "npm run cc *.js src/*.js",
     "changelog": "conventional-changelog -p eslint -i CHANGELOG.md -s -r 0",
     "version": "npm run changelog && git add CHANGELOG.md",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "lint:md": "remark . .github -i ./config/.remarkignore"
   },
   "repository": {
     "type": "git",
@@ -52,6 +54,9 @@
     "eslint": "^5.8.0",
     "eslint-plugin-security": "^1.4.0",
     "mocha": "^5.2.0",
+    "remark-cli": "^6.0.0",
+    "remark-preset-lint-consistent": "^2.0.2",
+    "remark-preset-lint-recommended": "^3.0.2",
     "request": "^2.88.0",
     "test-console": "^1.1.0"
   },
@@ -63,5 +68,11 @@
     "commitizen": {
       "path": "cz-adapter-eslint"
     }
+  },
+  "remarkConfig": {
+    "plugins": [
+      "remark-preset-lint-recommended",
+      "remark-preset-lint-consistent"
+    ]
   }
 }

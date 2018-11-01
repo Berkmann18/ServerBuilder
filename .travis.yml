@@ -6,6 +6,10 @@ cache:
     - "node_modules"
 install:
     npm i -g codecov
+script:
+  - istanbul cover _mocha
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 # safelist
 branches:
   only:
