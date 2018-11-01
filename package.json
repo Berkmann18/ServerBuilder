@@ -6,18 +6,20 @@
   "scripts": {
     "start": "node index.js",
     "debug": "DEBUG=true node index.js",
-    "test": "mocha --exit",
-    "coverage": "instanbul cover _mocha",
+    "test": "mocha --exit && npm run coverage",
+    "coverage": "istanbul cover _mocha",
     "doc:lint": "documentation lint index.js src/**.js",
     "doc:html": "documentation build *.js -f html -o doc/ -a public",
     "doc": "npm run doc:lint && npm run doc:html",
-    "lint": "eslint -c ./config/.eslintrc.js *.js src/*.js --fix",
+    "lint:js": "eslint -c ./config/.eslintrc.js *.js src/*.js --fix",
     "cc": "cr -c ./config/.complexrc",
     "cc:all": "npm run cc *.js src/*.js",
     "changelog": "conventional-changelog -p eslint -i CHANGELOG.md -s -r 0",
     "version": "npm run changelog && git add CHANGELOG.md",
+    "precommit": "lint-staged",
     "commit": "git-cz",
-    "lint:md": "remark . .github -i ./config/.remarkignore"
+    "lint:md": "remark . .github -i ./config/.remarkignore",
+    "lint": "npm run lint:js && npm run lint:md"
   },
   "repository": {
     "type": "git",
@@ -53,6 +55,9 @@
     "documentation": "^8.1.2",
     "eslint": "^5.8.0",
     "eslint-plugin-security": "^1.4.0",
+    "husky": "^1.1.2",
+    "istanbul": "^0.4.5",
+    "lint-staged": "^8.0.4",
     "mocha": "^5.2.0",
     "remark-cli": "^6.0.0",
     "remark-preset-lint-consistent": "^2.0.2",
@@ -73,6 +78,17 @@
     "plugins": [
       "remark-preset-lint-recommended",
       "remark-preset-lint-consistent"
+    ]
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint -c ./config/.eslintrc.js --fix",
+      "mocha --exit",
+      "git add"
+    ],
+    "*.md": [
+      "remark",
+      "git add"
     ]
   }
 }
