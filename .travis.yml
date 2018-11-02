@@ -5,7 +5,8 @@ cache:
   directories:
     - "node_modules"
 install:
-    npm i -g mocha codecov
+  - npm i
+  - npm i -g mocha codecov
 script:
   - istanbul cover _mocha
 after_success:
