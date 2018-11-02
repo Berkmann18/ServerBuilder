@@ -10,8 +10,8 @@
  * @exports Server
  */
 
-const { colour } = require('./src/utils');
-const { info, error } = require('nclr');
+// const { colour } = require('./src/utils');
+const { info, error, use } = require('nclr');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -86,7 +86,7 @@ class Server {
       const location = typeof ipAddress === 'string' ?
         `pipe ${ipAddress}` :
         `${protocol}://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
-      info(`${this._name} listening at ${colour('in', location)} (${getEnv(this._app)} environment)`);
+      info(`${this._name} listening at ${use('inp', location)} (${getEnv(this._app)} environment)`);
       if ('callback' in opts) opts.callback(this);
     };
     this.restart();
@@ -94,7 +94,7 @@ class Server {
     if (opts.showPublicIP) {
       require('external-ip')()((err, ip) => {
         if (err) error('Public IP error:', err);
-        info(`Public IP: ${colour('spec', ip)}`);
+        info(`Public IP: ${use('spec', ip)}`);
       });
     }
 
@@ -269,15 +269,15 @@ class Server {
     let closing = new Promise((resolve, reject) => {
       this._server.close((err) => {
         if (err) reject(err);
-        info(`Closing the server ${colour('out', this.name)}...`);
+        info(`Closing the server ${use('out', this.name)}...`);
         resolve(this);
       });
     });
     return closing.then(server => {
-      info(`${colour('out', this.name)} is now closed.`);
+      info(`${use('out', this.name)} is now closed.`);
       process.exit();
     }).catch(err => {
-      error(`Server closure of ${colour('out', this.name)} led to:`, err);
+      error(`Server closure of ${use('out', this.name)} led to:`, err);
       process.exit();
     })
   }
