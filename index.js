@@ -243,7 +243,8 @@ class Server {
    */
   static onError(error) {
     if (error.syscall !== 'listen') throw error;
-    const bind = typeof this._port === 'string' ? `Pipe ${this._port}` : `Port ${this._port}`;
+    const port = this._port;
+    const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`;
 
     //Handle specific listen errors with friendly messages
     switch (error.code) {

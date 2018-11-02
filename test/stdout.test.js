@@ -30,7 +30,7 @@ describe('Initial output', () => {
   let server;
 
   it('should print nothing straight away', () => {
-    const output = stdout.inspectSync(() => server = new Server((req, res) => {}));
+    const output = stdout.inspectSync(() => server = new Server((req, res) => {}, 3001));
     expect(output).to.deep.equal([]);
   });
 
