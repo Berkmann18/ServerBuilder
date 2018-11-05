@@ -15,7 +15,6 @@
     "cc:all": "npm run cc *.js src/*.js",
     "changelog": "conventional-changelog -p eslint -i CHANGELOG.md -s -r 0",
     "version": "npm run changelog && git add CHANGELOG.md",
-    "precommit": "lint-staged",
     "commit": "git-cz",
     "lint:md": "remark . .github -i ./config/.remarkignore",
     "lint": "npm run lint:js && npm run lint:md",
@@ -81,6 +80,11 @@
       "remark-preset-lint-recommended",
       "remark-preset-lint-consistent"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.js": [
