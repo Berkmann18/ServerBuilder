@@ -10,7 +10,6 @@
  * @exports Server
  */
 
-// const { colour } = require('./src/utils');
 const { info, error, use } = require('nclr');
 
 /**
@@ -33,6 +32,7 @@ const normalizePort = (val) => {
 const DEFAULT_OPTS = {
   name: 'Server',
   useHttps: false,
+  useHttp2: false,
   securityOptions: {},
   callback: () => {},
   showPublicIP: false
@@ -58,7 +58,7 @@ class Server {
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {{name: string, useHttps: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
+   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
    * Options including the server's name, HTTPS, options needed for the HTTPs server (public keys and certificates), callback called within the <code>listen</code> event and whether it should show its public
    * IP
    *
@@ -73,16 +73,21 @@ class Server {
    */
   constructor(associatedApp, port = (process.env.PORT || 3e3), opts = DEFAULT_OPTS) {
     this._port = normalizePort(port);
-    this._usesHttps = opts.useHttps || DEFAULT_OPTS.useHttps;
+    this._useHttp2 = opts.useHttp2 || DEFAULT_OPTS.useHttp2;
+    this._useHttps = opts.useHttps || DEFAULT_OPTS.useHttps;
     this._app = associatedApp;
     this._options = opts.securityOptions || DEFAULT_OPTS.securityOptions;
-    this._server = this._usesHttps ? require('https').createServer(this._options, this._app) : require('http').createServer(this._app);
+    this._server = this._usesHttp2 ?
+      require('http2').createSecureServer(this._options, this._app)
+      : (this._useHttps ?
+        require('https').createServer(this._options, this._app)
+        : require('http').createServer(this._app));
     this._name = opts.name || DEFAULT_OPTS.name;
     this._server.on('error', Server.onError);
 
     this._handler = () => {
       const ipAddress = this._server.address();
-      const protocol = this._usesHttps ? 'https' : 'http';
+      const protocol = (this._usesHttps || this.useHttp2) ? 'https' : 'http';
       const location = typeof ipAddress === 'string' ?
         `pipe ${ipAddress}` :
         `${protocol}://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
@@ -184,8 +189,30 @@ class Server {
     this._useHttps = value;
   }
 
+
   /**
-   * @description Get the server options (that is the ones used for the HTTPS mode).
+   * @description See if whether or not the server is using HTTP/2.
+   * @return {boolean} Version 2 flag
+   * @memberof Server
+   * @public
+   */
+  get useHttp2() {
+    return this._useHttp2;
+  }
+
+  /**
+   * @description Changes the HTTP version flag <strong>without affecting the server instance</strong>.<br>
+   * <em style="color: red">Use this method at your own risk!</em>
+   * @param {boolean} value New flag
+   * @memberof Server
+   * @public
+   */
+  set useHttp2(value) {
+    this._useHttp2 = value;
+  }
+
+  /**
+   * @description Get the server options (that is the ones used for the HTTPS and HTTP/2 mode).
    * @return {Object} Options
    * @memberof Server
    * @public
@@ -289,7 +316,7 @@ class Server {
    * @public
    */
   toString() {
-    return `Server(name='${this.name}', port=${this.port}, app=${this.app}, usesHttps=${this.usesHttps}, options=${this.options}, instance=${this.server})`
+    return `Server(name='${this.name}', port=${this.port}, app=${this.app}, useHttps=${this.useHttps}, useHttp2=${this.useHttp2}, options=${JSON.stringify(this.options)})`
   }
 }
 
