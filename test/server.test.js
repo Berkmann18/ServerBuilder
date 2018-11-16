@@ -90,14 +90,6 @@ describe('Attributes (HTTP)', () => {
   it('should not over-start', () => {
     expect(() => ser.restart()).to.throw('Listen method has been called more than once without closing.')
   });
-
-  // it('should close well', (done) => {
-  //   ser.close()
-  //     .then(closed => expect(closed).to.equal(true))
-  //     .catch(err => console.log('Closing error:', err))
-  //     .finally(done);
-  // });
-
 });
 
 const securityOptions = {

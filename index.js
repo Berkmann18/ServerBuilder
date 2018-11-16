@@ -10,7 +10,6 @@
  * @exports Server
  */
 
-// const { colour } = require('./src/utils');
 const { info, error, use } = require('nclr');
 
 /**
