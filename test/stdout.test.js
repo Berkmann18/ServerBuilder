@@ -26,11 +26,13 @@ const makeApp = (server) => {
   };
 }
 
+const smallApp = (req, res) => {};
+
 describe('Initial output', () => {
-  let server;
+  let server/* = new Server(smallApp, 3001) */;
 
   it('should print nothing straight away', () => {
-    const output = stdout.inspectSync(() => server = new Server((req, res) => {}, 3001));
+    const output = stdout.inspectSync(() => server = new Server(smallApp, 3001));
     expect(output).to.deep.equal([]);
   });
 
@@ -44,7 +46,7 @@ describe('Initial output', () => {
         expect(inspect.output[1]).to.deep.equal(`\u001b[32mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[32m (development environment)\u001b[39m\n`);
       }
     };
-    server = new Server((req, res) => {}, 4e3, options);
+    server = new Server(smallApp, 4e3, options);
   });
 
   it('should print something', () => {
@@ -53,28 +55,26 @@ describe('Initial output', () => {
       name: 'Test Server',
       callback(server) {
         inspect.restore();
-        //output[0] is the "should print something"
+        //output[0] is the 'should print something'
         expect(inspect.output.length).to.equal(2);
         expect(inspect.output[1]).to.deep.equal(`\u001b[32mTest Server listening at \u001b[37mhttp://localhost:${server.port}\u001b[32m (development environment)\u001b[39m\n`);
       },
     }
     server = new Server(makeApp(server), 4001, options);
-
   });
 
-  it('should signal its end', (done) => {
-    const inspect = stdout.inspect();
-    let options = {
-      callback(server) {
-        inspect.restore();
-        expect(inspect.output.length).to.equal(2);
-        expect(inspect.output[1]).to.deep.equal(`\u001b[32mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[32m (development environment)\u001b[39m\n`);
-      },
-    }
-    server = new Server(makeApp(server), 4002, options);
-    server.close()
-      .then(closed => expect(closed).to.equal(true) && done())
-      .catch(err => console.log('Closing error:', err));
-  });
-
+  // it('should signal its end', (done) => {
+  //   const inspect = stdout.inspect();
+  //   let options = {
+  //     callback(server) {
+  //       inspect.restore();
+  //       expect(inspect.output.length).to.equal(2);
+  //       expect(inspect.output[1]).to.deep.equal(`\u001b[32mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[32m (development environment)\u001b[39m\n`);
+  //     },
+  //   }
+  //   server = new Server(makeApp(server), 4002, options);
+  //   server.close()
+  //     .then(closed => expect(closed).to.equal(true) && done())
+  //     .catch(err => console.log('Closing error:', err));
+  // });
 });

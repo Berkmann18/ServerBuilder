@@ -32,6 +32,7 @@ clr.setTheme(clrScheme);
  * @protected
  */
 const colour = (name, ...data) => {
+  // eslint-disable-next-line security/detect-object-injection
   if (['in', 'out', 'inf', 'err', 'warn', 'debug', 'spec'].includes(name)) return clr[name](...data);
   else throw new Error(`The name ${name} isn't specified in the theme used`);
 };
