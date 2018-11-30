@@ -26,16 +26,13 @@
     "url": "https://github.com/Berkmann18/ServerBuilder.git"
   },
   "keywords": [
-    "hash",
-    "integrity",
-    "node",
-    "js",
-    "javascript",
-    "SHA-256",
-    "base64",
-    "encode",
-    "cli",
-    "digest"
+    "server",
+    "http",
+    "https",
+    "http2",
+    "express",
+    "builder",
+    "cli"
   ],
   "author": "Berkmann18",
   "license": "MIT",
