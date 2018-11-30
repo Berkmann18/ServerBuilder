@@ -10,7 +10,8 @@
  * @exports Server
  */
 
-const { info, error, use } = require('nclr');
+const { info, error } = require('nclr');
+const { use } = require('./src/utils');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -87,7 +88,7 @@ class Server {
 
     this._handler = () => {
       const ipAddress = this._server.address();
-      const protocol = (this._usesHttps || this.useHttp2) ? 'https' : 'http';
+      const protocol = (this._useHttps || this._useHttp2) ? 'https' : 'http';
       const location = typeof ipAddress === 'string' ?
         `pipe ${ipAddress}` :
         `${protocol}://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
