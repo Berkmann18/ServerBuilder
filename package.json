@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "debug": "DEBUG=true node index.js",
-    "test": "mocha --exit",
+    "test": "mocha test --exit",
     "doc:lint": "documentation lint index.js src/**.js",
     "doc:html": "documentation build *.js -f html -o doc/ -a public",
     "doc": "npm run doc:lint && npm run doc:html",
@@ -83,7 +83,6 @@
   "lint-staged": {
     "*.js": [
       "eslint -c ./config/.eslintrc.js --fix",
-      "mocha --exit",
       "git add"
     ],
     "*.md": [

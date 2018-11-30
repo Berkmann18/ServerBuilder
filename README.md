@@ -40,6 +40,7 @@ npm i serverbuilder
 _Note_: Don't forget to use `-g`, `--save`, `--save-dev` if appropriate.
 
 ## Usage
+-   Using **HTTP/1**:
 ```js
 const app = require('express')(),
       Server = require('serverbuilder');
@@ -53,7 +54,7 @@ let options = {
 
 new Server(app, process.env.PORT || 3e3, options);
 ```
-Or with **HTTPS**:
+-   Or with **HTTPS/1**:
 ```js
 const fs = require('fs'),
       app = require('express')(),
@@ -62,6 +63,28 @@ const fs = require('fs'),
 let options = {
   name: 'My Server',
   useHttps: true,
+  securityOptions: {
+    key: fs.readFileSync('server-key.pem'),
+    cert: fs.readFileSync('server-cert.pem')
+  }
+  callback(server) {
+    app.set('port', server.port);
+  },
+  publicIP: true
+};
+
+new Server(app, process.env.PORT || 3e3, options);
+```
+
+-   Or with **HTTP/2**:
+```js
+const fs = require('fs'),
+      app = require('express')(),
+      Server = require('serverbuilder');
+
+let options = {
+  name: 'My Server',
+  useHttp2: true,
   securityOptions: {
     key: fs.readFileSync('server-key.pem'),
     cert: fs.readFileSync('server-cert.pem')
