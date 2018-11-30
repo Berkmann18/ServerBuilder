@@ -14,6 +14,7 @@
 [![Build Status](https://travis-ci.org/Berkmann18/ServerBuilder.svg?branch=master)](https://travis-ci.org/Berkmann18/ServerBuilder)
 [![codecov.io Code Coverage](https://img.shields.io/codecov/c/github/Berkmann18/ServerBuilder.svg?maxAge=2592000)](https://codecov.io/github/Berkmann18/ServerBuilder?branch=master)
 [![mocha](https://rawcdn.githack.com/aleen42/badges/11e00955d8be26223f0b89dddf49bc4a81e059ba/src/mocha.svg)](https://aleen42.github.io/badges/src/mocha.svg)
+[![Known Vulnerabilities](https://snyk.io/test/github/Berkmann18/ServerBuilder/badge.svg?targetFile=package.json)](https://snyk.io/test/github/Berkmann18/ServerBuilder?targetFile=package.json)
 
 [![GitHub](https://img.shields.io/github/license/Berkmann18/ServerBuilder.svg)](https://github.com/Berkmann18/ServerBuilder/blob/master/LICENSE)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Berkmann18/ServerBuilder/issues)
