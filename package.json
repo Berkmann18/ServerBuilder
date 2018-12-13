@@ -13,8 +13,6 @@
     "lint:js": "eslint -c ./config/.eslintrc.js *.js src/*.js --fix",
     "cc": "cr -c ./config/.complexrc",
     "cc:all": "npm run cc *.js src/*.js",
-    "changelog": "conventional-changelog -p eslint -i CHANGELOG.md -s -r 0",
-    "version": "npm run changelog && git add CHANGELOG.md",
     "commit": "git-cz",
     "lint:md": "remark . .github -i ./config/.remarkignore",
     "lint": "npm run lint:js && npm run lint:md",
@@ -34,7 +32,10 @@
     "builder",
     "cli"
   ],
-  "author": "Berkmann18",
+  "author": {
+    "name": "Maximilian Berkmann",
+    "email": "maxieberkmann@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Berkmann18/ServerBuilder/issues"
@@ -46,12 +47,16 @@
     "nclr": "^1.2.1"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^3.0.1",
+    "@semantic-release/git": "^7.0.5",
     "chai": "^4.2.0",
     "complexity-report": "^1.4.1",
+    "conventional-changelog-eslint": "^3.0.1",
     "cz-adapter-eslint": "^0.1.2",
     "documentation": "^8.1.2",
     "eslint": "^5.8.0",
     "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-you-dont-need-lodash-underscore": "^6.4.0",
     "husky": "^1.2.0",
     "lint-staged": "^8.0.4",
     "mocha": "^5.2.0",
@@ -60,6 +65,7 @@
     "remark-preset-lint-recommended": "^3.0.2",
     "request": "^2.88.0",
     "semantic-release": "^15.10.6",
+    "snyk": "^1.117.1",
     "test-console": "^1.1.0",
     "travis-deploy-once": "^5.0.9"
   },
