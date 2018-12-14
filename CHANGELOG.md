@@ -1,3 +1,11 @@
+# [2.1.0](https://github.com/Berkmann18/ServerBuilder/compare/v2.0.0...v2.1.0) (2018-12-14)
+
+
+### Bug Fixes
+
+* example/secure/package.json to reduce vulnerabilities ([af94d08](https://github.com/Berkmann18/ServerBuilder/commit/af94d08))
+* example/simple/package.json to reduce vulnerabilities ([a272dc2](https://github.com/Berkmann18/ServerBuilder/commit/a272dc2))
+
 ## [2.0.1](https://github.com/Berkmann18/ServerBuilder/compare/v2.0.0...v2.0.1) (2018-11-30)
 
 
@@ -50,6 +58,3 @@
 ### Upgrade
 
 * Overall update ([e3fe6040da294f18429d4445a3a532606fd39eac](https://github.com/Berkmann18/ServerBuilder/commit/e3fe6040da294f18429d4445a3a532606fd39eac))
-
-
-
