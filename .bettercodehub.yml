@@ -2,3 +2,4 @@ exclude:
     - /doc/.*
     - /config/.*
     - /example/*
+    - /src/utils.js
