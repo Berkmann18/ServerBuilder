@@ -38,7 +38,7 @@ const DEFAULT_OPTS = {
   callback: () => {},
   showPublicIP: false,
   silent: false
-}
+};
 
 /**
  * @name getEnv
@@ -49,7 +49,19 @@ const DEFAULT_OPTS = {
 const getEnv = (app) => {
   if (process.env.NODE_ENV) return process.env.NODE_ENV;
   return (typeof app.get === 'function') ? app.get('env') : 'development';
-}
+};
+
+/**
+ * @description Create a server.
+ * @param {Server} instance Server instance
+ * @returns {(http.Server|https.Server|http2.Server)} HTTP* server
+ */
+const createServer = (instance) => {
+  if (instance._usesHttp2) return require('http2').createSecureServer(instance._options, instance._app);
+  return instance._useHttps ?
+    require('https').createServer(instance._options, instance._app) :
+    require('http').createServer(instance._app);
+};
 
 /**
  * @description Re-usable server.
@@ -81,23 +93,12 @@ class Server {
     this._app = associatedApp;
     this._options = opts.securityOptions || DEFAULT_OPTS.securityOptions;
     this._silent = opts.silent || DEFAULT_OPTS.silent;
-    this._server = this._usesHttp2 ?
-      require('http2').createSecureServer(this._options, this._app) :
-      (this._useHttps ?
-        require('https').createServer(this._options, this._app) :
-        require('http').createServer(this._app));
+    this._server = createServer(this);
     this._name = opts.name || DEFAULT_OPTS.name;
     this._server.on('error', Server.onError);
 
     this._handler = () => {
-      if (!this._silent) {
-        const ipAddress = this._server.address();
-        const protocol = (this._useHttps || this._useHttp2) ? 'https' : 'http';
-        const location = typeof ipAddress === 'string' ?
-          `pipe ${ipAddress}` :
-          `${protocol}://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
-        info(`${this._name} listening at ${use('inp', location)} (${getEnv(this._app)} environment)`);
-      }
+      if (!this._silent) info(`${this._name} listening at ${use('inp', this.address)} (${getEnv(this._app)} environment)`);
       if ('callback' in opts) opts.callback(this);
     };
     this.restart();
@@ -240,7 +241,7 @@ class Server {
 
   /**
    * @description Get the server's instance.
-   * @return {(http.Server|https.Server)} Server instance
+   * @return {(http.Server|https.Server|http2.Server)} Server instance
    * @memberof Server
    * @public
    */
@@ -250,7 +251,7 @@ class Server {
 
   /**
    * @description Change the server's instance.
-   * @param {(http.Server|https.Server)} value New server instance
+   * @param {(http.Server|https.Server|http2.Server)} value New server instance
    * @memberof Server
    * @public
    */
@@ -279,6 +280,26 @@ class Server {
   }
 
   /**
+   * @description Get the HTTP protocol.
+   * @returns {string} Protocol
+   */
+  get protocol() {
+    return (this._useHttps || this._useHttp2) ? 'https' : 'http'
+  }
+
+  /**
+   * @description Get the server's address.
+   * @returns {string} Address
+   */
+  get address() {
+    const ipAddress = this._server.address();
+    const location = typeof ipAddress === 'string' ?
+      `pipe ${ipAddress}` :
+      `${this.protocol}://${(ipAddress.address === '::') ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
+    return location;
+  }
+
+  /**
    * @description (Re)start the server.
    * @memberof Server
    * @public
@@ -301,14 +322,14 @@ class Server {
 
     //Handle specific listen errors with friendly messages
     switch (error.code) {
-    case 'EACCES':
-      throw new Error(`${bind} requires elevated privileges`);
-    case 'EADDRINUSE':
-      throw new Error(`${bind} is already in use`);
-    case 'ENOENT':
-      throw new Error(`Nonexistent entry requested at ${bind}`);
-    default:
-      throw error;
+      case 'EACCES':
+        throw new Error(`${bind} requires elevated privileges`);
+      case 'EADDRINUSE':
+        throw new Error(`${bind} is already in use`);
+      case 'ENOENT':
+        throw new Error(`Nonexistent entry requested at ${bind}`);
+      default:
+        throw error;
     }
   };
 

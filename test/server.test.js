@@ -85,6 +85,8 @@ describe('Attributes (HTTP)', (done) => {
         expect(ser.useHttp2).to.equal(false);
         expect(ser.options).to.deep.equal({});
         expect(ser.silent).to.equal(true);
+        expect(ser.protocol).to.equal('http');
+        expect(ser.address).to.equal(`http://localhost:${port}`);
         expect(ser.server instanceof server).to.equal(true);
       });
 
@@ -122,6 +124,8 @@ describe('HTTPS', (done) => {
         expect(ser.useHttps).to.equal(true);
         expect(ser.useHttp2).to.equal(false);
         expect(ser.options).to.deep.equal(securityOptions);
+        expect(ser.protocol).to.equal('https');
+        expect(ser.address).to.equal(`https://localhost:${port}`);
         expect(ser.server instanceof server).to.equal(true);
       });
 
@@ -145,6 +149,8 @@ describe('HTTP/2', (done) => {
         expect(ser.useHttps).to.equal(false);
         expect(ser.useHttp2).to.equal(true);
         expect(ser.options).to.deep.equal(securityOptions);
+        expect(ser.protocol).to.equal('https');
+        expect(ser.address).to.equal(`https://localhost:${port}`);
         expect(ser.server.constructor.name).to.equal('Server'); //Since the class isn't exported by http2
       });
 
