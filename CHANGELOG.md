@@ -1,3 +1,5 @@
+# [2.2.0](https://github.com/Berkmann18/ServerBuilder/compare/v2.1.0...v2.2.0) (2019-01-02)
+
 # [2.1.0](https://github.com/Berkmann18/ServerBuilder/compare/v2.0.0...v2.1.0) (2018-12-14)
 
 
