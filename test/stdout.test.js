@@ -32,7 +32,7 @@ describe('Initial output', () => {
   let server;
 
   it('should print nothing straight away', () => {
-    const output = stdout.inspectSync(() => server = new Server(smallApp, 3001));
+    const output = stdout.inspectSync(() => server = new Server(smallApp, 3001, { silent: true }));
     expect(output).to.deep.equal([]);
   });
 
@@ -43,7 +43,7 @@ describe('Initial output', () => {
         inspect.restore();
         expect(server instanceof Server).to.be.true;
         expect(inspect.output.length).to.equal(2);
-        expect(inspect.output[1]).to.deep.equal(`\u001b[32mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[32m (development environment)\u001b[39m\n`);
+        expect(inspect.output[1]).to.deep.equal(`\u001b[36mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[36m (development environment)\u001b[39m\n`);
       }
     };
     server = new Server(smallApp, 4e3, options);
@@ -57,7 +57,7 @@ describe('Initial output', () => {
         inspect.restore();
         //output[0] is the 'should print something'
         expect(inspect.output.length).to.equal(2);
-        expect(inspect.output[1]).to.deep.equal(`\u001b[32mTest Server listening at \u001b[37mhttp://localhost:${server.port}\u001b[32m (development environment)\u001b[39m\n`);
+        expect(inspect.output[1]).to.deep.equal(`\u001b[36mTest Server listening at \u001b[37mhttp://localhost:${server.port}\u001b[36m (development environment)\u001b[39m\n`);
       },
     }
     server = new Server(makeApp(server), 4001, options);
@@ -69,7 +69,7 @@ describe('Initial output', () => {
       callback(server) {
         inspect.restore();
         expect(inspect.output.length).to.equal(2);
-        expect(inspect.output[1]).to.deep.equal(`\u001b[32mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[32m (development environment)\u001b[39m\n`);
+        expect(inspect.output[1]).to.deep.equal(`\u001b[36mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[36m (development environment)\u001b[39m\n`);
       },
     }
     server = new Server(makeApp(server), 4002, options);

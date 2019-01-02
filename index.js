@@ -36,7 +36,8 @@ const DEFAULT_OPTS = {
   useHttp2: false,
   securityOptions: {},
   callback: () => {},
-  showPublicIP: false
+  showPublicIP: false,
+  silent: false
 }
 
 /**
@@ -59,9 +60,10 @@ class Server {
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false}]
+   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean, silent: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false, silent: false}]
    * Options including the server's name, HTTPS, options needed for the HTTPs server (public keys and certificates), callback called within the <code>listen</code> event and whether it should show its public
-   * IP
+   * IP and whether it needs to be silent (<em>which won't affect the public IP log</em>).
+   *
    *
    * @example
    * const express = require('express');
@@ -78,21 +80,24 @@ class Server {
     this._useHttps = opts.useHttps || DEFAULT_OPTS.useHttps;
     this._app = associatedApp;
     this._options = opts.securityOptions || DEFAULT_OPTS.securityOptions;
+    this._silent = opts.silent || DEFAULT_OPTS.silent;
     this._server = this._usesHttp2 ?
-      require('http2').createSecureServer(this._options, this._app)
-      : (this._useHttps ?
-        require('https').createServer(this._options, this._app)
-        : require('http').createServer(this._app));
+      require('http2').createSecureServer(this._options, this._app) :
+      (this._useHttps ?
+        require('https').createServer(this._options, this._app) :
+        require('http').createServer(this._app));
     this._name = opts.name || DEFAULT_OPTS.name;
     this._server.on('error', Server.onError);
 
     this._handler = () => {
-      const ipAddress = this._server.address();
-      const protocol = (this._useHttps || this._useHttp2) ? 'https' : 'http';
-      const location = typeof ipAddress === 'string' ?
-        `pipe ${ipAddress}` :
-        `${protocol}://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
-      info(`${this._name} listening at ${use('inp', location)} (${getEnv(this._app)} environment)`);
+      if (!this._silent) {
+        const ipAddress = this._server.address();
+        const protocol = (this._useHttps || this._useHttp2) ? 'https' : 'http';
+        const location = typeof ipAddress === 'string' ?
+          `pipe ${ipAddress}` :
+          `${protocol}://${ipAddress.address === '::' ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
+        info(`${this._name} listening at ${use('inp', location)} (${getEnv(this._app)} environment)`);
+      }
       if ('callback' in opts) opts.callback(this);
     };
     this.restart();
@@ -245,12 +250,32 @@ class Server {
 
   /**
    * @description Change the server's instance.
-   * @param {(http.Server|https.Server)} value new server instance
+   * @param {(http.Server|https.Server)} value New server instance
    * @memberof Server
    * @public
    */
   set server(value) {
     this._server = value;
+  }
+
+  /**
+   * @description Get the silent flag.
+   * @return {boolean} Server's silence
+   * @memberof Server
+   * @public
+   */
+  get silent() {
+    return this._silent;
+  }
+
+  /**
+   * @description Change the server' silence.
+   * @param {boolean} value New silence mode
+   * @memberof Server
+   * @public
+   */
+  set silent(value) {
+    this._silent = value;
   }
 
   /**
@@ -297,17 +322,16 @@ class Server {
     let closing = new Promise((resolve, reject) => {
       this._server.close((err) => {
         if (err) reject(err);
-        info(`Closing the server ${use('out', this.name)}...`);
+        if (!this._silent) info(`Closing the server ${use('out', this.name)}...`);
         resolve(this);
       });
     });
-    return closing.then(server => {
-      info(`${use('out', this.name)} is now closed.`);
-      process.exit();
-    }).catch(err => {
-      error(`Server closure of ${use('out', this.name)} led to:`, err);
-      process.exit();
-    })
+    return closing
+      .then(server => {
+        if (!this._silent) info(`${use('out', this.name)} is now closed.`);
+      })
+      .catch(err => error(`Server closure of ${use('out', this.name)} led to:`, err))
+      .then(res => process.exit())
   }
 
   /**

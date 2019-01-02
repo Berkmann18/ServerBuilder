@@ -21,7 +21,7 @@ describe('Server response', () => {
       res.writeHead(400, { 'Content-Type': 'text/plain' });
       res.end('wrong header');
     }
-  });
+  }, 3000, { silent: true });
   const URL = 'http://localhost:3000';
 
   it('should return 400', (done) => {
@@ -75,7 +75,7 @@ const smallApp = (req, res) => {};
 describe('Attributes (HTTP)', (done) => {
   getPort()
     .then(port => {
-      let ser = new Server(smallApp, port),
+      let ser = new Server(smallApp, port, { silent: true }),
         server = require('http').Server;
       it('should have getters', () => {
         expect(ser.app).to.equal(smallApp);
@@ -84,6 +84,7 @@ describe('Attributes (HTTP)', (done) => {
         expect(ser.useHttps).to.equal(false);
         expect(ser.useHttp2).to.equal(false);
         expect(ser.options).to.deep.equal({});
+        expect(ser.silent).to.equal(true);
         expect(ser.server instanceof server).to.equal(true);
       });
 
@@ -112,7 +113,7 @@ const securityOptions = {
 describe('HTTPS', (done) => {
   getPort()
     .then(port => {
-      let ser = new Server(smallApp, port, { useHttps: true, securityOptions }),
+      let ser = new Server(smallApp, port, { useHttps: true, securityOptions, silent: true }),
         server = require('https').Server;
       it('should have getters', () => {
         expect(ser.app).to.equal(smallApp);
@@ -133,11 +134,10 @@ describe('HTTPS', (done) => {
     then(done)
 });
 
-
 describe('HTTP/2', (done) => {
   getPort()
     .then(port => {
-      let ser = new Server(smallApp, port, { useHttp2: true, securityOptions });
+      let ser = new Server(smallApp, port, { useHttp2: true, securityOptions, silent: true });
       it('should have getters', () => {
         expect(ser.app).to.equal(smallApp);
         expect(ser.port).to.equal(port);
