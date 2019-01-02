@@ -1,6 +1,7 @@
 const stdout = require('test-console').stdout,
   expect = require('chai').expect;
-const Server = require('../index');
+const Server = require('../index'),
+  { use } = require('../src/utils');
 
 /**
  * Creates an application for a given server.
@@ -78,3 +79,11 @@ describe('Initial output', () => {
       .catch(err => console.log('Closing error:', err));
   });
 });
+
+describe('Setting', () => {
+  it('should reveal its public ip', () => {
+    let port = 4567;
+    const output = stdout.inspectSync(() => server = new Server(smallApp, prompt, { silent: true, showPublicIP: true }));
+    expect(output).to.deep.equal([`Public IP: http://localhost:${port}`]);
+  });
+})

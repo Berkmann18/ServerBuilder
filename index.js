@@ -28,7 +28,7 @@ const normalizePort = (val) => {
 
 /**
  * @description Default options for {@link Server.constructor}.
- * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean}}
+ * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean, gracefulClose: boolean}}
  */
 const DEFAULT_OPTS = {
   name: 'Server',
@@ -37,7 +37,8 @@ const DEFAULT_OPTS = {
   securityOptions: {},
   callback: () => {},
   showPublicIP: false,
-  silent: false
+  silent: false,
+  gracefulClose: true
 };
 
 /**
@@ -57,7 +58,7 @@ const getEnv = (app) => {
  * @returns {(http.Server|https.Server|http2.Server)} HTTP* server
  */
 const createServer = (instance) => {
-  if (instance._usesHttp2) return require('http2').createSecureServer(instance._options, instance._app);
+  if (instance._useHttp2) return require('http2').createSecureServer(instance._options, instance._app);
   return instance._useHttps ?
     require('https').createServer(instance._options, instance._app) :
     require('http').createServer(instance._app);
@@ -72,7 +73,7 @@ class Server {
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean, silent: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false, silent: false}]
+   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean, silent: boolean, gracefulClose: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false, silent: false, gracefulClose: true}]
    * Options including the server's name, HTTPS, options needed for the HTTPs server (public keys and certificates), callback called within the <code>listen</code> event and whether it should show its public
    * IP and whether it needs to be silent (<em>which won't affect the public IP log</em>).
    *
@@ -110,8 +111,7 @@ class Server {
       });
     }
 
-    process.on('SIGTERM', () => this.close());
-    process.on('SIGINT', () => this.close());
+    opts.gracefulClose && process.on('SIGTERM', () => this.close()) && process.on('SIGINT', () => this.close());
   }
 
   /**
@@ -236,7 +236,7 @@ class Server {
    * @public
    */
   set options(value) {
-    this._serverOptions = value;
+    this._options = value;
   }
 
   /**

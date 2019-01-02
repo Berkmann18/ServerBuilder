@@ -151,7 +151,7 @@ describe('HTTP/2', (done) => {
         expect(ser.options).to.deep.equal(securityOptions);
         expect(ser.protocol).to.equal('https');
         expect(ser.address).to.equal(`https://localhost:${port}`);
-        expect(ser.server.constructor.name).to.equal('Server'); //Since the class isn't exported by http2
+        expect(ser.server.constructor.name).to.equal('Http2SecureServer'); //Since the class isn't exported by http2
       });
 
       it('should have methods', () => {
@@ -161,4 +161,37 @@ describe('HTTP/2', (done) => {
     err => console.error('getPort error:', err))
     .catch(err => console.error('HTTP/2 test error:', err)).
     then(done)
+});
+
+describe('Wrongs', () => {
+  it('should have fail on port setting', () => {
+    expect(() => new Server(smallApp, 'port', { silent: true, gracefulClose: false })).to.throw('Port should be >= 0 and < 65536. Received NaN');
+  });
+
+  it('should set bad things', () => {
+    let ser = new Server(smallApp, 5e3, { silent: true });
+    let newApp = (req, res) => console.log('res=', res);;
+    ser.app = newApp;
+    expect(ser.app).to.equal(newApp);
+    ser.port = 4890;
+    expect(ser.port).to.equal(4890);
+    ser.name = 'Lorem';
+    expect(ser.name).to.equal('Lorem');
+    ser.useHttps = true;
+    expect(ser.useHttps).to.equal(true);
+    ser.options = securityOptions;
+    expect(ser.options).to.deep.equal(securityOptions);
+    ser.silent = false;
+    expect(ser.silent).to.equal(false);
+    ser.useHttp2 = true;
+    expect(ser.useHttp2).to.equal(true);
+  });
+
+  it('should alert', () => {
+    let port = 5000;
+    // s0 = new Server(smallApp, port, { silent: true });
+
+    expect(() => new Server(smallApp, port, { silent: true, gracefulClose: false })).to.throw(`${port} is already in use`);
+
+  });
 });
