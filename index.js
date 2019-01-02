@@ -322,14 +322,14 @@ class Server {
 
     //Handle specific listen errors with friendly messages
     switch (error.code) {
-      case 'EACCES':
-        throw new Error(`${bind} requires elevated privileges`);
-      case 'EADDRINUSE':
-        throw new Error(`${bind} is already in use`);
-      case 'ENOENT':
-        throw new Error(`Nonexistent entry requested at ${bind}`);
-      default:
-        throw error;
+    case 'EACCES':
+      throw new Error(`${bind} requires elevated privileges`);
+    case 'EADDRINUSE':
+      throw new Error(`${bind} is already in use`);
+    case 'ENOENT':
+      throw new Error(`Nonexistent entry requested at ${bind}`);
+    default:
+      throw error;
     }
   };
 

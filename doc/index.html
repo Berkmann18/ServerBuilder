@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>serverbuilder 2.0.1 | Documentation</title>
+  <title>serverbuilder 2.2.0 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -15,7 +15,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>serverbuilder</h3>
-          <div class='mb1'><code>2.0.1</code></div>
+          <div class='mb1'><code>2.2.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -1009,7 +1009,7 @@ which won't affect the public IP log
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>(http.Server | https.Server)</code>:
+      <code>(http.Server | https.Server | http2.Server)</code>:
         Server instance
 
       
@@ -1064,7 +1064,7 @@ which won't affect the public IP log
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>value</span> <code class='quiet'>((http.Server | https.Server))</code>
+            <span class='code bold'>value</span> <code class='quiet'>((http.Server | https.Server | http2.Server))</code>
 	    New server instance
 
           </div>
