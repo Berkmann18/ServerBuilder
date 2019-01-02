@@ -90,7 +90,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
+    "{src,test}/*.js": [
       "eslint -c ./config/.eslintrc.js --fix",
       "mocha --exit",
       "git add"
