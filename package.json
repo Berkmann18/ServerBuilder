@@ -55,6 +55,7 @@
     "@semantic-release/git": "^7.0.5",
     "all-contributors-cli": "^5.4.1",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "complexity-report": "^1.4.1",
     "conventional-changelog-eslint": "^3.0.1",
     "cz-adapter-eslint": "^0.1.2",
@@ -73,7 +74,8 @@
     "request": "^2.88.0",
     "semantic-release": "^15.10.6",
     "snyk": "^1.118.2",
-    "test-console": "^1.1.0"
+    "test-console": "^1.1.0",
+    "unexpected": "^10.40.2"
   },
   "engines": {
     "node": ">= 7.0.0",

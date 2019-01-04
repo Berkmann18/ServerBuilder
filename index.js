@@ -20,7 +20,7 @@ const { use } = require('./src/utils');
  * @protected
  */
 const normalizePort = (val) => {
-  let port = parseInt(val, 10);
+  let port = parseInt(val, 10); /* @todo test if val | 0 is better*/
   if (isNaN(port)) return port; //Named pipe
   if (port >= 0) return port; //Port number
   return false;
@@ -86,9 +86,11 @@ class Server {
    * }
    * let server = new Server(express(), 3002, opts);
    * @memberof Server
+   * @throws {Error} Invalid port
    */
   constructor(associatedApp, port = (process.env.PORT || 3e3), opts = DEFAULT_OPTS) {
     this._port = normalizePort(port);
+    if (this._port === NaN || !this._port) throw new Error(`Port should be >= 0 and < 65536. Received ${this._port}`);
     this._useHttp2 = opts.useHttp2 || DEFAULT_OPTS.useHttp2;
     this._useHttps = opts.useHttps || DEFAULT_OPTS.useHttps;
     this._app = associatedApp;
@@ -96,10 +98,16 @@ class Server {
     this._silent = opts.silent || DEFAULT_OPTS.silent;
     this._server = createServer(this);
     this._name = opts.name || DEFAULT_OPTS.name;
-    this._server.on('error', Server.onError);
+    this._server.on('error', this.onError(this));
 
     this._handler = () => {
-      if (!this._silent) info(`${this._name} listening at ${use('inp', this.address)} (${getEnv(this._app)} environment)`);
+      if (!this._silent) {
+        try {
+          info(`${this._name} listening at ${use('inp', this.address)} (${getEnv(this._app)} environment)`);
+        } catch (err) {
+          throw new Error(err.message);
+        }
+      }
       if ('callback' in opts) opts.callback(this);
     };
     this.restart();
@@ -250,7 +258,8 @@ class Server {
   }
 
   /**
-   * @description Change the server's instance.
+   * @description Change the server's instance.<br>
+   * <em>However it's recommended to restart the server otherwise the event handlers won't work properly.
    * @param {(http.Server|https.Server|http2.Server)} value New server instance
    * @memberof Server
    * @public
@@ -296,7 +305,7 @@ class Server {
     const location = typeof ipAddress === 'string' ?
       `pipe ${ipAddress}` :
       `${this.protocol}://${(ipAddress.address === '::') ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
-    return location;
+    return location
   }
 
   /**
@@ -314,22 +323,26 @@ class Server {
    * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
    * @memberof Server
    * @public
+   * @throws {Error} EACCES/EADDRINUSE/ENOENT/...
    */
-  static onError(error) {
-    if (error.syscall !== 'listen') throw error;
-    const port = this._port;
-    const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`;
+  onError(instance) {
+    return (error) => {
+      /* @this instance */
+      if (error.syscall !== 'listen') throw error;
+      const port = instance.port;
+      const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`;
 
-    //Handle specific listen errors with friendly messages
-    switch (error.code) {
-    case 'EACCES':
-      throw new Error(`${bind} requires elevated privileges`);
-    case 'EADDRINUSE':
-      throw new Error(`${bind} is already in use`);
-    case 'ENOENT':
-      throw new Error(`Nonexistent entry requested at ${bind}`);
-    default:
-      throw error;
+      //Handle specific listen errors with friendly messages
+      switch (error.code) {
+        case 'EACCES':
+          throw new Error(`${bind} requires elevated privileges`);
+        case 'EADDRINUSE':
+          throw new Error(`${bind} is already in use`);
+        case 'ENOENT':
+          throw new Error(`Nonexistent entry requested at ${bind}`);
+        default:
+          throw error;
+      }
     }
   };
 
