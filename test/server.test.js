@@ -1,10 +1,12 @@
 const Server = require('../index');
+/* eslint-disable node/no-unpublished-require */
 const chai = require('chai'),
   chaiAsPromised = require('chai-as-promised'),
   request = require('request'),
   fs = require('fs'),
   getPort = require('get-port'),
   unexpect = require('unexpected');
+/* eslint-enable node/no-unpublished-require */
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -26,8 +28,15 @@ describe('Server response', () => {
       res.writeHead(400, { 'Content-Type': 'text/plain' });
       res.end('wrong header');
     }
-  }, 3000, { silent: true });
+  }, 3000, { silent: true, callback(srv) { console.log(`${srv.name} started`) } });
   const URL = 'http://localhost:3000';
+
+  it('should run fine', (done) => {
+    server.run()
+      .then(serv => unexpect(serv, 'to satisfy', server.server)) //expect(serv).to.deep.equal(server.server))
+      .catch(err => console.error('run test error:', err))
+      .then(done)
+  });
 
   it('should return 400', (done) => {
     request.get(URL, (err, res, body) => {
@@ -82,29 +91,41 @@ describe('Attributes (HTTP)', (done) => {
     .then(port => {
       let ser = new Server(smallApp, port, { silent: true }),
         server = require('http').Server;
-      it('should have getters', () => {
-        expect(ser.app, 'app').to.equal(smallApp);
-        expect(ser.port, 'port').to.equal(port);
-        expect(ser.name, 'name').to.equal('Server');
-        expect(ser.useHttps, 'no HTTPS').to.equal(false);
-        expect(ser.useHttp2, 'no HTTP/2').to.equal(false);
-        expect(ser.options, 'no security options').to.deep.equal({});
-        expect(ser.silent, 'silence').to.equal(true);
-        expect(ser.protocol, 'protocol').to.equal('http');
-        expect(ser.address, 'address').to.equal(`http://localhost:${port}`);
-        expect(ser.server instanceof server, 'correct HTTP server').to.equal(true);
+      it('should have getters', (done) => {
+        ser.run()
+          .then(srv => {
+            expect(ser.app, 'app').to.equal(smallApp);
+            expect(ser.port, 'port').to.equal(port);
+            expect(ser.name, 'name').to.equal('Server');
+            expect(ser.useHttps, 'no HTTPS').to.equal(false);
+            expect(ser.useHttp2, 'no HTTP/2').to.equal(false);
+            expect(ser.options, 'no security options').to.deep.equal({});
+            expect(ser.silent, 'silence').to.equal(true);
+            expect(ser.protocol, 'protocol').to.equal('http');
+            expect(ser.address, 'address').to.equal(`http://localhost:${port}`);
+            expect(ser.server instanceof server, 'correct HTTP server').to.equal(true);
+            done();
+          })
+          .catch(console.error);
       });
 
       it('should have methods', () => {
         expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=false, useHttp2=false, options={})`);
       });
 
-      it('should not over-start', () => {
-        try {
-          expect(() => ser.restart(), 'restart').to.throw('Listen method has been called more than once without closing.')
-        } catch (err) {
-          console.log('test error:', err);
-        }
+      it('should not over-start', (done) => {
+        let fx = async() => {
+          try {
+            let serv = await ser.run();
+            return serv;
+          } catch (err) {
+            expect(err.message).to.equal('Listen method has been called more than once without closing.');
+            return err;
+          } finally {
+            done();
+          }
+        };
+        fx();
       });
     },
     err => console.error('getPort error:', err))
@@ -112,7 +133,7 @@ describe('Attributes (HTTP)', (done) => {
     .then(done)
 });
 
-const securityOptions = {
+/* const securityOptions = {
   key: fs.readFileSync('./example/secure/server-key.pem'),
   cert: fs.readFileSync('./example/secure/server-cert.pem')
 };
@@ -120,52 +141,52 @@ const securityOptions = {
 describe('HTTPS', (done) => {
   getPort()
     .then(port => {
-      let ser = new Server(smallApp, port, { useHttps: true, securityOptions, silent: true }),
-        server = require('https').Server;
-      it('should have getters', () => {
-        expect(ser.app, 'app').to.equal(smallApp);
-        expect(ser.port, 'port').to.equal(port);
-        expect(ser.name, 'name').to.equal('Server');
-        expect(ser.useHttps, 'HTTPS').to.equal(true);
-        expect(ser.useHttp2, 'no HTTP/2').to.equal(false);
-        expect(ser.options, 'security options').to.deep.equal(securityOptions);
-        expect(ser.protocol, 'protocol').to.equal('https');
-        expect(ser.address, 'address').to.equal(`https://localhost:${port}`);
-        expect(ser.server instanceof server, 'correct HTTPS server').to.equal(true);
-      });
+        let ser = new Server(smallApp, port, { useHttps: true, securityOptions, silent: true }),
+          server = require('https').Server;
+        it('should have getters', () => {
+          expect(ser.app, 'app').to.equal(smallApp);
+          expect(ser.port, 'port').to.equal(port);
+          expect(ser.name, 'name').to.equal('Server');
+          expect(ser.useHttps, 'HTTPS').to.equal(true);
+          expect(ser.useHttp2, 'no HTTP/2').to.equal(false);
+          expect(ser.options, 'security options').to.deep.equal(securityOptions);
+          expect(ser.protocol, 'protocol').to.equal('https');
+          expect(ser.address, 'address').to.equal(`https://localhost:${port}`);
+          expect(ser.server instanceof server, 'correct HTTPS server').to.equal(true);
+        });
 
-      it('should have methods', () => {
-        expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=true, useHttp2=false, options=${JSON.stringify(securityOptions)})`);
-      });
-    },
-    err => console.error('getPort error:', err))
+        it('should have methods', () => {
+          expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=true, useHttp2=false, options=${JSON.stringify(securityOptions)})`);
+        });
+      },
+      err => console.error('getPort error:', err))
     .catch(err => console.error('HTTPS test error:', err)).
-    then(done)
+  then(done)
 });
 
 describe('HTTP/2', (done) => {
   getPort()
     .then(port => {
-      let ser = new Server(smallApp, port, { useHttp2: true, securityOptions, silent: true });
-      it('should have getters', () => {
-        expect(ser.app, 'app').to.equal(smallApp);
-        expect(ser.port, 'port').to.equal(port);
-        expect(ser.name, 'name').to.equal('Server');
-        expect(ser.useHttps, 'no HTTPS').to.equal(false);
-        expect(ser.useHttp2, 'HTTP/2').to.equal(true);
-        expect(ser.options, 'security options').to.deep.equal(securityOptions);
-        expect(ser.protocol, 'protocol').to.equal('https');
-        expect(ser.address, 'address').to.equal(`https://localhost:${port}`);
-        expect(ser.server.constructor.name, 'correct HTTP/2 server').to.equal('Http2SecureServer'); //Since the class isn't exported by http2
-      });
+        let ser = new Server(smallApp, port, { useHttp2: true, securityOptions, silent: true });
+        it('should have getters', () => {
+          expect(ser.app, 'app').to.equal(smallApp);
+          expect(ser.port, 'port').to.equal(port);
+          expect(ser.name, 'name').to.equal('Server');
+          expect(ser.useHttps, 'no HTTPS').to.equal(false);
+          expect(ser.useHttp2, 'HTTP/2').to.equal(true);
+          expect(ser.options, 'security options').to.deep.equal(securityOptions);
+          expect(ser.protocol, 'protocol').to.equal('https');
+          expect(ser.address, 'address').to.equal(`https://localhost:${port}`);
+          expect(ser.server.constructor.name, 'correct HTTP/2 server').to.equal('Http2SecureServer'); //Since the class isn't exported by http2
+        });
 
-      it('should have methods', () => {
-        expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=false, useHttp2=true, options=${JSON.stringify(securityOptions)})`);
-      });
-    },
-    err => console.error('getPort error:', err))
+        it('should have methods', () => {
+          expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=false, useHttp2=true, options=${JSON.stringify(securityOptions)})`);
+        });
+      },
+      err => console.error('getPort error:', err))
     .catch(err => console.error('HTTP/2 test error:', err)).
-    then(done)
+  then(done)
 });
 
 describe('Wrongs', () => {
@@ -197,7 +218,7 @@ describe('Wrongs', () => {
     expect(ser.useHttp2, 'HTTP/2 enabled').to.equal(true);
     let serv = require('http').createServer(smallApp);
     ser.server = serv;
-    ser.restart();
+    ser.run();
     expect(ser.server, 'new server').to.deep.equal(serv);
   });
 
@@ -217,4 +238,4 @@ describe('Wrongs', () => {
   //   let fx = () => { new Server(smallApp, 100, {}) };
   //   return fx().should.eventually.throw('Port 100 requires elevated privileges');
   // });
-});
+}); */
