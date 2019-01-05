@@ -133,7 +133,7 @@ describe('Attributes (HTTP)', (done) => {
     .then(done)
 });
 
-const securityOptions = {
+/* const securityOptions = {
   key: fs.readFileSync('./example/secure/server-key.pem'),
   cert: fs.readFileSync('./example/secure/server-cert.pem')
 };
@@ -182,13 +182,13 @@ describe('HTTP/2', (done) => {
         expect(ser.server.constructor.name, 'correct HTTP/2 server').to.equal('Http2SecureServer'); //Since the class isn't exported by http2
       });
 
-      it('should have methods', () => {
-        expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=false, useHttp2=true, options=${JSON.stringify(securityOptions)})`);
-      });
-    },
-    err => console.error('getPort error:', err))
+        it('should have methods', () => {
+          expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=false, useHttp2=true, options=${JSON.stringify(securityOptions)})`);
+        });
+      },
+      err => console.error('getPort error:', err))
     .catch(err => console.error('HTTP/2 test error:', err)).
-    then(done)
+  then(done)
 });
 
 describe('Wrongs', () => {
