@@ -117,7 +117,7 @@ class Server {
     opts.gracefulClose && process.on('SIGTERM', () => this.close()) && process.on('SIGINT', () => this.close());
 
     //https://stackoverflow.com/questions/4328540/how-to-catch-http-client-request-exceptions-in-node-js
-    process.on('uncaughtException', (err) => console.log('Uncaught error:', err));
+    // process.on('uncaughtException', (err) => console.log('Uncaught error:', err));
 
     if (opts.autoRun) return this.run();
   }
