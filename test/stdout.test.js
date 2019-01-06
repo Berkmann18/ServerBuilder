@@ -92,16 +92,6 @@ describe('Initial output', () => {
 });
 
 describe('Setting', function() {
-  let publicIp = 0;
-  it('should get its public IP', (done) => {
-    getPublicIP()
-      .then(ip => {
-        publicIp = ip;
-        done()
-      })
-      .catch(err => console.log('getPubIp test error:', err))
-  });
-
   it('should show its public IP', (done) => {
     let port = 4568;
     let options = {
@@ -113,9 +103,10 @@ describe('Setting', function() {
     const inspect = stdout.inspect();
     (async() => {
       try {
+        let ip = await getPublicIP();
         let serv = await server.run();
         inspect.restore();
-        expect(inspect.output[inspect.output.length - 1]).to.equal(`\u001b[36mPublic IP: \u001b[35m${publicIp}\u001b[36m\u001b[39m\n`);
+        expect(inspect.output[inspect.output.length - 1]).to.equal(`\u001b[36mPublic IP: \u001b[35m${ip}\u001b[36m\u001b[39m\n`);
         done();
       } catch (err) {
         console.error('Setting error=', err)
