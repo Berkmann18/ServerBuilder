@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "debug": "DEBUG=true node index.js",
+    "build": "babel index.js -d build",
     "t": "mocha test --exit",
     "coverage": "nyc mocha --exit",
     "test": "snyk test && npm run coverage",
@@ -52,9 +53,13 @@
     "nclr": "^2.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
     "@semantic-release/changelog": "^3.0.1",
     "@semantic-release/git": "^7.0.5",
     "all-contributors-cli": "^5.4.1",
+    "babel-core": "^7.0.0-bridge.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "complexity-report": "^1.4.1",
