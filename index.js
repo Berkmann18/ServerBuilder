@@ -116,6 +116,9 @@ class Server {
 
     opts.gracefulClose && process.on('SIGTERM', () => this.close()) && process.on('SIGINT', () => this.close());
 
+    //https://stackoverflow.com/questions/4328540/how-to-catch-http-client-request-exceptions-in-node-js
+    process.on('uncaughtException', (err) => console.log('Uncaught error:', err));
+
     if (opts.autoRun) return this.run();
   }
 
@@ -315,16 +318,11 @@ class Server {
     try {
       let server = await this._server.listen(this._port, this._handler);
       if (this._showPublicIP) {
-        // eip()((err, ip) => {
-        //   if (err) error('Public IP error:', err);
-        //   info(`Public IP: ${use('spec', ip)}`);
-        // });
         let ip = await getPublicIP();
         info(`Public IP: ${use('spec', ip)}`);
       }
       return server;
     } catch (err) {
-      // console.log('run error:', err);
       throw err;
     }
   }
@@ -346,14 +344,14 @@ class Server {
 
       //Handle specific listen errors with friendly messages
       switch (error.code) {
-      case 'EACCES':
-        throw new Error(`${bind} requires elevated privileges`);
-      case 'EADDRINUSE':
-        throw new Error(`${bind} is already in use`);
-      case 'ENOENT':
-        throw new Error(`Nonexistent entry requested at ${bind}`);
-      default:
-        throw error;
+        case 'EACCES':
+          throw new Error(`${bind} requires elevated privileges`);
+        case 'EADDRINUSE':
+          throw new Error(`${bind} is already in use`);
+        case 'ENOENT':
+          throw new Error(`Nonexistent entry requested at ${bind}`);
+        default:
+          throw error;
       }
     }
   };
@@ -381,7 +379,6 @@ class Server {
       error(`Server closure of ${use('out', this.name)} led to:`, err);
       return err;
     }
-    // .then(res => process.exit())
   }
 
   /**
