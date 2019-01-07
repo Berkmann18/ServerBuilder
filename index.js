@@ -11,7 +11,8 @@
  */
 
 const { info, error } = require('nclr');
-const { use, getPublicIP } = require('./src/utils');
+const { use, getPublicIP, getNodeVersion } = require('./src/utils');
+const http2 = require((getNodeVersion().major < 8) ? 'node-http2' : 'http2');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -59,7 +60,7 @@ const getEnv = (app) => {
  * @returns {(http.Server|https.Server|http2.Server)} HTTP* server
  */
 const createServer = (instance) => {
-  if (instance._useHttp2) return require('http2').createSecureServer(instance._options, instance._app);
+  if (instance._useHttp2) return http2.createSecureServer(instance._options, instance._app);
   return instance._useHttps ?
     require('https').createServer(instance._options, instance._app) :
     require('http').createServer(instance._app);
@@ -344,14 +345,14 @@ class Server {
 
       //Handle specific listen errors with friendly messages
       switch (error.code) {
-      case 'EACCES':
-        throw new Error(`${bind} requires elevated privileges`);
-      case 'EADDRINUSE':
-        throw new Error(`${bind} is already in use`);
-      case 'ENOENT':
-        throw new Error(`Nonexistent entry requested at ${bind}`);
-      default:
-        throw error;
+        case 'EACCES':
+          throw new Error(`${bind} requires elevated privileges`);
+        case 'EADDRINUSE':
+          throw new Error(`${bind} is already in use`);
+        case 'ENOENT':
+          throw new Error(`Nonexistent entry requested at ${bind}`);
+        default:
+          throw error;
       }
     }
   };
