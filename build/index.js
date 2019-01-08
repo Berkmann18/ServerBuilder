@@ -1,5 +1,9 @@
 "use strict";
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 /* eslint-env node */
 
 /**
@@ -12,16 +16,14 @@
  * @requires ./utils
  * @exports Server
  */
-const {
-  info,
-  error
-} = require('nclr');
+const _require = require('nclr'),
+      info = _require.info,
+      error = _require.error;
 
-const {
-  use,
-  getPublicIP,
-  getNodeVersion
-} = require('./src/utils');
+const _require2 = require('./src/utils'),
+      use = _require2.use,
+      getPublicIP = _require2.getPublicIP,
+      getNodeVersion = _require2.getNodeVersion;
 
 const http2 = require(getNodeVersion().major < 8 ? 'node-http2' : 'http2');
 /**
@@ -350,19 +352,23 @@ class Server {
    */
 
 
-  async run() {
-    try {
-      let server = await this._server.listen(this._port, this._handler);
+  run() {
+    var _this = this;
 
-      if (this._showPublicIP) {
-        let ip = await getPublicIP();
-        info(`Public IP: ${use('spec', ip)}`);
+    return _asyncToGenerator(function* () {
+      try {
+        let server = yield _this._server.listen(_this._port, _this._handler);
+
+        if (_this._showPublicIP) {
+          let ip = yield getPublicIP();
+          info(`Public IP: ${use('spec', ip)}`);
+        }
+
+        return server;
+      } catch (err) {
+        throw err;
       }
-
-      return server;
-    } catch (err) {
-      throw err;
-    }
+    })();
   }
   /**
    * @description Event listener for HTTP server "error" event.
@@ -404,23 +410,27 @@ class Server {
    * @public
    * @async
    */
-  async close() {
-    let closing = new Promise((resolve, reject) => {
-      this._server.close(err => {
-        if (err) reject(err);
-        if (!this._silent) info(`Closing the server ${use('out', this.name)}...`);
-        resolve(true);
-      });
-    });
+  close() {
+    var _this2 = this;
 
-    try {
-      let closed = await closing;
-      if (!this._silent) info(`${use('out', this.name)} is now closed.`);
-      return closed;
-    } catch (err) {
-      error(`Server closure of ${use('out', this.name)} led to:`, err);
-      return err;
-    }
+    return _asyncToGenerator(function* () {
+      let closing = new Promise((resolve, reject) => {
+        _this2._server.close(err => {
+          if (err) reject(err);
+          if (!_this2._silent) info(`Closing the server ${use('out', _this2.name)}...`);
+          resolve(true);
+        });
+      });
+
+      try {
+        let closed = yield closing;
+        if (!_this2._silent) info(`${use('out', _this2.name)} is now closed.`);
+        return closed;
+      } catch (err) {
+        error(`Server closure of ${use('out', _this2.name)} led to:`, err);
+        return err;
+      }
+    })();
   }
   /**
    * @description Textual representation of a Server object.

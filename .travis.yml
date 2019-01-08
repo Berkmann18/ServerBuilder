@@ -13,6 +13,7 @@ install:
   - npm i
   - npm i -g mocha codecov eslint
 script:
+  - if [[ $(node -v) == 'v6.16.0' ]]; then npm run build:all; fi;
   - npm run lint
   - snyk auth $SNYK_TOKEN
   - if [[ $(node -v) == 'v6.16.0' ]]; then npm run test:dist; else npm run test; fi;

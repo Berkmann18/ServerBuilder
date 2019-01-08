@@ -1,5 +1,9 @@
 "use strict";
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 const Server = require('../index');
 /* eslint-disable node/no-unpublished-require */
 
@@ -115,17 +119,25 @@ describe('Attributes (HTTP)', done => {
       expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=false, useHttp2=false, options={})`);
     });
     it('should not over-start', done => {
-      let fx = async () => {
-        try {
-          let serv = await ser.run();
-          return serv;
-        } catch (err) {
-          expect(err.message).to.equal('Listen method has been called more than once without closing.');
-          return err;
-        } finally {
-          done();
-        }
-      };
+      let fx =
+      /*#__PURE__*/
+      function () {
+        var _ref = _asyncToGenerator(function* () {
+          try {
+            let serv = yield ser.run();
+            return serv;
+          } catch (err) {
+            expect(err.message).to.equal('Listen method has been called more than once without closing.');
+            return err;
+          } finally {
+            done();
+          }
+        });
+
+        return function fx() {
+          return _ref.apply(this, arguments);
+        };
+      }();
 
       fx();
     });
@@ -144,7 +156,9 @@ describe('HTTPS', done => {
     }),
         server = require('https').Server;
 
-    it('should have getters', async () => {
+    it('should have getters',
+    /*#__PURE__*/
+    _asyncToGenerator(function* () {
       expect(ser.app, 'app').to.equal(smallApp);
       expect(ser.port, 'port').to.equal(port);
       expect(ser.name, 'name').to.equal('Server');
@@ -152,10 +166,10 @@ describe('HTTPS', done => {
       expect(ser.useHttp2, 'no HTTP/2').to.equal(false);
       expect(ser.options, 'security options').to.deep.equal(securityOptions);
       expect(ser.protocol, 'protocol').to.equal('https');
-      let serv = await ser.run();
+      let serv = yield ser.run();
       expect(ser.address, 'address').to.equal(`https://localhost:${port}`);
       expect(ser.server instanceof server, 'correct HTTPS server').to.equal(true);
-    });
+    }));
     it('should have methods', () => {
       expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=true, useHttp2=false, options=${JSON.stringify(securityOptions)})`);
     });
@@ -169,7 +183,9 @@ describe('HTTP/2', done => {
       silent: true,
       gracefulClose: false
     });
-    it('should have getters', async () => {
+    it('should have getters',
+    /*#__PURE__*/
+    _asyncToGenerator(function* () {
       expect(ser.app, 'app').to.equal(smallApp);
       expect(ser.port, 'port').to.equal(port);
       expect(ser.name, 'name').to.equal('Server');
@@ -177,10 +193,10 @@ describe('HTTP/2', done => {
       expect(ser.useHttp2, 'HTTP/2').to.equal(true);
       expect(ser.options, 'security options').to.deep.equal(securityOptions);
       expect(ser.protocol, 'protocol').to.equal('https');
-      let serv = await ser.run();
+      let serv = yield ser.run();
       expect(ser.address, 'address').to.equal(`https://localhost:${port}`);
       expect(ser.server.constructor.name, 'correct HTTP/2 server').to.equal('Http2SecureServer'); //Since the class isn't exported by http2
-    });
+    }));
     it('should have methods', () => {
       expect(ser.toString(), 'toString').to.equal(`Server(name='Server', port=${port}, app=${smallApp}, useHttps=false, useHttp2=true, options=${JSON.stringify(securityOptions)})`);
     });
@@ -228,7 +244,9 @@ describe('Wrongs', () => {
     ser.run();
     expect(ser.server, 'new server').to.deep.equal(serv);
   });
-  it('should throw EADDRINUSE', async () => {
+  it('should throw EADDRINUSE',
+  /*#__PURE__*/
+  _asyncToGenerator(function* () {
     let port = 5e3,
         ser = new Server(smallApp, port, {
       name: 'Copycat',
@@ -236,11 +254,11 @@ describe('Wrongs', () => {
     });
 
     try {
-      let serv = await ser.run();
+      let serv = yield ser.run();
     } catch (err) {
       expect(err.message, 'EADDRINUSE').to.equal(`Port ${port} is already in use`);
     }
-  });
+  }));
   /* it('should throw EACCES', async() => {
     let port = 500;
     try {
