@@ -109,5 +109,14 @@ eslint -c ./config/.eslintrc.js yourFile.js
 ```
 To fix formatting errors and such, run:
 Same as above but with `--fix` at the end.
+Fore more details, please check [the contribution guideline](./github/CONTRIBUTING.md).
+
+## Contributors
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars0.githubusercontent.com/u/8260834?v=4" width="100px;"/><br /><sub><b>Maximilian Berkmann</b></sub>](http://maxcubing.wordpress.com)<br />[🐛](https://github.com/Berkmann18/ServerBuilder/issues?q=author%3ABerkmann18 "Bug reports") [💻](https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18 "Code") [📖](https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18 "Documentation") [🤔](#ideas-Berkmann18 "Ideas, Planning, & Feedback") [💬](#question-Berkmann18 "Answering Questions") [👀](#review-Berkmann18 "Reviewed Pull Requests") [🛡️](#security-Berkmann18 "Security") [⚠️](https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18 "Tests") | [<img src="https://avatars2.githubusercontent.com/u/36207117?v=4" width="100px;"/><br /><sub><b>Dependabot</b></sub>](https://dependabot.com)<br />[🔧](#tool-dependabot-bot "Tools") | [<img src="https://avatars1.githubusercontent.com/u/32174276?v=4" width="100px;"/><br /><sub><b>Semantic Release Bot</b></sub>](http://semantic-release.org/)<br />[📖](https://github.com/Berkmann18/ServerBuilder/commits?author=semantic-release-bot "Documentation") [📦](#platform-semantic-release-bot "Packaging/porting to new platform") | [<img src="https://avatars2.githubusercontent.com/u/19733683?v=4" width="100px;"/><br /><sub><b>Snyk bot</b></sub>](https://snyk.io)<br />[🛡️](#security-snyk-bot "Security") |
+| :---: | :---: | :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## License
 MIT
