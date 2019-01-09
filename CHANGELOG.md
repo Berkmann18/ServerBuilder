@@ -1,3 +1,33 @@
+# [3.0.0](https://github.com/Berkmann18/ServerBuilder/compare/v2.2.0...v3.0.0) (2019-01-09)
+
+
+### Breaking
+
+* More async things and behaviour change ([034d628](https://github.com/Berkmann18/ServerBuilder/commit/034d628)), closes [#74](https://github.com/Berkmann18/ServerBuilder/issues/74)
+* More async things and behaviour change ([0bd0e81](https://github.com/Berkmann18/ServerBuilder/commit/0bd0e81)), closes [#74](https://github.com/Berkmann18/ServerBuilder/issues/74)
+* More async things and behaviour change ([797e7d9](https://github.com/Berkmann18/ServerBuilder/commit/797e7d9)), closes [#74](https://github.com/Berkmann18/ServerBuilder/issues/74)
+* More async things and behaviour change ([1f58169](https://github.com/Berkmann18/ServerBuilder/commit/1f58169)), closes [#74](https://github.com/Berkmann18/ServerBuilder/issues/74)
+
+
+### BREAKING CHANGES
+
+* `Server.restart` -> `Server.run` which is now no longer ran from
+`Server.constructor` unless the `opts.autoRun = true` is applicable in the arguments of the
+constructor. `Server.run` now is asynchronous, so is the public IP fetching process that got
+slightly moved out of the module.
+* `Server.restart` -> `Server.run` which is now no longer ran from
+`Server.constructor` unless the `opts.autoRun = true` is applicable in the arguments of the
+constructor. `Server.run` now is asynchronous, so is the public IP fetching process that got
+slightly moved out of the module.
+* `Server.restart` -> `Server.run` which is now no longer ran from
+`Server.constructor` unless the `opts.autoRun = true` is applicable in the arguments of the
+constructor. `Server.run` now is asynchronous, so is the public IP fetching process that got
+slightly moved out of the module.
+* `Server.restart` -> `Server.run` which is now no longer ran from
+`Server.constructor` unless the `opts.autoRun = true` is applicable in the arguments of the
+constructor. `Server.run` now is asynchronous, so is the public IP fetching process that got
+slightly moved out of the module.
+
 # [2.2.0](https://github.com/Berkmann18/ServerBuilder/compare/v2.1.0...v2.2.0) (2019-01-02)
 
 # [2.1.0](https://github.com/Berkmann18/ServerBuilder/compare/v2.0.0...v2.1.0) (2018-12-14)
