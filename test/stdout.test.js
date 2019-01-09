@@ -106,7 +106,6 @@ describe('Setting', function() {
         let ip = await getPublicIP();
         let serv = await server.run();
         inspect.restore();
-        // expect(inspect.output[inspect.output.length - 1]).to.equal(`\u001b[36mPublic IP: \u001b[35m${ip}\u001b[36m\u001b[39m\n`);
         expect(inspect.output[inspect.output.length - 1]).to.include('Public IP: ');
         done();
       } catch (err) {

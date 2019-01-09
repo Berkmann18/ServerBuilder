@@ -115,10 +115,6 @@ class Server {
     };
 
     opts.gracefulClose && process.on('SIGTERM', () => this.close()) && process.on('SIGINT', () => this.close());
-
-    //https://stackoverflow.com/questions/4328540/how-to-catch-http-client-request-exceptions-in-node-js
-    // process.on('uncaughtException', (err) => console.log('Uncaught error:', err));
-
     if (opts.autoRun) return this.run();
   }
 
@@ -367,15 +363,14 @@ class Server {
    * @async
    */
   async close() {
-    let closing = new Promise((resolve, reject) => {
-      this._server.close((err) => {
-        if (err) reject(err);
-        if (!this._silent) info(`Closing the server ${use('out', this.name)}...`);
-        resolve(true);
-      });
-    });
     try {
-      let closed = await closing;
+      let closed = await new Promise((resolve, reject) => {
+        this._server.close((err) => {
+          if (err) reject(err);
+          if (!this._silent) info(`Closing the server ${use('out', this.name)}...`);
+          resolve(true);
+        });
+      });
       if (!this._silent) info(`${use('out', this.name)} is now closed.`);
       return closed;
     } catch (err) {
