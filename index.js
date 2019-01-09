@@ -312,7 +312,6 @@ class Server {
    * @description Run/start the server.
    * @memberof Server
    * @public
-   * @async
    */
   async run() {
     try {
@@ -329,13 +328,16 @@ class Server {
 
   /**
    * @description Event listener for HTTP server "error" event.
-   * @param {*} error Error to handle
-   * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
+   * @param {Server} instance Server instance
    * @memberof Server
    * @public
-   * @throws {Error} EACCES/EADDRINUSE/ENOENT/...
+   * @returns {function(Error)} Error handler
+   * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
    */
   onError(instance) {
+    /**
+     * @param {Error} error Error to handle
+     */
     return (error) => {
       /* @this instance */
       if (error.syscall !== 'listen') throw error;
@@ -361,7 +363,6 @@ class Server {
    * @returns {Promise} Closure promise
    * @memberof Server
    * @public
-   * @async
    */
   async close() {
     let closing = new Promise((resolve, reject) => {
