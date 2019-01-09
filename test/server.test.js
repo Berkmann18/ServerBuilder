@@ -80,7 +80,7 @@ describe('Server response', () => {
     setTimeout(() => {
       expect(eventFired, 'event fired').to.equal(true);
       done();
-    }, 10);
+    }, 20);
   });
 });
 
