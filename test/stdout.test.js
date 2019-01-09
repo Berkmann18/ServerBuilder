@@ -50,7 +50,7 @@ describe('Initial output', () => {
         expect(inspect.output[1]).to.deep.equal(`\u001b[36mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[36m (development environment)\u001b[39m\n`);
       }
     };
-    server = new Server(smallApp, 4e3, options);
+    server = new Server(smallApp, 4000, options);
     server.run()
       .then(srv => {})
       .catch(console.error);

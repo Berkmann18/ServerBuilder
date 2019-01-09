@@ -225,7 +225,7 @@ describe('Wrongs', () => {
   });
 
   it('should throw EADDRINUSE', async() => {
-    let port = 5e3,
+    let port = 5000,
       ser = new Server(smallApp, port, { name: 'Copycat', gracefulClose: false });
     try {
       let serv = await ser.run();
