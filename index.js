@@ -1,4 +1,4 @@
-/* eslint-env node, es6 */
+/* eslint-env node */
 /**
  * @description Server builder.
  * @module
@@ -11,7 +11,7 @@
  */
 
 const { info, error } = require('nclr');
-const { use } = require('./src/utils');
+const { use, getPublicIP } = require('./src/utils');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -28,7 +28,7 @@ const normalizePort = (val) => {
 
 /**
  * @description Default options for {@link Server.constructor}.
- * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean, gracefulClose: boolean}}
+ * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean, gracefulClose: boolean, autoRun: boolean}}
  */
 const DEFAULT_OPTS = {
   name: 'Server',
@@ -38,7 +38,8 @@ const DEFAULT_OPTS = {
   callback: () => {},
   showPublicIP: false,
   silent: false,
-  gracefulClose: true
+  gracefulClose: true,
+  autoRun: false
 };
 
 /**
@@ -73,9 +74,9 @@ class Server {
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean, silent: boolean, gracefulClose: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false, silent: false, gracefulClose: true}]
+   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean, silent: boolean, gracefulClose: boolean, autoRun: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false, silent: false, gracefulClose: true, autoRun: false}]
    * Options including the server's name, HTTPS, options needed for the HTTPs server (public keys and certificates), callback called within the <code>listen</code> event and whether it should show its public
-   * IP and whether it needs to be silent (<em>which won't affect the public IP log</em>).
+   * IP and whether it needs to be silent (<em>which won't affect the public IP log</em>) and if it should run automatically upon being instantiated.
    *
    *
    * @example
@@ -87,6 +88,7 @@ class Server {
    * let server = new Server(express(), 3002, opts);
    * @memberof Server
    * @throws {Error} Invalid port
+   * @returns {undefined|Promise} Nothing or the promise returned by <code>run</code>
    */
   constructor(associatedApp, port = (process.env.PORT || 3e3), opts = DEFAULT_OPTS) {
     this._port = normalizePort(port);
@@ -99,6 +101,7 @@ class Server {
     this._server = createServer(this);
     this._name = opts.name || DEFAULT_OPTS.name;
     this._server.on('error', this.onError(this));
+    this._showPublicIP = opts.showPublicIP || DEFAULT_OPTS.showPublicIP;
 
     this._handler = () => {
       if (!this._silent) {
@@ -110,16 +113,9 @@ class Server {
       }
       if ('callback' in opts) opts.callback(this);
     };
-    this.restart();
-
-    if (opts.showPublicIP) {
-      require('external-ip')()((err, ip) => {
-        if (err) error('Public IP error:', err);
-        info(`Public IP: ${use('spec', ip)}`);
-      });
-    }
 
     opts.gracefulClose && process.on('SIGTERM', () => this.close()) && process.on('SIGINT', () => this.close());
+    if (opts.autoRun) return this.run();
   }
 
   /**
@@ -309,23 +305,36 @@ class Server {
   }
 
   /**
-   * @description (Re)start the server.
+   * @description Run/start the server.
    * @memberof Server
    * @public
+   * @async
    */
-  restart() {
-    this._server.listen(this._port, this._handler);
+  async run() {
+    try {
+      let server = await this._server.listen(this._port, this._handler);
+      if (this._showPublicIP) {
+        let ip = await getPublicIP();
+        info(`Public IP: ${use('spec', ip)}`);
+      }
+      return server;
+    } catch (err) {
+      throw err;
+    }
   }
 
   /**
    * @description Event listener for HTTP server "error" event.
-   * @param {*} error Error to handle
-   * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
+   * @param {Server} instance Server instance
    * @memberof Server
    * @public
-   * @throws {Error} EACCES/EADDRINUSE/ENOENT/...
+   * @returns {function(Error)} Error handler
+   * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
    */
   onError(instance) {
+    /**
+     * @param {Error} error Error to handle
+     */
     return (error) => {
       /* @this instance */
       if (error.syscall !== 'listen') throw error;
@@ -334,14 +343,14 @@ class Server {
 
       //Handle specific listen errors with friendly messages
       switch (error.code) {
-        case 'EACCES':
-          throw new Error(`${bind} requires elevated privileges`);
-        case 'EADDRINUSE':
-          throw new Error(`${bind} is already in use`);
-        case 'ENOENT':
-          throw new Error(`Nonexistent entry requested at ${bind}`);
-        default:
-          throw error;
+      case 'EACCES':
+        throw new Error(`${bind} requires elevated privileges`);
+      case 'EADDRINUSE':
+        throw new Error(`${bind} is already in use`);
+      case 'ENOENT':
+        throw new Error(`Nonexistent entry requested at ${bind}`);
+      default:
+        throw error;
       }
     }
   };
@@ -351,21 +360,23 @@ class Server {
    * @returns {Promise} Closure promise
    * @memberof Server
    * @public
+   * @async
    */
-  close() {
-    let closing = new Promise((resolve, reject) => {
-      this._server.close((err) => {
-        if (err) reject(err);
-        if (!this._silent) info(`Closing the server ${use('out', this.name)}...`);
-        resolve(this);
+  async close() {
+    try {
+      let closed = await new Promise((resolve, reject) => {
+        this._server.close((err) => {
+          if (err) reject(err);
+          if (!this._silent) info(`Closing the server ${use('out', this.name)}...`);
+          resolve(true);
+        });
       });
-    });
-    return closing
-      .then(server => {
-        if (!this._silent) info(`${use('out', this.name)} is now closed.`);
-      })
-      .catch(err => error(`Server closure of ${use('out', this.name)} led to:`, err))
-      .then(res => process.exit())
+      if (!this._silent) info(`${use('out', this.name)} is now closed.`);
+      return closed;
+    } catch (err) {
+      error(`Server closure of ${use('out', this.name)} led to:`, err);
+      return err;
+    }
   }
 
   /**
