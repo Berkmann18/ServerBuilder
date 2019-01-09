@@ -312,6 +312,7 @@ class Server {
    * @description Run/start the server.
    * @memberof Server
    * @public
+   * @async
    */
   async run() {
     try {
@@ -363,6 +364,7 @@ class Server {
    * @returns {Promise} Closure promise
    * @memberof Server
    * @public
+   * @async
    */
   async close() {
     let closing = new Promise((resolve, reject) => {
