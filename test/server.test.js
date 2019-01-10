@@ -200,7 +200,6 @@ describe('Wrongs', () => {
     expect(() => new Server(smallApp, -3e3, { silent: true, gracefulClose: false }), 'port < 0').to.throw('Port should be >= 0 and < 65536. Received false');
   });
 
-
   it('should set bad things', () => {
     let ser = new Server(smallApp, 5e3, { silent: true, gracefulClose: false });
     let newApp = (req, res) => console.log('res=', res);
@@ -248,4 +247,42 @@ describe('Wrongs', () => {
       return err;
     }
   }); */
+
+  it('should not handle', async() => {
+    let port = await getPort();
+    let ser = new Server(smallApp, port, { gracefulClose: false });
+    expect(() => ser._handler()).to.throw('Cannot read property \'address\' of null')
+  })
+});
+
+describe('Accidental stop', (done) => {
+  getPort()
+    .then(port => {
+      let ser = new Server(smallApp, port, { silent: true, gracefulClose: false });
+
+      it('should re-open fine', (done) => {
+        ser.run()
+          .then(srv => {
+            ser.close();
+            return ser.run()
+          }, err => console.log('Running error:', err))
+          .then(srv => {
+            expect(typeof srv).to.equal('object')
+          })
+          .then(_ => ser.close())
+          .catch(console.error)
+          .then(_ => done())
+      });
+
+      it('should fail closing', async() => {
+        try {
+          await ser.close();
+        } catch (err) {
+          expect(err.message).to.equal('Server is not running');
+        }
+      })
+    },
+    err => console.error('getPort error:', err))
+    .catch(err => console.error('Test error:', err)).
+    then(done)
 });

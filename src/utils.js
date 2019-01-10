@@ -22,6 +22,7 @@ const getPublicIP = async() => {
     let ip = await eip();
     return ip
   } catch (err) {
+    /* istanbul ignore next */
     return err;
   }
 }

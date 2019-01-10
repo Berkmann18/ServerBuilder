@@ -105,5 +105,29 @@
       "remark",
       "git add"
     ]
+  },
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "branches": 65,
+    "functions": 80,
+    "lines": 50,
+    "statements": 50,
+    "include": [
+      "*.js",
+      "src/**.js"
+    ],
+    "reporter": [
+      "text",
+      "text-summary"
+    ],
+    "cache": true,
+    "all": true,
+    "watermarks": {
+      "branches": [75, 95],
+      "functions": [80, 98],
+      "lines": [75, 95],
+      "statements": [75, 95]
+    }
   }
 }
