@@ -308,7 +308,6 @@ class Server {
    * @returns {(http.Server|https.Server|http2.Server)} Server
    * @throws {Error} Running error
    * @public
-   * @async
    */
   async run() {
     try {
@@ -355,7 +354,6 @@ class Server {
    * @throws {Error} Closing error
    * @memberof Server
    * @public
-   * @async
    */
   async close() {
     try {
