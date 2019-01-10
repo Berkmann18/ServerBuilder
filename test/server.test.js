@@ -278,7 +278,7 @@ describe('Accidental stop', (done) => {
         try {
           await ser.close();
         } catch (err) {
-          expect(err.message).to.equal('Server is not running');
+          expect(err.message).to.equal('Server is not running.');
         }
       })
     },

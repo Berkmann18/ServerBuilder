@@ -103,8 +103,7 @@ describe('Setting', function() {
     const inspect = stdout.inspect();
     (async() => {
       try {
-        let ip = await getPublicIP();
-        let serv = await server.run();
+        await server.run();
         inspect.restore();
         expect(inspect.output[inspect.output.length - 1]).to.include('Public IP: ');
         done();

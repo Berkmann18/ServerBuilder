@@ -28,7 +28,7 @@ const normalizePort = (val) => {
 
 /**
  * @description Default options for {@link Server.constructor}.
- * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean, gracefulClose: boolean, autoRun: boolean}}
+ * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean}}
  */
 const DEFAULT_OPTS = {
   name: 'Server',
@@ -37,9 +37,7 @@ const DEFAULT_OPTS = {
   securityOptions: {},
   callback: () => {},
   showPublicIP: false,
-  silent: false,
-  gracefulClose: true,
-  autoRun: false
+  silent: false
 };
 
 /**
@@ -100,7 +98,7 @@ class Server {
     this._silent = opts.silent || DEFAULT_OPTS.silent;
     this._server = createServer(this);
     this._name = opts.name || DEFAULT_OPTS.name;
-    this._server.on('error', this.onError(this));
+    this._server.on('error', this.onError);
     this._showPublicIP = opts.showPublicIP || DEFAULT_OPTS.showPublicIP;
 
     this._handler = () => {
@@ -108,7 +106,7 @@ class Server {
         try {
           info(`${this._name} listening at ${use('inp', this.address)} (${getEnv(this._app)} environment)`);
         } catch (err) {
-          throw new Error(err.message);
+          this.onError(err);
         }
       }
       if ('callback' in opts) opts.callback(this);
@@ -307,6 +305,8 @@ class Server {
   /**
    * @description Run/start the server.
    * @memberof Server
+   * @returns {(http.Server|https.Server|http2.Server)} Server
+   * @throws {Error} Running error
    * @public
    * @async
    */
@@ -319,45 +319,40 @@ class Server {
       }
       return server;
     } catch (err) {
-      throw err;
+      this.onError(err);
     }
   }
 
   /**
    * @description Event listener for HTTP server "error" event.
-   * @param {Server} instance Server instance
+   * @param {Error} error Error to handle
    * @memberof Server
    * @public
    * @returns {function(Error)} Error handler
    * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
    */
-  onError(instance) {
-    /**
-     * @param {Error} error Error to handle
-     */
-    return (error) => {
-      /* @this instance */
-      if (error.syscall !== 'listen') throw error;
-      const port = instance.port;
-      const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`;
+  onError(error) {
+    if (error.syscall !== 'listen') throw error;
+    const port = this.address().port;
+    const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`;
 
-      //Handle specific listen errors with friendly messages
-      switch (error.code) {
-      case 'EACCES':
-        throw new Error(`${bind} requires elevated privileges`);
-      case 'EADDRINUSE':
-        throw new Error(`${bind} is already in use`);
-      case 'ENOENT':
-        throw new Error(`Nonexistent entry requested at ${bind}`);
-      default:
-        throw error;
-      }
+    //Handle specific listen errors with friendly messages
+    switch (error.code) {
+    case 'EACCES':
+      throw new Error(`${bind} requires elevated privileges`);
+    case 'EADDRINUSE':
+      throw new Error(`${bind} is already in use`);
+    case 'ENOENT':
+      throw new Error(`Nonexistent entry requested at ${bind}`);
+    default:
+      throw error;
     }
   };
 
   /**
    * @description Gracefully close the server.
    * @returns {Promise} Closure promise
+   * @throws {Error} Closing error
    * @memberof Server
    * @public
    * @async
@@ -375,7 +370,7 @@ class Server {
       return closed;
     } catch (err) {
       error(`Server closure of ${use('out', this.name)} led to:`, err);
-      return err;
+      this.onError(err);
     }
   }
 
