@@ -78,8 +78,7 @@
     "request": "^2.88.0",
     "semantic-release": "^15.10.6",
     "snyk": "^1.120.1",
-    "test-console": "^1.1.0",
-    "unexpected": "^11.0.0"
+    "test-console": "^1.1.0"
   },
   "engines": {
     "node": ">= 8.4.0",
@@ -124,10 +123,22 @@
     "cache": true,
     "all": true,
     "watermarks": {
-      "branches": [75, 95],
-      "functions": [80, 98],
-      "lines": [75, 95],
-      "statements": [75, 95]
+      "branches": [
+        75,
+        95
+      ],
+      "functions": [
+        80,
+        98
+      ],
+      "lines": [
+        75,
+        95
+      ],
+      "statements": [
+        75,
+        95
+      ]
     }
   }
 }

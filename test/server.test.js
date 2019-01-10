@@ -5,7 +5,6 @@ const chai = require('chai'),
   request = require('request'),
   fs = require('fs'),
   getPort = require('get-port'),
-  unexpect = require('unexpected'),
   { getNodeVersion } = require('../src/utils');
 /* eslint-enable node/no-unpublished-require */
 
@@ -34,9 +33,9 @@ describe('Server response', () => {
 
   it('should run fine', (done) => {
     server.run()
-      .then(serv => unexpect(serv, 'to satisfy', server.server)) //expect(serv).to.deep.equal(server.server))
+      .then(serv => expect(serv, 'to satisfy').to.deep.equal(server.server))
       .catch(err => console.error('run test error:', err))
-      .then(done)
+      .then(_ => done())
   });
 
   it('should return 400', (done) => {
