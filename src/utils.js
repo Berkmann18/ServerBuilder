@@ -25,10 +25,26 @@ const getPublicIP = async() => {
     /* istanbul ignore next */
     return err;
   }
-}
+};
+
+const SEMANTIC_VERSION = /^v(\d+\.)?(\d+\.)?(\*|\d+)$/;
+
+/**
+ * @description Get the Node version.
+ * @returns {{major: number, minor: number, patch: number}} Semantic version
+ */
+const getNodeVersion = () => {
+  let [, major, minor, patch] = SEMANTIC_VERSION.exec(process.version);
+  return {
+    major: parseInt(major.slice(0, -1)),
+    minor: parseInt(minor.slice(0, -1)),
+    patch: parseInt(patch)
+  }
+};
 
 module.exports = {
   use: clr.use,
   spec: clr.spec,
-  getPublicIP
+  getPublicIP,
+  getNodeVersion
 };

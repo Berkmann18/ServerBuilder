@@ -5,7 +5,8 @@ const chai = require('chai'),
   request = require('request'),
   fs = require('fs'),
   getPort = require('get-port'),
-  unexpect = require('unexpected');
+  unexpect = require('unexpected'),
+  { getNodeVersion } = require('../src/utils');
 /* eslint-enable node/no-unpublished-require */
 
 chai.use(chaiAsPromised);
@@ -278,7 +279,8 @@ describe('Accidental stop', (done) => {
         try {
           await ser.close();
         } catch (err) {
-          expect(err.message).to.equal('Server is not running.');
+          let isNode8l = getNodeVersion().major <= 8;
+          expect(err.message).to.equal(isNode8l ? 'Not running' : 'Server is not running.');
         }
       })
     },
