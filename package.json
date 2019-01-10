@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "debug": "DEBUG=true node index.js",
-    "t": "mocha test --exit",
-    "coverage": "nyc mocha --exit",
-    "test": "snyk test && npm run coverage",
+    "t": "nyc mocha test --exit",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov",
+    "test": "snyk test && npm run t && npm run coverage",
     "doc:lint": "documentation lint index.js src/**.js",
     "doc:html": "documentation build *.js -f html -o doc/ -a public",
     "doc": "npm run doc:lint && npm run doc:html",
