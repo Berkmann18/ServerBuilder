@@ -98,13 +98,15 @@ class Server {
     this._silent = opts.silent || DEFAULT_OPTS.silent;
     this._server = createServer(this);
     this._name = opts.name || DEFAULT_OPTS.name;
+    this._server.name = this._name;
     this._server.on('error', this.onError);
     this._showPublicIP = opts.showPublicIP || DEFAULT_OPTS.showPublicIP;
+    this._env = getEnv(this._app);
 
     this._handler = () => {
       if (!this._silent) {
         try {
-          info(`${this._name} listening at ${use('inp', this.address)} (${getEnv(this._app)} environment)`);
+          info(`${this._name} listening at ${use('inp', this.address)} (${this._env} environment)`);
         } catch (err) {
           this.onError(err);
         }
@@ -331,6 +333,11 @@ class Server {
    * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
    */
   onError(error) {
+    /*
+      ERR_SERVER_ALREADY_LISTEN (listen method called more than once w/o closing)
+      ERR_SERVER_NOT_RUNNING (Server is not running or in Node 8 "Not running")
+      ...
+      */
     if (error.syscall !== 'listen') throw error;
     const port = this.address().port;
     const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`;
@@ -341,8 +348,6 @@ class Server {
       throw new Error(`${bind} requires elevated privileges`);
     case 'EADDRINUSE':
       throw new Error(`${bind} is already in use`);
-    case 'ENOENT':
-      throw new Error(`Nonexistent entry requested at ${bind}`);
     default:
       throw error;
     }
