@@ -13,4 +13,7 @@ let options = {
   showPublicIP: true
 }
 
-new Server(app, port, options);
+let server = new Server(app, port, options);
+server
+  .run()
+  .then(() => {}, console.error);
