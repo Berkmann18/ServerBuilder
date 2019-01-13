@@ -52,7 +52,10 @@ let options = {
   publicIP: true
 };
 
-new Server(app, process.env.PORT || 3e3, options);
+let server = new Server(app, process.env.PORT || 3e3, options);
+server
+  .run()
+  .then(() => {}, console.error);
 ```
 -   Or with **HTTPS/1**:
 ```js
@@ -73,7 +76,10 @@ let options = {
   publicIP: true
 };
 
-new Server(app, process.env.PORT || 3e3, options);
+let server = new Server(app, process.env.PORT || 3e3, options);
+server
+  .run()
+  .then(() => {}, console.error);
 ```
 
 -   Or with **HTTP/2**:
@@ -95,7 +101,10 @@ let options = {
   publicIP: true
 };
 
-new Server(app, process.env.PORT || 3e3, options);
+let server = new Server(app, process.env.PORT || 3e3, options);
+server
+  .run()
+  .then(() => {}, console.error);
 ```
 
 ## Contribution

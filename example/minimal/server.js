@@ -28,3 +28,6 @@ let options = {
 }
 
 let server = new Server(app, port, options);
+server
+  .run()
+  .then(() => {}, console.error);

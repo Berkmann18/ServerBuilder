@@ -19,8 +19,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
-    "express": "^4.16.3",
-    "morgan": "^1.9.0",
-    "serverbuilder": "^1.0.2"
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "serverbuilder": "^3.1.0"
   }
 }
