@@ -66,7 +66,7 @@ let options = {
   securityOptions: {
     key: fs.readFileSync('server-key.pem'),
     cert: fs.readFileSync('server-cert.pem')
-  }
+  },
   callback(server) {
     app.set('port', server.port);
   },
@@ -88,7 +88,7 @@ let options = {
   securityOptions: {
     key: fs.readFileSync('server-key.pem'),
     cert: fs.readFileSync('server-cert.pem')
-  }
+  },
   callback(server) {
     app.set('port', server.port);
   },
