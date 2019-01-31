@@ -9,12 +9,10 @@
 
 * Release 3.2.0 :tada: [skip ci] ([b67c44ba71269de25508eb0470654d6b3b7aa63c](https://github.com/Berkmann18/ServerBuilder/commit/b67c44ba71269de25508eb0470654d6b3b7aa63c))
 * Removed uneeded `colors` dep ([f243651c495c4aa05f4b020a788190ae2c601eb7](https://github.com/Berkmann18/ServerBuilder/commit/f243651c495c4aa05f4b020a788190ae2c601eb7))
-* Removed uneeded `colors` dep ([ce2bc2716e4713ed8c30e2d665ab3160ec43e68b](https://github.com/Berkmann18/ServerBuilder/commit/ce2bc2716e4713ed8c30e2d665ab3160ec43e68b))
 
 ### Docs
 
 * Updated the docs and the examples ([a1518759b576b21469d516a9d138046cc0e2d523](https://github.com/Berkmann18/ServerBuilder/commit/a1518759b576b21469d516a9d138046cc0e2d523))
-* Updated the docs and the examples ([58b94da0a168af61d4fee21c0a506176dade7d6e](https://github.com/Berkmann18/ServerBuilder/commit/58b94da0a168af61d4fee21c0a506176dade7d6e))
 
 ### Update
 
@@ -49,25 +47,10 @@
 ### Breaking
 
 * More async things and behaviour change ([034d628](https://github.com/Berkmann18/ServerBuilder/commit/034d628)), closes [#74](https://github.com/Berkmann18/ServerBuilder/issues/74)
-* More async things and behaviour change ([0bd0e81](https://github.com/Berkmann18/ServerBuilder/commit/0bd0e81)), closes [#74](https://github.com/Berkmann18/ServerBuilder/issues/74)
-* More async things and behaviour change ([797e7d9](https://github.com/Berkmann18/ServerBuilder/commit/797e7d9)), closes [#74](https://github.com/Berkmann18/ServerBuilder/issues/74)
-* More async things and behaviour change ([1f58169](https://github.com/Berkmann18/ServerBuilder/commit/1f58169)), closes [#74](https://github.com/Berkmann18/ServerBuilder/issues/74)
 
 
 ### BREAKING CHANGES
 
-* `Server.restart` -> `Server.run` which is now no longer ran from
-`Server.constructor` unless the `opts.autoRun = true` is applicable in the arguments of the
-constructor. `Server.run` now is asynchronous, so is the public IP fetching process that got
-slightly moved out of the module.
-* `Server.restart` -> `Server.run` which is now no longer ran from
-`Server.constructor` unless the `opts.autoRun = true` is applicable in the arguments of the
-constructor. `Server.run` now is asynchronous, so is the public IP fetching process that got
-slightly moved out of the module.
-* `Server.restart` -> `Server.run` which is now no longer ran from
-`Server.constructor` unless the `opts.autoRun = true` is applicable in the arguments of the
-constructor. `Server.run` now is asynchronous, so is the public IP fetching process that got
-slightly moved out of the module.
 * `Server.restart` -> `Server.run` which is now no longer ran from
 `Server.constructor` unless the `opts.autoRun = true` is applicable in the arguments of the
 constructor. `Server.run` now is asynchronous, so is the public IP fetching process that got
