@@ -1,6 +1,7 @@
 # User-specific stuff:
 .idea
 .idea_modules/
+.vscode
 
 ## File-based project format:
 *.iws
