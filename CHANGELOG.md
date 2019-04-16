@@ -1,3 +1,80 @@
+## [3.3.1](https://github.com/Berkmann18/ServerBuilder/compare/v3.3.0...v3.3.1) (2019-04-16)
+
+
+### Build
+
+* Added SR NPM ([f86d02b49c375208cabbeb6795c2b83fd1786eab](https://github.com/Berkmann18/ServerBuilder/commit/f86d02b49c375208cabbeb6795c2b83fd1786eab))
+* Use `npm ci` ([42f021657d61957d7ed105ee662cea52a0db2e36](https://github.com/Berkmann18/ServerBuilder/commit/42f021657d61957d7ed105ee662cea52a0db2e36))
+
+### Chore
+
+* Added labels to issue templates ([8c7c3b8ae7bbf9645d9e22c800f5e9bdc4a475be](https://github.com/Berkmann18/ServerBuilder/commit/8c7c3b8ae7bbf9645d9e22c800f5e9bdc4a475be))
+* Fixed `CHANGELOG.md` [skip ci] ([cccf25ee754216f34c4ab6f0c0df78b46a75194f](https://github.com/Berkmann18/ServerBuilder/commit/cccf25ee754216f34c4ab6f0c0df78b46a75194f))
+
+### Fix
+
+* Security fix ([5ec858f2efc47c2cc933b5e86dea47d90cfdc439](https://github.com/Berkmann18/ServerBuilder/commit/5ec858f2efc47c2cc933b5e86dea47d90cfdc439))
+
+### Upgrade
+
+* [Security] Bump handlebars from 4.0.12 to 4.1.0 (#107) ([8a6900a39fbf4dc93443c1c32ccf3d608878c0a9](https://github.com/Berkmann18/ServerBuilder/commit/8a6900a39fbf4dc93443c1c32ccf3d608878c0a9)), closes [#107](https://github.com/Berkmann18/ServerBuilder/issues/107)
+* Bump all-contributors-cli from 5.11.0 to 6.1.2 ([81ae77d0e24053df8ffb3621402f30ca5ea1820f](https://github.com/Berkmann18/ServerBuilder/commit/81ae77d0e24053df8ffb3621402f30ca5ea1820f))
+* Bump all-contributors-cli from 6.1.2 to 6.1.3 ([12bff9cde7e21bcca1e60097284de8fb9312361f](https://github.com/Berkmann18/ServerBuilder/commit/12bff9cde7e21bcca1e60097284de8fb9312361f))
+* Bump all-contributors-cli from 6.1.3 to 6.2.0 ([4cdf61e1749f47edd2bf16a8b50ecade41a9a0e0](https://github.com/Berkmann18/ServerBuilder/commit/4cdf61e1749f47edd2bf16a8b50ecade41a9a0e0))
+* Bump all-contributors-cli from 6.2.0 to 6.3.0 ([d26070818c9cef09d9bee2ea5ccef0d3ffe06f53](https://github.com/Berkmann18/ServerBuilder/commit/d26070818c9cef09d9bee2ea5ccef0d3ffe06f53))
+* Bump documentation from 9.1.1 to 9.2.1 ([351a44d0e0b2d82371071b674951b46d06da6e77](https://github.com/Berkmann18/ServerBuilder/commit/351a44d0e0b2d82371071b674951b46d06da6e77))
+* Bump documentation from 9.2.1 to 9.3.0 ([20bf5f586abb08946b9104017829b6b4b445598b](https://github.com/Berkmann18/ServerBuilder/commit/20bf5f586abb08946b9104017829b6b4b445598b))
+* Bump documentation from 9.3.0 to 9.3.1 ([9935b8b044436b1c5ed746e90956c9da24353629](https://github.com/Berkmann18/ServerBuilder/commit/9935b8b044436b1c5ed746e90956c9da24353629))
+* Bump eslint from 5.12.1 to 5.13.0 ([f38e3f6730987444d25195f44adad534b68da47d](https://github.com/Berkmann18/ServerBuilder/commit/f38e3f6730987444d25195f44adad534b68da47d))
+* Bump eslint from 5.13.0 to 5.14.0 ([1096276b86ec4025691635b2708e1afa498c2d7d](https://github.com/Berkmann18/ServerBuilder/commit/1096276b86ec4025691635b2708e1afa498c2d7d))
+* Bump eslint from 5.14.0 to 5.14.1 ([488084f4a9fa5ebc7cc005b31e148504d64a5ad4](https://github.com/Berkmann18/ServerBuilder/commit/488084f4a9fa5ebc7cc005b31e148504d64a5ad4))
+* Bump eslint from 5.14.1 to 5.15.0 ([77e898db0aea5d71da1d8a3d7e0cd737a1f92093](https://github.com/Berkmann18/ServerBuilder/commit/77e898db0aea5d71da1d8a3d7e0cd737a1f92093))
+* Bump eslint from 5.15.0 to 5.15.1 ([ad41fc59a90cd914af9b4beb24c6609d57a56559](https://github.com/Berkmann18/ServerBuilder/commit/ad41fc59a90cd914af9b4beb24c6609d57a56559))
+* Bump eslint from 5.15.1 to 5.15.2 ([026a7db88a02ce5de42e8114d8daa538cff6286a](https://github.com/Berkmann18/ServerBuilder/commit/026a7db88a02ce5de42e8114d8daa538cff6286a))
+* Bump eslint from 5.15.2 to 5.15.3 ([9c8c218ff8b16d026a86ef102df123b8a2437a25](https://github.com/Berkmann18/ServerBuilder/commit/9c8c218ff8b16d026a86ef102df123b8a2437a25))
+* Bump eslint from 5.15.3 to 5.16.0 ([892827a7edcd804acfdb603633de6d7306247c36](https://github.com/Berkmann18/ServerBuilder/commit/892827a7edcd804acfdb603633de6d7306247c36))
+* Bump get-port from 4.1.0 to 4.2.0 ([fe0cdbe74e45a1fc8a0c9ccea5583aa5dcd6710d](https://github.com/Berkmann18/ServerBuilder/commit/fe0cdbe74e45a1fc8a0c9ccea5583aa5dcd6710d))
+* Bump get-port from 4.2.0 to 5.0.0 (#149) ([9a8ce6cf8372bd8b001c1a67a68d1ddc6de66ec4](https://github.com/Berkmann18/ServerBuilder/commit/9a8ce6cf8372bd8b001c1a67a68d1ddc6de66ec4)), closes [#149](https://github.com/Berkmann18/ServerBuilder/issues/149)
+* Bump lint-staged from 8.1.1 to 8.1.3 ([d793cb41d655f280dcd0f4337307791bf0c126f3](https://github.com/Berkmann18/ServerBuilder/commit/d793cb41d655f280dcd0f4337307791bf0c126f3))
+* Bump lint-staged from 8.1.3 to 8.1.4 ([be2fb8a09873f87028c218f8cdcd85a45d6ea991](https://github.com/Berkmann18/ServerBuilder/commit/be2fb8a09873f87028c218f8cdcd85a45d6ea991))
+* Bump lint-staged from 8.1.4 to 8.1.5 ([7b855d4463ac9d144c64c6ff8459f080b474365f](https://github.com/Berkmann18/ServerBuilder/commit/7b855d4463ac9d144c64c6ff8459f080b474365f))
+* Bump mocha from 5.2.0 to 6.0.0 (#114) ([be274f45b40ebc13a492bca07ef16fa51057690f](https://github.com/Berkmann18/ServerBuilder/commit/be274f45b40ebc13a492bca07ef16fa51057690f)), closes [#114](https://github.com/Berkmann18/ServerBuilder/issues/114)
+* Bump mocha from 6.0.0 to 6.0.1 ([b2a06841c2fca71e5b5435dfed78030742a0eab5](https://github.com/Berkmann18/ServerBuilder/commit/b2a06841c2fca71e5b5435dfed78030742a0eab5))
+* Bump mocha from 6.0.1 to 6.0.2 ([dc3d79b00bbb97a4d69ce2d2d6f1eaf025a9fee7](https://github.com/Berkmann18/ServerBuilder/commit/dc3d79b00bbb97a4d69ce2d2d6f1eaf025a9fee7))
+* Bump mocha from 6.0.2 to 6.1.1 ([4ded880c555797189e4a25b7a35531fdfab27be7](https://github.com/Berkmann18/ServerBuilder/commit/4ded880c555797189e4a25b7a35531fdfab27be7))
+* Bump mocha from 6.1.1 to 6.1.2 ([8a49e12721997d6c1dff16cf7ff9c3f84becce9f](https://github.com/Berkmann18/ServerBuilder/commit/8a49e12721997d6c1dff16cf7ff9c3f84becce9f))
+* Bump mocha from 6.1.2 to 6.1.3 ([ba5319adb23ae34697c0d0bf321675b60dbb72a7](https://github.com/Berkmann18/ServerBuilder/commit/ba5319adb23ae34697c0d0bf321675b60dbb72a7))
+* Bump nclr from 2.1.0 to 2.2.1 ([6c9cc298ce61206cb4fbc04aada2a21c92dbc3bb](https://github.com/Berkmann18/ServerBuilder/commit/6c9cc298ce61206cb4fbc04aada2a21c92dbc3bb))
+* Bump nyc from 13.1.0 to 13.2.0 ([8c669ab8b8b1729acd7b215e357e1efa79d2e9ba](https://github.com/Berkmann18/ServerBuilder/commit/8c669ab8b8b1729acd7b215e357e1efa79d2e9ba))
+* Bump nyc from 13.2.0 to 13.3.0 ([e9333213be85b59d38e976c02f520c725554369c](https://github.com/Berkmann18/ServerBuilder/commit/e9333213be85b59d38e976c02f520c725554369c))
+* Bump snyk from 1.123.0 to 1.124.0 ([43a0c9f0c9e75b98a1b2a28fd176a064032e7b69](https://github.com/Berkmann18/ServerBuilder/commit/43a0c9f0c9e75b98a1b2a28fd176a064032e7b69))
+* Bump snyk from 1.124.0 to 1.124.1 ([ce25cf05fa05894af3a0b97d24c55a93296b0562](https://github.com/Berkmann18/ServerBuilder/commit/ce25cf05fa05894af3a0b97d24c55a93296b0562))
+* Bump snyk from 1.124.1 to 1.125.0 ([6144dc6921797f9af53f3c128b78b69d657b9f84](https://github.com/Berkmann18/ServerBuilder/commit/6144dc6921797f9af53f3c128b78b69d657b9f84))
+* Bump snyk from 1.125.0 to 1.126.0 ([e74f05476db1ce8ddf981e27e2edbc132bdca315](https://github.com/Berkmann18/ServerBuilder/commit/e74f05476db1ce8ddf981e27e2edbc132bdca315))
+* Bump snyk from 1.126.0 to 1.130.0 ([4504209770e0c861042ab3710e0c292e5d8424cb](https://github.com/Berkmann18/ServerBuilder/commit/4504209770e0c861042ab3710e0c292e5d8424cb))
+* Bump snyk from 1.130.0 to 1.132.2 ([105e2a17b21231b01428b080d6dfea29aa5efb35](https://github.com/Berkmann18/ServerBuilder/commit/105e2a17b21231b01428b080d6dfea29aa5efb35))
+* Bump snyk from 1.132.2 to 1.134.1 ([91452c078e5122acb4204ffb7ec58b260cdd6395](https://github.com/Berkmann18/ServerBuilder/commit/91452c078e5122acb4204ffb7ec58b260cdd6395))
+* Bump snyk from 1.134.1 to 1.134.2 ([25ca1254ace91a8384d6cf896b8dd6ea1ed54ca8](https://github.com/Berkmann18/ServerBuilder/commit/25ca1254ace91a8384d6cf896b8dd6ea1ed54ca8))
+* Bump snyk from 1.134.2 to 1.135.1 ([f4203fb07927ce7348499749a75fea33f0206485](https://github.com/Berkmann18/ServerBuilder/commit/f4203fb07927ce7348499749a75fea33f0206485))
+* Bump snyk from 1.135.1 to 1.136.0 ([6f5833d93ad9f9767230465e43a6368ab69975ed](https://github.com/Berkmann18/ServerBuilder/commit/6f5833d93ad9f9767230465e43a6368ab69975ed))
+* Bump snyk from 1.136.0 to 1.136.1 ([bd7862f7a739c6076e66b7dd74b7ccf6ecde746c](https://github.com/Berkmann18/ServerBuilder/commit/bd7862f7a739c6076e66b7dd74b7ccf6ecde746c))
+* Bump snyk from 1.136.1 to 1.136.2 ([bcadaa5fad3851a31e742782f30e03aa9aad89ca](https://github.com/Berkmann18/ServerBuilder/commit/bcadaa5fad3851a31e742782f30e03aa9aad89ca))
+* Bump snyk from 1.136.2 to 1.136.3 ([f59316115690253e9f49b7c295d85f3e1c68e39b](https://github.com/Berkmann18/ServerBuilder/commit/f59316115690253e9f49b7c295d85f3e1c68e39b))
+* Bump snyk from 1.136.3 to 1.137.0 ([6eb737c899157ac152db5db1e2026cd3c51fdc0e](https://github.com/Berkmann18/ServerBuilder/commit/6eb737c899157ac152db5db1e2026cd3c51fdc0e))
+* Bump snyk from 1.137.0 to 1.140.0 ([b659a3463dfdcf7d4bc9a74c71aa42278a61a514](https://github.com/Berkmann18/ServerBuilder/commit/b659a3463dfdcf7d4bc9a74c71aa42278a61a514))
+* Bump snyk from 1.140.0 to 1.143.0 ([8a3ddda7814686d1e3b5e2490f0cd451aee564a0](https://github.com/Berkmann18/ServerBuilder/commit/8a3ddda7814686d1e3b5e2490f0cd451aee564a0))
+* Bump snyk from 1.143.0 to 1.143.1 ([9eb20710c68930bceb603ecdc43dd5ccf5fcacf0](https://github.com/Berkmann18/ServerBuilder/commit/9eb20710c68930bceb603ecdc43dd5ccf5fcacf0))
+* Bump snyk from 1.143.1 to 1.145.0 ([ad355a996df61b9b51c98f9e9a96717fbf97848f](https://github.com/Berkmann18/ServerBuilder/commit/ad355a996df61b9b51c98f9e9a96717fbf97848f))
+* Bump snyk from 1.145.0 to 1.147.0 ([dffe6e022f73d09038ad5269ec3b41de56690000](https://github.com/Berkmann18/ServerBuilder/commit/dffe6e022f73d09038ad5269ec3b41de56690000))
+* Bump snyk from 1.147.0 to 1.147.2 ([a0eadefb339299b011b411d479adaf1a35098354](https://github.com/Berkmann18/ServerBuilder/commit/a0eadefb339299b011b411d479adaf1a35098354))
+* Bump snyk from 1.147.2 to 1.147.3 ([667d7e77038d3f66b506bf122e06d0f33ba137e3](https://github.com/Berkmann18/ServerBuilder/commit/667d7e77038d3f66b506bf122e06d0f33ba137e3))
+* Bump snyk from 1.147.3 to 1.147.4 ([2b5e3a1d4a1101c5704f9243bc0a82d3db54a817](https://github.com/Berkmann18/ServerBuilder/commit/2b5e3a1d4a1101c5704f9243bc0a82d3db54a817))
+* Bump snyk from 1.147.4 to 1.148.0 ([a699d454ec938cf565a9b78c2ea254117db200f9](https://github.com/Berkmann18/ServerBuilder/commit/a699d454ec938cf565a9b78c2ea254117db200f9))
+* Bump snyk from 1.148.0 to 1.149.0 ([96b227772f7494a56a852b75e1b32cdebc08f0f4](https://github.com/Berkmann18/ServerBuilder/commit/96b227772f7494a56a852b75e1b32cdebc08f0f4))
+* Bump snyk from 1.149.0 to 1.150.0 ([7796fe3aa91dd4af1fbc11570097df6b71a5273a](https://github.com/Berkmann18/ServerBuilder/commit/7796fe3aa91dd4af1fbc11570097df6b71a5273a))
+* Bump snyk from 1.150.0 to 1.151.0 ([bd980e53805579527a08718e4b04e02aded3b3e4](https://github.com/Berkmann18/ServerBuilder/commit/bd980e53805579527a08718e4b04e02aded3b3e4))
+* Security upgrade ([741687159ef81847dc800334b2838af592311b22](https://github.com/Berkmann18/ServerBuilder/commit/741687159ef81847dc800334b2838af592311b22))
+
 # [3.3.0](https://github.com/Berkmann18/ServerBuilder/compare/v3.2.0...v3.3.0) (2019-01-31)
 
 
