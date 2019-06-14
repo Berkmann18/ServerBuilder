@@ -1,4 +1,6 @@
 /* eslint-env node */
+/// <reference path="index.d.ts" />
+type NumLike = number | string;
 /**
  * @description Server builder.
  * @module
@@ -11,7 +13,7 @@
  */
 
 const { info, error } = require('nclr');
-const { use, getPublicIP } = require('./src/utils');
+const { use, getPublicIP } = require('./utils');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -19,8 +21,8 @@ const { use, getPublicIP } = require('./src/utils');
  * @return {(string|number|boolean)} Port
  * @protected
  */
-const normalizePort = (val) => {
-  let port = parseInt(val, 10); /* @todo test if val | 0 is better*/
+const normalizePort = (val: NumLike): number | boolean => {
+  let port = parseInt(<string>val, 10); /* @todo test if val | 0 is better*/
   if (isNaN(port)) return port; //Named pipe
   if (port >= 0) return port; //Port number
   return false;
@@ -30,7 +32,7 @@ const normalizePort = (val) => {
  * @description Default options for {@link Server.constructor}.
  * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean}}
  */
-const DEFAULT_OPTS = {
+const DEFAULT_OPTS:Options = {
   name: 'Server',
   useHttps: false,
   useHttp2: false,
@@ -46,7 +48,7 @@ const DEFAULT_OPTS = {
  * @param {function|Object} app Application
  * @protected
  */
-const getEnv = (app) => {
+const getEnv = (app: App) => { //@todo get the `express` types
   if (process.env.NODE_ENV) return process.env.NODE_ENV;
   return (typeof app.get === 'function') ? app.get('env') : 'development';
 };
@@ -56,7 +58,7 @@ const getEnv = (app) => {
  * @param {Server} instance Server instance
  * @returns {(http.Server|https.Server|http2.Server)} HTTP* server
  */
-const createServer = (instance) => {
+const createServer = (instance:HttpServer):HttpServer => {
   if (instance._useHttp2) return require('http2').createSecureServer(instance._options, instance._app);
   return instance._useHttps ?
     require('https').createServer(instance._options, instance._app) :
@@ -88,8 +90,21 @@ class Server {
    * @throws {Error} Invalid port
    * @returns {undefined|Promise} Nothing or the promise returned by <code>run</code>
    */
-  constructor(associatedApp, port = (process.env.PORT || 3e3), opts = DEFAULT_OPTS) {
-    this._port = normalizePort(port);
+  private _port: number;
+  private _useHttp2: boolean;
+  private _useHttps: boolean;
+  private _app: Function | Object;
+  private _options: Options;
+  private _silent: boolean;
+  private _server: HttpServer;
+  private _name: string;
+  private _showPublicIP: boolean;
+  private _env: string;
+  private _handler: () => void;
+
+
+  constructor(associatedApp: HttpServer, port: NumLike = (process.env.PORT || 3e3), opts: Options = DEFAULT_OPTS) {
+    this._port = <number>normalizePort(port);
     if (this._port === NaN || !this._port) throw new Error(`Port should be >= 0 and < 65536. Received ${this._port}`);
     this._useHttp2 = opts.useHttp2 || DEFAULT_OPTS.useHttp2;
     this._useHttps = opts.useHttps || DEFAULT_OPTS.useHttps;
@@ -388,4 +403,4 @@ class Server {
   }
 }
 
-module.exports = Server;
+export default Server;

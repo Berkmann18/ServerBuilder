@@ -5,9 +5,11 @@ module.exports = {
   extends: [
     'plugin:security/recommended',
     'plugin:you-dont-need-lodash-underscore/compatible',
-    'plugin:node/recommended'
+    'plugin:node/recommended',
+    'plugin:@typescript-eslint/recommended'
   ],
   rules: {
+    '@typescript-eslint/indent': 'off',
     indent: [
       'error',
       2
@@ -17,6 +19,7 @@ module.exports = {
     ],
     'no-console': 'off',
     'no-extra-semi': 'off',
+    'node/no-unsupported-features/es-syntax': 'off',
     'prefer-const': 'off',
     quotes: [
       'error',
@@ -31,6 +34,7 @@ module.exports = {
   },
   parserOptions: {
     sourceType: 'module',
-    ecmaVersion: 8 // or 2017
-  }
+    ecmaVersion: 8
+  },
+  parser: "@typescript-eslint/parser",
 };

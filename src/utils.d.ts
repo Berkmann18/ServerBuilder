@@ -1,0 +1,1 @@
+type REEA = RegExpExecArray | null | string[]

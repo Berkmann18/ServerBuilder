@@ -1,4 +1,6 @@
 /* eslint-env node */
+/// <reference path="utils.d.ts" />
+
 /**
  * @description Utility module for this package.
  * @module
@@ -17,7 +19,7 @@ clr.extend({
  * @description Get the public IP of the host.
  * @returns {string|Error} IP or an error
  */
-const getPublicIP = async() => {
+const getPublicIP = async(): Promise<string|Error> => {
   try {
     let ip = await eip();
     return ip
@@ -27,14 +29,14 @@ const getPublicIP = async() => {
   }
 };
 
-const SEMANTIC_VERSION = /^v(\d+\.)?(\d+\.)?(\*|\d+)$/;
+const SEMANTIC_VERSION: RegExp = /^v(\d+\.)?(\d+\.)?(\*|\d+)$/;
 
 /**
  * @description Get the Node version.
  * @returns {{major: number, minor: number, patch: number}} Semantic version
  */
-const getNodeVersion = () => {
-  let [, major, minor, patch] = SEMANTIC_VERSION.exec(process.version);
+const getNodeVersion:Object = () => {
+  let [, major, minor, patch]:any = SEMANTIC_VERSION.exec(process.version);
   return {
     major: parseInt(major.slice(0, -1)),
     minor: parseInt(minor.slice(0, -1)),

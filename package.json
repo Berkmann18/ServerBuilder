@@ -4,17 +4,17 @@
   "description": "A simple NodeJS/Express server builder",
   "main": "serverbuilder.js",
   "scripts": {
-    "start": "node index.js",
-    "debug": "DEBUG=true node index.js",
+    "start": "node ./dist/index.js",
+    "debug": "DEBUG=true node ./dist/index.js",
     "t": "nyc mocha test --exit",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov",
     "test": "snyk test && npm run t && npm run coverage",
-    "doc:lint": "documentation lint index.js src/**.js",
+    "doc:lint": "documentation lint index.js src/**.ts",
     "doc:html": "documentation build *.js -f html -o doc/ -a public",
     "doc": "npm run doc:lint && npm run doc:html",
-    "lint:js": "eslint -c ./config/.eslintrc.js *.js src/*.js test/**.js --fix",
+    "lint:ts": "eslint -c ./config/.eslintrc.js *.ts src/*.ts test/**.js --fix",
     "cc": "cr -c ./config/.complexrc",
-    "cc:all": "npm run cc *.js src/*.js",
+    "cc:all": "npm run cc *.js src/*.ts",
     "commit": "git-cz",
     "lint:md": "remark . .github -i ./config/.remarkignore",
     "lint": "npm run lint:js && npm run lint:md",
@@ -22,7 +22,9 @@
     "prepare": "snyk protect",
     "contribs:add": "all-contributors add",
     "contribs:generate": "all-contributors generate",
-    "contribs:check": "all-contributors check"
+    "contribs:check": "all-contributors check",
+    "build": "tsc",
+    "build:watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -54,6 +56,8 @@
     "@semantic-release/changelog": "^3.0.1",
     "@semantic-release/git": "^7.0.5",
     "@semantic-release/npm": "^5.1.9",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
     "all-contributors-cli": "^6.1.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -76,7 +80,8 @@
     "request": "^2.88.0",
     "semantic-release": "^15.13.16",
     "snyk": "^1.120.1",
-    "test-console": "^1.1.0"
+    "test-console": "^1.1.0",
+    "typescript": "^3.5.1"
   },
   "engines": {
     "node": ">= 8.4.0",
@@ -93,7 +98,7 @@
     }
   },
   "lint-staged": {
-    "{src,test}/*.js": [
+    "{src,test}/*.(js|ts)": [
       "eslint -c ./config/.eslintrc.js --fix",
       "mocha --exit",
       "git add"
