@@ -16,4 +16,4 @@ declare const SEMANTIC_VERSION: RegExp;
  * @description Get the Node version.
  * @returns {{major: number, minor: number, patch: number}} Semantic version
  */
-declare const getNodeVersion: Object;
+declare const getNodeVersion: Record<string, any>;

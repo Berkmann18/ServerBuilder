@@ -1,4 +1,5 @@
 /* eslint-env node */
+//eslint-disable-next-line @typescript-eslint/no-triple-slash-reference
 /// <reference path="index.d.ts" />
 type NumLike = number | string;
 /**
@@ -32,7 +33,7 @@ const normalizePort = (val: NumLike): number | boolean => {
  * @description Default options for {@link Server.constructor}.
  * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean}}
  */
-const DEFAULT_OPTS:Options = {
+const DEFAULT_OPTS: Options = {
   name: 'Server',
   useHttps: false,
   useHttp2: false,
@@ -58,7 +59,7 @@ const getEnv = (app: App) => { //@todo get the `express` types
  * @param {Server} instance Server instance
  * @returns {(http.Server|https.Server|http2.Server)} HTTP* server
  */
-const createServer = (instance:HttpServer):HttpServer => {
+const createServer = (instance: HttpServer): HttpServer => {
   if (instance._useHttp2) return require('http2').createSecureServer(instance._options, instance._app);
   return instance._useHttps ?
     require('https').createServer(instance._options, instance._app) :
@@ -93,7 +94,7 @@ class Server {
   private _port: number;
   private _useHttp2: boolean;
   private _useHttps: boolean;
-  private _app: Function | Object;
+  private _app: Function | Record<string, any>;
   private _options: Options;
   private _silent: boolean;
   private _server: HttpServer;

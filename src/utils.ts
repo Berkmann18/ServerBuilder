@@ -29,14 +29,14 @@ const getPublicIP = async(): Promise<string|Error> => {
   }
 };
 
-const SEMANTIC_VERSION: RegExp = /^v(\d+\.)?(\d+\.)?(\*|\d+)$/;
+const SEMANTIC_VERSION = /^v(\d+\.)?(\d+\.)?(\*|\d+)$/;
 
 /**
  * @description Get the Node version.
  * @returns {{major: number, minor: number, patch: number}} Semantic version
  */
-const getNodeVersion:Object = () => {
-  let [, major, minor, patch]:any = SEMANTIC_VERSION.exec(process.version);
+const getNodeVersion: Record<string, any> = () => {
+  let [, major, minor, patch]: any = SEMANTIC_VERSION.exec(process.version);
   return {
     major: parseInt(major.slice(0, -1)),
     minor: parseInt(minor.slice(0, -1)),

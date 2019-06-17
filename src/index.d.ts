@@ -3,19 +3,19 @@ import https from 'https'
 import http2 from 'http2'
 import Server from './index';
 
-type HttpServer = http.Server | https.Server | http2.Http2Server | Function;
-type NumLike = number | string;
-type ServerCallback = (server:Server) => void;
-interface Options {
-  name: string,
-  useHttps: boolean,
-  useHttp2: boolean,
-  securityOptions: Object,
-  callback: ServerCallback,
-  showPublicIP: boolean,
-  silent: boolean,
-  gracefulClose?: boolean,
-  autoRun?: boolean,
+export type HttpServer = http.Server | https.Server | http2.Http2Server | Function;
+export type NumLike = number | string;
+export type ServerCallback = (server: Server) => void;
+export interface Options {
+  name: string;
+  useHttps: boolean;
+  useHttp2: boolean;
+  securityOptions: Record<string, any>;
+  callback: ServerCallback;
+  showPublicIP: boolean;
+  silent: boolean;
+  gracefulClose?: boolean;
+  autoRun?: boolean;
 }
 
-type App = Function | Object | {get: Function}
+export type App = Function | Record<string, any> | {get: Function}
