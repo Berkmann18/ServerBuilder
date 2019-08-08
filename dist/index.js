@@ -7,7 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-env node */
+//eslint-disable-next-line @typescript-eslint/no-triple-slash-reference
+const http_1 = __importDefault(require("http"));
+const https_1 = __importDefault(require("https"));
+const http2_1 = __importDefault(require("http2"));
 /**
  * @description Server builder.
  * @module
@@ -36,14 +44,13 @@ const normalizePort = (val) => {
 };
 /**
  * @description Default options for {@link Server.constructor}.
- * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean}}
+ * @type {{name: string, useHttps: boolean, securityOptions: Object, showPublicIP: boolean, silent: boolean}}
  */
 const DEFAULT_OPTS = {
     name: 'Server',
     useHttps: false,
     useHttp2: false,
     securityOptions: {},
-    callback: () => { },
     showPublicIP: false,
     silent: false
 };
@@ -64,11 +71,11 @@ const getEnv = (app) => {
  * @returns {(http.Server|https.Server|http2.Server)} HTTP* server
  */
 const createServer = (instance) => {
-    if (instance._useHttp2)
-        return require('http2').createSecureServer(instance._options, instance._app);
-    return instance._useHttps ?
-        require('https').createServer(instance._options, instance._app) :
-        require('http').createServer(instance._app);
+    if (instance.useHttp2)
+        return http2_1.default.createSecureServer(instance.options, instance.app);
+    return instance.useHttps ?
+        https_1.default.createServer(instance.options, instance.app) :
+        http_1.default.createServer(instance.app);
 };
 /**
  * @description Re-usable server.
@@ -86,7 +93,8 @@ class Server {
         this._silent = opts.silent || DEFAULT_OPTS.silent;
         this._server = createServer(this);
         this._name = opts.name || DEFAULT_OPTS.name;
-        this._server.name = this._name;
+        if ('name' in this._server)
+            this._server.name = this._name;
         this._server.on('error', this.onError);
         this._showPublicIP = opts.showPublicIP || DEFAULT_OPTS.showPublicIP;
         this._env = getEnv(this._app);
@@ -99,12 +107,9 @@ class Server {
                     this.onError(err);
                 }
             }
-            if ('callback' in opts)
-                opts.callback(this);
         };
         opts.gracefulClose && process.on('SIGTERM', () => this.close()) && process.on('SIGINT', () => this.close());
-        if (opts.autoRun)
-            return this.run();
+        // if (opts.autoRun) return this.run();
     }
     /**
      * @description Get the associated application (Express instance).
@@ -276,7 +281,7 @@ class Server {
     /**
      * @description Run/start the server.
      * @memberof Server
-     * @returns {(http.Server|https.Server|http2.Server)} Server
+     * @returns {Server} Server
      * @throws {Error} Running error
      * @public
      */
@@ -288,7 +293,7 @@ class Server {
                     let ip = yield getPublicIP();
                     info(`Public IP: ${use('spec', ip)}`);
                 }
-                return server;
+                return this;
             }
             catch (err) {
                 this.onError(err);

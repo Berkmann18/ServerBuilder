@@ -1,7 +1,27 @@
 /* eslint-env node */
 //eslint-disable-next-line @typescript-eslint/no-triple-slash-reference
-/// <reference path="index.d.ts" />
+import http from 'http'
+import https, { ServerOptions } from 'https'
+import http2, { SecureServerOptions } from 'http2'
+type HttpServer = http.Server | https.Server | http2.Http2Server | Function | {on?: Function };
 type NumLike = number | string;
+// type App = Function | Record<string, any> | {get: Function}
+interface App extends Function {
+  get?: Function
+}
+interface Options {
+  name: string;
+  useHttps: boolean;
+  useHttp2: boolean;
+  securityOptions: Record<string, any>;
+  showPublicIP: boolean;
+  silent: boolean;
+  gracefulClose?: boolean;
+  autoRun?: boolean;
+}
+
+type Http2App = (request: http2.Http2ServerRequest, response: http2.Http2ServerResponse) => void
+
 /**
  * @description Server builder.
  * @module
@@ -31,14 +51,13 @@ const normalizePort = (val: NumLike): number | boolean => {
 
 /**
  * @description Default options for {@link Server.constructor}.
- * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean}}
+ * @type {{name: string, useHttps: boolean, securityOptions: Object, showPublicIP: boolean, silent: boolean}}
  */
 const DEFAULT_OPTS: Options = {
   name: 'Server',
   useHttps: false,
   useHttp2: false,
   securityOptions: {},
-  callback: () => {},
   showPublicIP: false,
   silent: false
 };
@@ -59,11 +78,11 @@ const getEnv = (app: App) => { //@todo get the `express` types
  * @param {Server} instance Server instance
  * @returns {(http.Server|https.Server|http2.Server)} HTTP* server
  */
-const createServer = (instance: HttpServer): HttpServer => {
-  if (instance._useHttp2) return require('http2').createSecureServer(instance._options, instance._app);
-  return instance._useHttps ?
-    require('https').createServer(instance._options, instance._app) :
-    require('http').createServer(instance._app);
+const createServer = (instance: Server): HttpServer => {
+  if (instance.useHttp2) return http2.createSecureServer(instance.options as SecureServerOptions, instance.app as Http2App);
+  return instance.useHttps ?
+    https.createServer(instance.options as ServerOptions, instance.app as http.RequestListener) :
+    http.createServer(instance.app as ServerOptions);
 };
 
 /**
@@ -84,7 +103,6 @@ class Server {
    * const express = require('express');
    * let opts = {
    *   name: 'Custom Server',
-   *   callback: () => console.log('READY');
    * }
    * let server = new Server(express(), 3002, opts);
    * @memberof Server
@@ -94,8 +112,8 @@ class Server {
   private _port: number;
   private _useHttp2: boolean;
   private _useHttps: boolean;
-  private _app: Function | Record<string, any>;
-  private _options: Options;
+  private _app: App | HttpServer;
+  private _options: Record<string, any>;
   private _silent: boolean;
   private _server: HttpServer;
   private _name: string;
@@ -104,7 +122,7 @@ class Server {
   private _handler: () => void;
 
 
-  constructor(associatedApp: HttpServer, port: NumLike = (process.env.PORT || 3e3), opts: Options = DEFAULT_OPTS) {
+  constructor(associatedApp: App | HttpServer, port: NumLike = (process.env.PORT || 3e3), opts: Options = DEFAULT_OPTS) {
     this._port = <number>normalizePort(port);
     if (this._port === NaN || !this._port) throw new Error(`Port should be >= 0 and < 65536. Received ${this._port}`);
     this._useHttp2 = opts.useHttp2 || DEFAULT_OPTS.useHttp2;
@@ -114,10 +132,10 @@ class Server {
     this._silent = opts.silent || DEFAULT_OPTS.silent;
     this._server = createServer(this);
     this._name = opts.name || DEFAULT_OPTS.name;
-    this._server.name = this._name;
+    if ('name' in this._server) this._server.name = this._name;
     this._server.on('error', this.onError);
     this._showPublicIP = opts.showPublicIP || DEFAULT_OPTS.showPublicIP;
-    this._env = getEnv(this._app);
+    this._env = getEnv(this._app as App);
 
     this._handler = () => {
       if (!this._silent) {
@@ -127,11 +145,10 @@ class Server {
           this.onError(err);
         }
       }
-      if ('callback' in opts) opts.callback(this);
     };
 
     opts.gracefulClose && process.on('SIGTERM', () => this.close()) && process.on('SIGINT', () => this.close());
-    if (opts.autoRun) return this.run();
+    // if (opts.autoRun) return this.run();
   }
 
   /**
@@ -323,18 +340,18 @@ class Server {
   /**
    * @description Run/start the server.
    * @memberof Server
-   * @returns {(http.Server|https.Server|http2.Server)} Server
+   * @returns {Server} Server
    * @throws {Error} Running error
    * @public
    */
-  async run() {
+  async run(): Promise<Server|void> {
     try {
       let server = await this._server.listen(this._port, this._handler);
       if (this._showPublicIP) {
         let ip = await getPublicIP();
         info(`Public IP: ${use('spec', ip)}`);
       }
-      return server;
+      return this;
     } catch (err) {
       this.onError(err);
     }
@@ -348,7 +365,7 @@ class Server {
    * @returns {function(Error)} Error handler
    * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
    */
-  onError(error) {
+  onError(error: Error) {
     /*
       ERR_SERVER_ALREADY_LISTEN (listen method called more than once w/o closing)
       ERR_SERVER_NOT_RUNNING (Server is not running or in Node 8 "Not running")
@@ -379,7 +396,7 @@ class Server {
   async close() {
     try {
       let closed = await new Promise((resolve, reject) => {
-        this._server.close((err) => {
+        this._server.close((err: Error) => {
           if (err) reject(err);
           if (!this._silent) info(`Closing the server ${use('out', this.name)}...`);
           resolve(true);
