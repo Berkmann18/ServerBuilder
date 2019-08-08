@@ -28,14 +28,13 @@ const normalizePort = (val) => {
 
 /**
  * @description Default options for {@link Server.constructor}.
- * @type {{name: string, useHttps: boolean, securityOptions: Object, callback: function(Server), showPublicIP: boolean, silent: boolean}}
+ * @type {{name: string, useHttps: boolean, securityOptions: Object, showPublicIP: boolean, silent: boolean}}
  */
 const DEFAULT_OPTS = {
   name: 'Server',
   useHttps: false,
   useHttp2: false,
   securityOptions: {},
-  callback: () => {},
   showPublicIP: false,
   silent: false
 };
@@ -72,18 +71,20 @@ class Server {
    * @description Create a NodeJS HTTP(s) server.
    * @param {express} associatedApp Associated express application
    * @param {(string|number)} [port=(process.env.PORT || 3e3)] Port/pipe to use
-   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, callback: function(Server), showPublicIP: boolean, silent: boolean, gracefulClose: boolean, autoRun: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, callback: (server) => {}, showPublicIP: false, silent: false, gracefulClose: true, autoRun: false}]
-   * Options including the server's name, HTTPS, options needed for the HTTPs server (public keys and certificates), callback called within the <code>listen</code> event and whether it should show its public
+   * @param {{name: string, useHttps: boolean, useHttp2: boolean, securityOptions: object, showPublicIP: boolean, silent: boolean, gracefulClose: boolean, autoRun: boolean}} [opts={name: 'Server', useHttps: false, securityOptions: {}, showPublicIP: false, silent: false, gracefulClose: true, autoRun: false}]
+   * Options including the server's name, HTTPS, options needed for the HTTPs server (public keys and certificates) and whether it should show its public
    * IP and whether it needs to be silent (<em>which won't affect the public IP log</em>) and if it should run automatically upon being instantiated.
    *
    *
    * @example
    * const express = require('express');
    * let opts = {
-   *   name: 'Custom Server',
-   *   callback: () => console.log('READY');
+   *   name: 'Custom Server'
    * }
    * let server = new Server(express(), 3002, opts);
+   * server
+   *   .run()
+   *   .then(serv => console.log('READY'), console.error)
    * @memberof Server
    * @throws {Error} Invalid port
    * @returns {undefined|Promise} Nothing or the promise returned by <code>run</code>
@@ -111,7 +112,6 @@ class Server {
           this.onError(err);
         }
       }
-      if ('callback' in opts) opts.callback(this);
     };
 
     opts.gracefulClose && process.on('SIGTERM', () => this.close()) && process.on('SIGINT', () => this.close());
@@ -307,7 +307,7 @@ class Server {
   /**
    * @description Run/start the server.
    * @memberof Server
-   * @returns {(http.Server|https.Server|http2.Server)} Server
+   * @returns {Server} Server
    * @throws {Error} Running error
    * @public
    */
@@ -318,7 +318,7 @@ class Server {
         let ip = await getPublicIP();
         info(`Public IP: ${use('spec', ip)}`);
       }
-      return server;
+      return this;
     } catch (err) {
       this.onError(err);
     }
