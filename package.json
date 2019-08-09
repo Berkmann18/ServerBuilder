@@ -22,7 +22,8 @@
     "prepare": "snyk protect",
     "contribs:add": "all-contributors add",
     "contribs:generate": "all-contributors generate",
-    "contribs:check": "all-contributors check"
+    "contribs:check": "all-contributors check",
+    "fmt": "prettier --write"
   },
   "repository": {
     "type": "git",
@@ -70,6 +71,7 @@
     "lint-staged": "^9.1.0",
     "mocha": "^6.1.4",
     "nyc": "^14.0.0",
+    "prettier": "^1.18.2",
     "remark-cli": "^6.0.0",
     "remark-preset-lint-consistent": "^2.0.3",
     "remark-preset-lint-recommended": "^3.0.3",
@@ -94,6 +96,7 @@
   },
   "lint-staged": {
     "{src,test}/*.js": [
+      "npm run fmt",
       "eslint -c ./config/.eslintrc.js --fix",
       "mocha --exit",
       "git add"
