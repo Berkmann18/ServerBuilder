@@ -274,14 +274,14 @@ describe('Accidental stop', (done) => {
           .then(_ => done())
       });
 
-      // it('should fail closing', async() => {
-      //   try {
-      //     await ser.close();
-      //   } catch (err) {
-      //     let isNode8l = getNodeVersion().major <= 8;
-      //     expect(err.message).to.equal(isNode8l ? 'Not running' : 'Server is not running.');
-      //   }
-      // })
+      it('should fail closing', async() => {
+        try {
+          await ser.close();
+        } catch (err) {
+          let isNode8l = getNodeVersion().major <= 8;
+          expect(err.message).to.equal(isNode8l ? 'Not running' : 'Server is not running.');
+        }
+      })
     },
     err => console.error('getPort error:', err))
     .catch(err => console.error('Test error:', err)).
