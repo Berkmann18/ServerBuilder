@@ -31,7 +31,7 @@ const makeApp = (server) => {
 
 const smallApp = (req, res) => {};
 
-/* describe('Initial output', () => {
+describe('Initial output', () => {
   let server;
 
   it('should print nothing straight away', () => {
@@ -42,17 +42,16 @@ const smallApp = (req, res) => {};
   it('should print something later', () => {
     const inspect = stdout.inspect();
     let options = {
-      gracefulClose: false,
-      callback(server) {
+      gracefulClose: false
+    };
+    server = new Server(smallApp, 4000, options);
+    server.run()
+      .then(srv => {
         inspect.restore();
         expect(server instanceof Server).to.be.true;
         expect(inspect.output.length).to.equal(2);
         expect(inspect.output[1]).to.deep.equal(`\u001b[36mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[36m (development environment)\u001b[39m\n`);
-      }
-    };
-    server = new Server(smallApp, 4000, options);
-    server.run()
-      .then(srv => {})
+      })
       .catch(console.error);
   });
 
@@ -60,36 +59,33 @@ const smallApp = (req, res) => {};
     const inspect = stdout.inspect();
     let options = {
       name: 'Test Server',
-      gracefulClose: false,
-      callback(server) {
+      gracefulClose: false
+    }
+    server = new Server(makeApp(server), 4001, options);
+    server.run()
+      .then(srv => {
         inspect.restore();
         //output[0] is the 'should print something'
         expect(inspect.output.length).to.equal(2);
         expect(inspect.output[1]).to.deep.equal(`\u001b[36mTest Server listening at \u001b[37mhttp://localhost:${server.port}\u001b[36m (development environment)\u001b[39m\n`);
-      },
-    }
-    server = new Server(makeApp(server), 4001, options);
-    server.run()
-      .then(srv => {})
+      })
       .catch(console.error);
   });
 
   it('should signal its end', (done) => {
     const inspect = stdout.inspect();
-    let options = {
-      callback(server) {
+    server = new Server(makeApp(server), 4002);
+    server.run()
+      .then(srv => {
         inspect.restore();
         expect(inspect.output.length).to.equal(1);
         expect(inspect.output[0]).to.equal(`\u001b[36mServer listening at \u001b[37mhttp://localhost:${server.port}\u001b[36m (development environment)\u001b[39m\n`);
-      },
-    }
-    server = new Server(makeApp(server), 4002, options);
-    server.run()
-      .then(srv => server.close(), err => console.log('Running error:', err))
+        return server.close()
+      }, err => console.log('Running error:', err))
       .then(closed => expect(closed).to.equal(true) && done())
       .catch(err => console.log('Closing error:', err));
   });
-});*/
+});
 
 describe('Setting', function() {
   it('should show its public IP', (done) => {
