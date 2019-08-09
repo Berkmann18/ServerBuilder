@@ -93,8 +93,7 @@ class Server {
         this._silent = opts.silent || DEFAULT_OPTS.silent;
         this._server = createServer(this);
         this._name = opts.name || DEFAULT_OPTS.name;
-        if ('name' in this._server)
-            this._server.name = this._name;
+        // this._server.name = this._name;
         this._server.on('error', this.onError);
         this._showPublicIP = opts.showPublicIP || DEFAULT_OPTS.showPublicIP;
         this._env = getEnv(this._app);
@@ -288,7 +287,7 @@ class Server {
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let server = yield this._server.listen(this._port, this._handler);
+                /* let server =  */ yield this._server.listen(this._port, this._handler);
                 if (this._showPublicIP) {
                     let ip = yield getPublicIP();
                     info(`Public IP: ${use('spec', ip)}`);
@@ -302,7 +301,7 @@ class Server {
     }
     /**
      * @description Event listener for HTTP server "error" event.
-     * @param {Error} error Error to handle
+     * @param {ServerError} error Error to handle
      * @memberof Server
      * @public
      * @returns {function(Error)} Error handler
@@ -316,8 +315,9 @@ class Server {
           */
         if (error.syscall !== 'listen')
             throw error;
-        const port = this.address().port;
-        const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`;
+        // const port = (this._server as http.Server)!.address()!.port; //@todo perhaps change it back to `this.address().port`
+        // const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`; //@todo bring this back once a TS solution is found
+        const bind = `Port ${this.port}`;
         //Handle specific listen errors with friendly messages
         switch (error.code) {
             case 'EACCES':
@@ -368,4 +368,4 @@ class Server {
         return `Server(name='${this.name}', port=${this.port}, app=${this.app}, useHttps=${this.useHttps}, useHttp2=${this.useHttp2}, options=${JSON.stringify(this.options)})`;
     }
 }
-exports.default = Server;
+module.exports = Server;

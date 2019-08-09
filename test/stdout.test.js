@@ -2,8 +2,8 @@
 const stdout = require('test-console').stdout,
   expect = require('chai').expect;
 /* eslint-enable node/no-unpublished-require */
-const Server = require('../index'),
-  { getPublicIP } = require('../src/utils');
+const Server = require('../dist/index');
+  // { getPublicIP } = require('../dist/utils');
 
 /**
  * Creates an application for a given server.
@@ -105,6 +105,7 @@ describe('Setting', function() {
       try {
         await server.run();
         inspect.restore();
+        console.log('out=', inspect.output);
         expect(inspect.output[inspect.output.length - 1]).to.include('Public IP: ');
         done();
       } catch (err) {

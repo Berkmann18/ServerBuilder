@@ -1,4 +1,4 @@
-const Server = require('../index');
+const Server = require('../dist/index');
 /* eslint-disable node/no-unpublished-require */
 const { expect } = require('chai'),
   getPort = require('get-port'),

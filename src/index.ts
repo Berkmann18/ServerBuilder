@@ -3,7 +3,7 @@
 import http from 'http'
 import https, { ServerOptions } from 'https'
 import http2, { SecureServerOptions } from 'http2'
-type HttpServer = http.Server | https.Server | http2.Http2Server | Function | {on?: Function };
+type HttpServer = http.Server | https.Server | http2.Http2Server | {on?: Function };
 type NumLike = number | string;
 // type App = Function | Record<string, any> | {get: Function}
 interface App extends Function {
@@ -21,6 +21,10 @@ interface Options {
 }
 
 type Http2App = (request: http2.Http2ServerRequest, response: http2.Http2ServerResponse) => void
+interface ServerError extends Error {
+  syscall?: string;
+  code?: string;
+}
 
 /**
  * @description Server builder.
@@ -132,8 +136,8 @@ class Server {
     this._silent = opts.silent || DEFAULT_OPTS.silent;
     this._server = createServer(this);
     this._name = opts.name || DEFAULT_OPTS.name;
-    if ('name' in this._server) this._server.name = this._name;
-    this._server.on('error', this.onError);
+    // this._server.name = this._name;
+    this._server.on!('error', this.onError);
     this._showPublicIP = opts.showPublicIP || DEFAULT_OPTS.showPublicIP;
     this._env = getEnv(this._app as App);
 
@@ -330,7 +334,7 @@ class Server {
    * @returns {string} Address
    */
   get address() {
-    const ipAddress = this._server.address();
+    const ipAddress = (this._server as http.Server).address()!;
     const location = typeof ipAddress === 'string' ?
       `pipe ${ipAddress}` :
       `${this.protocol}://${(ipAddress.address === '::') ? 'localhost' : ipAddress.address}:${ipAddress.port}`;
@@ -346,7 +350,7 @@ class Server {
    */
   async run(): Promise<Server|void> {
     try {
-      let server = await this._server.listen(this._port, this._handler);
+      /* let server =  */await (this._server as http.Server).listen(this._port, this._handler);
       if (this._showPublicIP) {
         let ip = await getPublicIP();
         info(`Public IP: ${use('spec', ip)}`);
@@ -359,21 +363,22 @@ class Server {
 
   /**
    * @description Event listener for HTTP server "error" event.
-   * @param {Error} error Error to handle
+   * @param {ServerError} error Error to handle
    * @memberof Server
    * @public
    * @returns {function(Error)} Error handler
    * @throws {Error} EACCES/EADDRINUSE/ENOENT errors
    */
-  onError(error: Error) {
+  onError(error: ServerError) {
     /*
       ERR_SERVER_ALREADY_LISTEN (listen method called more than once w/o closing)
       ERR_SERVER_NOT_RUNNING (Server is not running or in Node 8 "Not running")
       ...
       */
     if (error.syscall !== 'listen') throw error;
-    const port = this.address().port;
-    const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`;
+    // const port = (this._server as http.Server)!.address()!.port; //@todo perhaps change it back to `this.address().port`
+    // const bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`; //@todo bring this back once a TS solution is found
+    const bind = `Port ${this.port}`
 
     //Handle specific listen errors with friendly messages
     switch (error.code) {
@@ -396,7 +401,7 @@ class Server {
   async close() {
     try {
       let closed = await new Promise((resolve, reject) => {
-        this._server.close((err: Error) => {
+        (this._server as http.Server).close((err?: Error) => {
           if (err) reject(err);
           if (!this._silent) info(`Closing the server ${use('out', this.name)}...`);
           resolve(true);
@@ -421,4 +426,4 @@ class Server {
   }
 }
 
-export default Server;
+module.exports = Server;
