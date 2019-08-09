@@ -33,7 +33,7 @@ describe('Server response', () => {
 
   it('should run fine', (done) => {
     server.run()
-      .then(serv => expect(serv, 'to satisfy').to.deep.equal(server.server))
+      .then(serv => expect(serv, 'to satisfy').to.deep.equal(server))
       .catch(err => console.error('run test error:', err))
       .then(_ => done())
   });
