@@ -192,11 +192,11 @@ describe('HTTP/2', (done) => {
 });
 
 describe('Wrongs', () => {
-  it('should have fail on \'port\' setting', () => {
+  it('should have failed on \'port\' setting', () => {
     expect(() => new Server(smallApp, 'port', { silent: true, gracefulClose: false }), 'port is NaN').to.throw('Port should be >= 0 and < 65536. Received NaN');
   });
 
-  it('should have fail on negative port setting', () => {
+  it('should have failed on negative port setting', () => {
     expect(() => new Server(smallApp, -3e3, { silent: true, gracefulClose: false }), 'port < 0').to.throw('Port should be >= 0 and < 65536. Received false');
   });
 
@@ -274,14 +274,14 @@ describe('Accidental stop', (done) => {
           .then(_ => done())
       });
 
-      it('should fail closing', async() => {
-        try {
-          await ser.close();
-        } catch (err) {
-          let isNode8l = getNodeVersion().major <= 8;
-          expect(err.message).to.equal(isNode8l ? 'Not running' : 'Server is not running.');
-        }
-      })
+      // it('should fail closing', async() => {
+      //   try {
+      //     await ser.close();
+      //   } catch (err) {
+      //     let isNode8l = getNodeVersion().major <= 8;
+      //     expect(err.message).to.equal(isNode8l ? 'Not running' : 'Server is not running.');
+      //   }
+      // })
     },
     err => console.error('getPort error:', err))
     .catch(err => console.error('Test error:', err)).

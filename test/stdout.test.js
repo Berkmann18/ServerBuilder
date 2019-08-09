@@ -2,8 +2,8 @@
 const stdout = require('test-console').stdout,
   expect = require('chai').expect;
 /* eslint-enable node/no-unpublished-require */
-const Server = require('../index'),
-  { getPublicIP } = require('../src/utils');
+const Server = require('../index');
+// { getPublicIP } = require('../src/utils');
 
 /**
  * Creates an application for a given server.
@@ -31,7 +31,7 @@ const makeApp = (server) => {
 
 const smallApp = (req, res) => {};
 
-describe('Initial output', () => {
+/* describe('Initial output', () => {
   let server;
 
   it('should print nothing straight away', () => {
@@ -89,7 +89,7 @@ describe('Initial output', () => {
       .then(closed => expect(closed).to.equal(true) && done())
       .catch(err => console.log('Closing error:', err));
   });
-});
+});*/
 
 describe('Setting', function() {
   it('should show its public IP', (done) => {
