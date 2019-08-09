@@ -44,18 +44,15 @@ _Note_: Don't forget to use `-g`, `--save`, `--save-dev` if appropriate.
 ```js
 const app = require('express')(),
       Server = require('serverbuilder');
-let options = {
+const options = {
   name: 'My Server',
-  callback(server) {
-    app.set('port', server.port);
-  },
   publicIP: true
 };
 
-let server = new Server(app, process.env.PORT || 3e3, options);
+const server = new Server(app, process.env.PORT || 3e3, options);
 server
   .run()
-  .then(() => {}, console.error);
+  .then(serv => app.set('port', serv.port), console.error);
 ```
 -   Or with **HTTPS/1**:
 ```js
@@ -63,23 +60,20 @@ const fs = require('fs'),
       app = require('express')(),
       Server = require('serverbuilder');
 
-let options = {
+const options = {
   name: 'My Server',
   useHttps: true,
   securityOptions: {
     key: fs.readFileSync('server-key.pem'),
     cert: fs.readFileSync('server-cert.pem')
   },
-  callback(server) {
-    app.set('port', server.port);
-  },
   publicIP: true
 };
 
-let server = new Server(app, process.env.PORT || 3e3, options);
+const server = new Server(app, process.env.PORT || 3e3, options);
 server
   .run()
-  .then(() => {}, console.error);
+  .then(serv => app.set('port', serv.port), console.error);
 ```
 
 -   Or with **HTTP/2**:
@@ -88,23 +82,20 @@ const fs = require('fs'),
       app = require('express')(),
       Server = require('serverbuilder');
 
-let options = {
+const options = {
   name: 'My Server',
   useHttp2: true,
   securityOptions: {
     key: fs.readFileSync('server-key.pem'),
     cert: fs.readFileSync('server-cert.pem')
   },
-  callback(server) {
-    app.set('port', server.port);
-  },
   publicIP: true
 };
 
-let server = new Server(app, process.env.PORT || 3e3, options);
+const server = new Server(app, process.env.PORT || 3e3, options);
 server
   .run()
-  .then(() => {}, console.error);
+  .then(serv => app.set('port', serv.port), console.error);
 ```
 
 ## Contribution
