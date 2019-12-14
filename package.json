@@ -16,7 +16,7 @@
     "cc": "cr -c ./config/.complexrc",
     "cc:all": "npm run cc *.js src/*.js",
     "commit": "git-cz",
-    "lint:md": "remark . github",
+    "lint:md": "remark . .github",
     "lint": "npm run lint:js && npm run lint:md",
     "semantic-release": "semantic-release",
     "prepare": "snyk protect",
