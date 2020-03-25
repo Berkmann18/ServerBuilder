@@ -48,7 +48,7 @@
   },
   "homepage": "https://github.com/Berkmann18/ServerBuilder#readme",
   "dependencies": {
-    "external-ip": "^2.0.3",
+    "external-ip": "^2.1.1",
     "nclr": "^2.2.3"
   },
   "devDependencies": {
@@ -98,12 +98,10 @@
     "{src,test}/*.js": [
       "npm run fmt",
       "eslint -c ./config/.eslintrc.js --fix",
-      "mocha --exit",
-      "git add"
+      "mocha --exit"
     ],
     "*.md": [
-      "remark",
-      "git add"
+      "remark"
     ]
   },
   "nyc": {
