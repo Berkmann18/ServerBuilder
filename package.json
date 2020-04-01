@@ -71,7 +71,7 @@
     "lint-staged": "^10.0.0",
     "mocha": "^7.0.0",
     "nyc": "^15.0.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "remark-cli": "^8.0.0",
     "remark-preset-lint-consistent": "^3.0.0",
     "remark-preset-lint-recommended": "^4.0.0",
