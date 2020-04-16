@@ -1,3 +1,23 @@
+## [3.4.3](https://github.com/Berkmann18/ServerBuilder/compare/v3.4.2...v3.4.3) (2020-04-16)
+
+
+### Fix
+
+* Vulnerability fix ([857a5ce](https://github.com/Berkmann18/ServerBuilder/commit/857a5ce880c7ae1796c96fb7466933f214d30510))
+
+### Upgrade
+
+* [Security] Bump minimist from 0.0.8 to 1.2.5 (#519) ([db811ea](https://github.com/Berkmann18/ServerBuilder/commit/db811eaebd17ba62619756e5f319535f394a5499)), closes [#519](https://github.com/Berkmann18/ServerBuilder/issues/519)
+* Bump documentation from 12.2.0 to 12.3.0 ([ab18a6c](https://github.com/Berkmann18/ServerBuilder/commit/ab18a6c470005c638311beb82010b5183ca930a3))
+* Bump husky from 4.2.3 to 4.2.5 ([7fd1c86](https://github.com/Berkmann18/ServerBuilder/commit/7fd1c863507464de18da3325488fa9e73e752927))
+* Bump lint-staged from 10.1.1 to 10.1.2 ([1c5d406](https://github.com/Berkmann18/ServerBuilder/commit/1c5d4068c505d7c0d4c179383cb312b3bde296d1))
+* Bump lint-staged from 10.1.2 to 10.1.3 ([ab63971](https://github.com/Berkmann18/ServerBuilder/commit/ab63971493fef1775895cdd51b8d70106d11f651))
+* Bump nclr from 2.2.4 to 2.2.5 ([aad4a3c](https://github.com/Berkmann18/ServerBuilder/commit/aad4a3cd91fd8a7b12244b19e46665aec4a270c8))
+* Bump nyc from 15.0.0 to 15.0.1 ([53ea84c](https://github.com/Berkmann18/ServerBuilder/commit/53ea84c8fd86109089b3d25a7dda3147f93a1141))
+* Bump prettier from 2.0.2 to 2.0.3 ([40567c1](https://github.com/Berkmann18/ServerBuilder/commit/40567c18c877093d488cfe16986b26f2c2f9b19c))
+* Bump prettier from 2.0.3 to 2.0.4 ([aae21a3](https://github.com/Berkmann18/ServerBuilder/commit/aae21a3b0c3c15ff960a01c2d13d8640cded4fcd))
+* Bump snyk from 1.305.0 to 1.305.1 ([00c9cf3](https://github.com/Berkmann18/ServerBuilder/commit/00c9cf37fa6dbff800751f7d78d6f4016143eecf))
+
 ## [3.4.2](https://github.com/Berkmann18/ServerBuilder/compare/v3.4.1...v3.4.2) (2020-04-04)
 
 
