@@ -111,12 +111,28 @@ To fix formatting errors and such, run:
 Same as above but with `--fix` at the end.
 Fore more details, please check [the contribution guideline](./github/CONTRIBUTING.md).
 
-## Contributors
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars0.githubusercontent.com/u/8260834?v=4" width="100px;"/><br /><sub><b>Maximilian Berkmann</b></sub>](http://maxcubing.wordpress.com)<br />[🐛](https://github.com/Berkmann18/ServerBuilder/issues?q=author%3ABerkmann18 "Bug reports") [💻](https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18 "Code") [📖](https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18 "Documentation") [🤔](#ideas-Berkmann18 "Ideas, Planning, & Feedback") [💬](#question-Berkmann18 "Answering Questions") [👀](#review-Berkmann18 "Reviewed Pull Requests") [🛡️](#security-Berkmann18 "Security") [⚠️](https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18 "Tests") | [<img src="https://avatars2.githubusercontent.com/u/36207117?v=4" width="100px;"/><br /><sub><b>Dependabot</b></sub>](https://dependabot.com)<br />[🔧](#tool-dependabot-bot "Tools") | [<img src="https://avatars1.githubusercontent.com/u/32174276?v=4" width="100px;"/><br /><sub><b>Semantic Release Bot</b></sub>](http://semantic-release.org/)<br />[📖](https://github.com/Berkmann18/ServerBuilder/commits?author=semantic-release-bot "Documentation") [📦](#platform-semantic-release-bot "Packaging/porting to new platform") | [<img src="https://avatars2.githubusercontent.com/u/19733683?v=4" width="100px;"/><br /><sub><b>Snyk bot</b></sub>](https://snyk.io)<br />[🛡️](#security-snyk-bot "Security") |
-| :---: | :---: | :---: | :---: |
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://maxcubing.wordpress.com"><img src="https://avatars0.githubusercontent.com/u/8260834?v=4" width="100px;" alt=""/><br /><sub><b>Maximilian Berkmann</b></sub></a><br /><a href="https://github.com/Berkmann18/ServerBuilder/issues?q=author%3ABerkmann18" title="Bug reports">🐛</a> <a href="https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18" title="Code">💻</a> <a href="https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18" title="Documentation">📖</a> <a href="#ideas-Berkmann18" title="Ideas, Planning, & Feedback">🤔</a> <a href="#question-Berkmann18" title="Answering Questions">💬</a> <a href="https://github.com/Berkmann18/ServerBuilder/pulls?q=is%3Apr+reviewed-by%3ABerkmann18" title="Reviewed Pull Requests">👀</a> <a href="#security-Berkmann18" title="Security">🛡️</a> <a href="https://github.com/Berkmann18/ServerBuilder/commits?author=Berkmann18" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://dependabot.com"><img src="https://avatars2.githubusercontent.com/u/36207117?v=4" width="100px;" alt=""/><br /><sub><b>Dependabot</b></sub></a><br /><a href="#tool-dependabot-bot" title="Tools">🔧</a></td>
+    <td align="center"><a href="http://semantic-release.org/"><img src="https://avatars1.githubusercontent.com/u/32174276?v=4" width="100px;" alt=""/><br /><sub><b>Semantic Release Bot</b></sub></a><br /><a href="https://github.com/Berkmann18/ServerBuilder/commits?author=semantic-release-bot" title="Documentation">📖</a> <a href="#platform-semantic-release-bot" title="Packaging/porting to new platform">📦</a></td>
+    <td align="center"><a href="https://snyk.io"><img src="https://avatars2.githubusercontent.com/u/19733683?v=4" width="100px;" alt=""/><br /><sub><b>Snyk bot</b></sub></a><br /><a href="#security-snyk-bot" title="Security">🛡️</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
 
 ## License
 MIT
