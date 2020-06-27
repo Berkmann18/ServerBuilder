@@ -1,3 +1,44 @@
+## [3.4.4](https://github.com/Berkmann18/ServerBuilder/compare/v3.4.3...v3.4.4) (2020-06-27)
+
+
+### Chore
+
+* Added FUNDING.yml ([d6283a0](https://github.com/Berkmann18/ServerBuilder/commit/d6283a092fa82a53e26718cf55a015b4e5998d37))
+
+### Docs
+
+* Contributors list update ([42a5286](https://github.com/Berkmann18/ServerBuilder/commit/42a528672489e92e1d7a7fa33440fbe97e2a1b83))
+
+### fix
+
+* upgrade express from 4.16.4 to 4.17.1 (#610) ([d816f08](https://github.com/Berkmann18/ServerBuilder/commit/d816f08f357fce6246c1225408ef22a935328332)), closes [#610](https://github.com/Berkmann18/ServerBuilder/issues/610)
+* upgrade express from 4.16.4 to 4.17.1 (#614) ([03cfdc7](https://github.com/Berkmann18/ServerBuilder/commit/03cfdc79eaca8e5a363f3c164f7ffa9a16c271de)), closes [#614](https://github.com/Berkmann18/ServerBuilder/issues/614)
+* upgrade express from 4.16.4 to 4.17.1 (#621) ([86b52c5](https://github.com/Berkmann18/ServerBuilder/commit/86b52c553aa6e072933d642a49f03575a41a78f9)), closes [#621](https://github.com/Berkmann18/ServerBuilder/issues/621)
+* upgrade morgan from 1.9.1 to 1.10.0 (#612) ([4d80662](https://github.com/Berkmann18/ServerBuilder/commit/4d806625a2ddde839d1bf22f1877a41578841b28)), closes [#612](https://github.com/Berkmann18/ServerBuilder/issues/612)
+* upgrade serverbuilder from 3.1.0 to 3.4.3 (#608) ([6c9d417](https://github.com/Berkmann18/ServerBuilder/commit/6c9d4170fd0775575b23bc5292cea2e8c0f0de35)), closes [#608](https://github.com/Berkmann18/ServerBuilder/issues/608)
+
+### Fix
+
+* Upgrade morgan from 1.9.1 to 1.10.0 (#615) ([d2b0b22](https://github.com/Berkmann18/ServerBuilder/commit/d2b0b22080f73f8d32347e855dd6f0d12b673bcd)), closes [#615](https://github.com/Berkmann18/ServerBuilder/issues/615)
+
+### Upgrade
+
+* Bump conventional-changelog-eslint from 3.0.4 to 3.0.8 ([e86473e](https://github.com/Berkmann18/ServerBuilder/commit/e86473e12963e4eed27b5b1612c974d8c67b9a56))
+* Bump documentation from 12.3.0 to 13.0.0 ([8d2970e](https://github.com/Berkmann18/ServerBuilder/commit/8d2970e2781f737ac3ee930875708285bf4da5d6))
+* Bump eslint from 6.8.0 to 7.1.0 (#571) ([40e0a07](https://github.com/Berkmann18/ServerBuilder/commit/40e0a07194bfd1f2f2d4d625c070369046d0e26c)), closes [#571](https://github.com/Berkmann18/ServerBuilder/issues/571)
+* Bump external-ip from 2.1.1 to 2.3.1 ([deb17fb](https://github.com/Berkmann18/ServerBuilder/commit/deb17fba702ba91cac21f3fac85af0fb4201a9da))
+* Bump lint-staged from 10.1.3 to 10.2.7 ([aa63928](https://github.com/Berkmann18/ServerBuilder/commit/aa639285021f8dbe2f79101dbe165b8b36da9f0c))
+* Bump mocha from 7.1.1 to 7.2.0 ([e4bf0c4](https://github.com/Berkmann18/ServerBuilder/commit/e4bf0c4f9cac5c64e90ad7a83da096bd67ee9583))
+* Bump prettier from 2.0.4 to 2.0.5 ([d6806fc](https://github.com/Berkmann18/ServerBuilder/commit/d6806fc537ca382456c88f08de4e7d4cabf89716))
+* Bump snyk from 1.305.1 to 1.329.0 ([b2cd42c](https://github.com/Berkmann18/ServerBuilder/commit/b2cd42cf05c3f8f622dc27d14a0240723b4bf4c8))
+* Bump snyk from 1.329.0 to 1.330.2 ([6edadaf](https://github.com/Berkmann18/ServerBuilder/commit/6edadaff1412be7b36c92fcd0e56af3d07ab3247))
+* Bump snyk from 1.330.2 to 1.332.0 ([cc0d9fc](https://github.com/Berkmann18/ServerBuilder/commit/cc0d9fc2ca4a5d9c053c049df04e2d7cc59144cb))
+* Bump websocket-extensions from 0.1.3 to 0.1.4 (#590) ([ebba1f8](https://github.com/Berkmann18/ServerBuilder/commit/ebba1f86a1f833f23fc2ee9234da1775194504de)), closes [#590](https://github.com/Berkmann18/ServerBuilder/issues/590)
+* upgrade body-parser from 1.18.3 to 1.19.0 (#611) ([94beba8](https://github.com/Berkmann18/ServerBuilder/commit/94beba80d511bedc2d5b24b9157ab3629f809566)), closes [#611](https://github.com/Berkmann18/ServerBuilder/issues/611)
+* Upgrade body-parser from 1.18.3 to 1.19.0 (#616) ([65bcd49](https://github.com/Berkmann18/ServerBuilder/commit/65bcd494a5be395651a4af20a2b52b99402de45c)), closes [#616](https://github.com/Berkmann18/ServerBuilder/issues/616)
+* Upgrade cookie-parser from 1.4.3 to 1.4.5 (#609) ([f05f402](https://github.com/Berkmann18/ServerBuilder/commit/f05f4029ca5f68b6030d5f0068d5d7f5237c7b0c)), closes [#609](https://github.com/Berkmann18/ServerBuilder/issues/609)
+* upgrade cookie-parser from 1.4.3 to 1.4.5 (#620) ([09d43fa](https://github.com/Berkmann18/ServerBuilder/commit/09d43fab6e4b09f2cc604d349a9b26d0ca00cddb)), closes [#620](https://github.com/Berkmann18/ServerBuilder/issues/620)
+
 ## [3.4.3](https://github.com/Berkmann18/ServerBuilder/compare/v3.4.2...v3.4.3) (2020-04-16)
 
 
