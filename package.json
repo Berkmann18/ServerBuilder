@@ -78,7 +78,7 @@
     "request": "^2.88.0",
     "semantic-release": "^17.0.1",
     "snyk": "^1.260.0",
-    "test-console": "^1.1.0"
+    "test-console": "^2.0.0"
   },
   "engines": {
     "node": ">= 10.10.0",
