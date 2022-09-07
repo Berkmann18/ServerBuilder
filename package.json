@@ -52,9 +52,9 @@
     "nclr": "^2.2.3"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^5.0.0",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/npm": "^7.0.0",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^9.0.1",
     "all-contributors-cli": "^6.11.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -76,7 +76,7 @@
     "remark-preset-lint-consistent": "^5.1.1",
     "remark-preset-lint-recommended": "^6.1.2",
     "request": "^2.88.0",
-    "semantic-release": "^17.0.1",
+    "semantic-release": "^19.0.5",
     "snyk": "^1.260.0",
     "test-console": "^2.0.0"
   },
